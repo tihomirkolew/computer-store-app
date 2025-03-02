@@ -1,0 +1,43 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="/css/register.css">
+  <title>Register - Computer Store</title>
+
+</head>
+<body>
+<div class="header">
+  <a th:href="@{/contact}" class="btn contact-btn">Contact Us</a>
+  <div class="button-group">
+    <a th:href="@{/login}" class="btn">Login</a>
+    <a th:href="@{/register}" class="btn">Register</a>
+  </div>
+</div>
+<div class="container">
+  <header>
+    <h1>Create a New Account</h1>
+  </header>
+  <form action="/register" method="post" class="form">
+    <label for="username">Username</label>
+    <input type="text" name="username" id="username" placeholder="Username" required>
+
+    <label for="email">Email</label>
+    <input type="email" name="email" id="email" placeholder="Email" required>
+
+    <label for="password">Password</label>
+    <input type="password" name="password" id="password" placeholder="Password" required>
+
+    <button type="submit" class="btn">Register</button>
+  </form>
+  <footer>
+    <p>Already have an account? <a href="/login" class="link">Login here</a></p>
+  </footer>
+</div>
+<footer class="footer">
+  <p>&copy; R Computer Store Project 2025. All rights reserved.</p>
+</footer>
+</body>
+</html>

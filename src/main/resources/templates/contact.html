@@ -1,0 +1,48 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="/css/contact.css">
+  <title>Contact Us - Computer Store</title>
+
+</head>
+<body>
+<div class="header">
+  <a th:href="@{/contact}" class="btn contact-btn">Contact Us</a>
+  <div class="button-group">
+    <a th:href="@{/login}" class="btn">Login</a>
+    <a th:href="@{/register}" class="btn">Register</a>
+  </div>
+</div>
+<div class="container">
+  <header>
+    <h1>Contact Us</h1>
+  </header>
+  <div class="contact-info">
+    <div class="info-item">
+      <span class="icon">📍</span>
+      <p>123 Future Tech St, Tech City, TC 45678</p>
+    </div>
+    <div class="info-item">
+      <span class="icon">📞</span>
+      <p>(123) 456-7890</p>
+    </div>
+    <div class="info-item">
+      <span class="icon">✉️</span>
+      <p>info@computerstore.com</p>
+    </div>
+    <div class="social-media">
+      <a href="#" class="social-icon">🌐</a>
+      <a href="#" class="social-icon">📘</a>
+      <a href="#" class="social-icon">📸</a>
+      <a href="#" class="social-icon">🔗</a>
+    </div>
+  </div>
+</div>
+<footer class="footer">
+  <p>&copy; R Computer Store Project 2025. All rights reserved.</p>
+</footer>
+</body>
+</html>
