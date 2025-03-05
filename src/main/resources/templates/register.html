@@ -4,7 +4,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="/css/common.css">
+  <link rel="stylesheet" type="text/css" href="/css/form.css">
   <link rel="stylesheet" type="text/css" href="/css/register.css">
+  <link rel="stylesheet" type="text/css" href="/css/button.css">
   <title>Register - Computer Store</title>
 
 </head>
@@ -18,26 +21,30 @@
 </div>
 <div class="container">
   <header>
-    <h1>Create a New Account</h1>
+    <h1>Cyber Cave</h1>
   </header>
-  <form action="/register" method="post" class="form">
+  <form th:action="@{/register}" th:method="post" th:object="${registerRequest}" class="form">
+    <h2>Create a New Account</h2>
     <label for="username">Username</label>
-    <input type="text" name="username" id="username" placeholder="Username" required>
+    <input type="text" name="username" id="username" placeholder="Username" th:field="*{username}" required>
+    <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="alert-warning"></p>
 
     <label for="email">Email</label>
-    <input type="email" name="email" id="email" placeholder="Email" required>
+    <input type="email" name="email" id="email" th:field="*{email}" placeholder="Email" required>
+    <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="alert-warning"></p>
 
     <label for="password">Password</label>
-    <input type="password" name="password" id="password" placeholder="Password" required>
+    <input type="password" name="password" id="password" th:field="*{password}" placeholder="Password" required>
+    <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="alert-warning"></p>
 
-    <button type="submit" class="btn">Register</button>
+    <button type="submit" class="btn confirm-btn">Register</button>
   </form>
   <footer>
     <p>Already have an account? <a href="/login" class="link">Login here</a></p>
   </footer>
 </div>
 <footer class="footer">
-  <p>&copy; R Computer Store Project 2025. All rights reserved.</p>
+  <p>&copy; Computer Store Project 2025. All rights reserved.</p>
 </footer>
 </body>
 </html>

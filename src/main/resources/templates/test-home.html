@@ -1,0 +1,81 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home - Computer Store</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOMUIWWHWS8tFQz5PBAvfCpK6Q+191kO8C1HBGz" crossorigin="anonymous">
+</head>
+<body>
+<div class="header">
+  <div class="header-left">
+    <a href="/cart" class="btn">Cart</a>
+    <a href="/reviews" class="btn">Reviews</a>
+  </div>
+  <div class="header-right">
+    <a href="/logout" class="btn logout-btn">Logout</a>
+  </div>
+</div>
+
+<div class="container">
+  <header>
+    <h1>Welcome, <span id="userName">John Doe</span></h1>
+  </header>
+
+  <section class="available-items">
+    <h2>Available Items</h2>
+    <div class="items">
+      <div class="item">
+        <div class="item-image">
+          <img src="path-to-image1.jpg" alt="Item 1">
+        </div>
+        <h3>Item 1</h3>
+        <p>$199.99</p>
+      </div>
+      <div class="item">
+        <div class="item-image">
+          <img src="path-to-image2.jpg" alt="Item 2">
+        </div>
+        <h3>Item 2</h3>
+        <p>$299.99</p>
+      </div>
+      <div class="item">
+        <div class="item-image">
+          <img src="path-to-image3.jpg" alt="Item 3">
+        </div>
+        <h3>Item 3</h3>
+        <p>$399.99</p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="separator">
+
+  <section class="sold-out-items">
+    <h2>Sold Out Items</h2>
+    <div class="items">
+      <div class="item sold-out">
+        <div class="item-image">
+          <img src="path-to-image4.jpg" alt="Item 4">
+        </div>
+        <h3>Item 4</h3>
+        <p>Sold Out</p>
+      </div>
+      <div class="item sold-out">
+        <div class="item-image">
+          <img src="path-to-image5.jpg" alt="Item 5">
+        </div>
+        <h3>Item 5</h3>
+        <p>Sold Out</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<footer class="footer">
+  <p>&copy; R Computer Store Project 2025. All rights reserved.</p>
+</footer>
+</body>
+</html>

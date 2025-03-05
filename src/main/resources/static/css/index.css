@@ -56,6 +56,7 @@ p {
 .btn {
     display: inline-block;
     padding: 10px 20px;
+    border: none;
     border-radius: 8px;
     background-color: rgba(29, 202, 255, 0.62);
     color: #fff;

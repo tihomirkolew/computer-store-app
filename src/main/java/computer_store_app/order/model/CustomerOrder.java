@@ -28,6 +28,9 @@ public class CustomerOrder {
     private User owner;
 
     @Column(nullable = false)
+    private String shippingAddress;
+
+    @Column(nullable = false)
     private LocalDateTime createdOn;
 
     private LocalDateTime completedOn;

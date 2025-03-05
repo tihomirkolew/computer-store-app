@@ -1,0 +1,80 @@
+.column {
+    flex: 1 1 400px;
+    max-width: 45%;
+    margin: 10px;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.column h2 {
+    margin-top: 0;
+}
+
+/* Best Selling Items Styles */
+.item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+}
+
+.item-image {
+    flex: 0 0 auto;
+    margin-right: 15px;
+}
+
+.item-image img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.item-details {
+    flex: 1;
+    text-align: left;
+}
+
+.item-details h3 {
+    margin: 0 0 5px 0;
+}
+
+.item-details p {
+    margin: 0;
+}
+
+.review-box {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.review-box h3 {
+    margin: 0 0 5px 0;
+}
+
+.review-box p {
+    margin: 5px 0;
+    font-style: italic;
+}
+
+.reviewer {
+    font-size: 0.9em;
+    color: #ccc;
+}
+
+.footer {
+    background: rgba(0, 0, 0, 0.8);
+    text-align: center;
+    padding: 10px 0;
+    width: 100%;
+}
+
+.footer p {
+    margin: 0;
+}

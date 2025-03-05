@@ -1,13 +1,31 @@
 package computer_store_app.web;
 
+import computer_store_app.security.AuthenticationMetadata;
+import computer_store_app.user.model.User;
+import computer_store_app.user.service.UserService;
+import computer_store_app.web.dto.LoginRequest;
+import computer_store_app.web.dto.RegisterRequest;
+import jakarta.validation.Valid;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.UUID;
 
 @Controller
 @RequestMapping
 public class IndexController {
+
+    private final UserService userService;
+
+    public IndexController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping("/")
     public ModelAndView getIndexPage() {
@@ -19,14 +37,54 @@ public class IndexController {
         return new ModelAndView("contact");
     }
 
-    @GetMapping("/login")
-    public ModelAndView getLoginPage() {
-        return new ModelAndView("login");
-    }
-
     @GetMapping("/register")
     public ModelAndView getRegisterPage() {
-        return new ModelAndView("register");
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("register");
+        modelAndView.addObject("registerRequest", new RegisterRequest());
+
+        return modelAndView;
     }
 
+    @PostMapping("/register")
+    public ModelAndView registerNewUser(@Valid RegisterRequest registerRequest, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+
+            return new ModelAndView("register");
+        }
+
+        userService.registerUser(registerRequest);
+
+        return new ModelAndView("redirect:/login");
+    }
+
+    @GetMapping("/login")
+    public ModelAndView getLoginPage(@RequestParam(value = "error", required = false) String errorParam) {
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("login");
+        modelAndView.addObject("loginRequest", new LoginRequest());
+
+        if (errorParam != null) {
+
+            modelAndView.addObject("errorMessage", "Incorrect username or password");
+        }
+
+        return modelAndView;
+    }
+
+    @GetMapping("/home")
+    public ModelAndView getHomePage(@AuthenticationPrincipal AuthenticationMetadata metadata) {
+
+        UUID userId = metadata.getUserId();
+        User user = userService.getById(userId);
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("home");
+        modelAndView.addObject("user", user);
+
+        return modelAndView;
+    }
 }

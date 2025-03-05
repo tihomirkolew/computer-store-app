@@ -11,18 +11,6 @@
     transition: background-color 0.3s ease;
 }
 
-.button-group .btn {
-    margin-left: 20px;
-}
-
-.btn:hover {
-    background-color: #09bdf1;
-}
-
-footer {
-    margin-top: 20px;
-}
-
 .contact-btn {
     background-color: #ff5722;
     color: black;
@@ -33,15 +21,10 @@ footer {
     background-color: #fa815c;
 }
 
-.footer {
-    background: rgba(0, 0, 0, 0.6);
-    text-align: center;
-    padding: 20px 0;
-    position: relative;
+.button-group .btn {
+    margin-left: 20px;
 }
 
-.footer p {
-    font-size: 1.3em;
-    margin: 0;
-
+.btn:hover {
+    background-color: #09bdf1;
 }

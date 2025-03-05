@@ -1,0 +1,66 @@
+body {
+    margin: 0;
+    font-family: 'Courier New', sans-serif;
+    background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 10px 20px;
+}
+
+header {
+    margin-bottom: 20px;
+}
+
+
+.container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+h1 {
+    font-size: 5em;
+    margin: 0;
+}
+
+h2 {
+    text-align: center;
+    font-size: 2.5em;
+    margin: 0.5em;
+}
+
+.alert-warning {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 300;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    background: linear-gradient(to left, #f88e8e, #f56767, #f53b3b);
+    background-size: 200%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+p.alert-warning {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 300;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    background: linear-gradient(to left, #f88e8e, #f56767, #f53b3b);
+    background-size: 200%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 5px 0 0;
+}

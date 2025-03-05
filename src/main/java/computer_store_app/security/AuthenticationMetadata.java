@@ -19,9 +19,9 @@ public class AuthenticationMetadata implements UserDetails {
 
     private UUID userId;
     private String username;
+    private String email;
     private String password;
-    private UserRole role;
-    private boolean isActive;
+    private UserRole role; // CLIENT, ADMIN
 
     // този метод се използва от Spring Security за да се разбере какви authorities има потребитела
     // Authority - permission или роля
@@ -47,24 +47,5 @@ public class AuthenticationMetadata implements UserDetails {
     public String getUsername() {
         return this.username;
     }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return isActive;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return isActive;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return isActive;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return isActive;
-    }
 }
+

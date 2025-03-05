@@ -1,11 +1,9 @@
 package computer_store_app.user.model;
 
+import computer_store_app.cart.model.Cart;
 import jakarta.persistence.*;
 import computer_store_app.order.model.CustomerOrder;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -13,6 +11,7 @@ import java.util.UUID;
 @Entity
 @Builder
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
@@ -24,10 +23,8 @@ public class User {
     @Column(nullable = false, unique = true)
     private String username;
 
-    @Column(nullable = false)
     private String firstName;
 
-    @Column(nullable = false)
     private String lastName;
 
     @Column(nullable = false ,unique = true)
@@ -40,13 +37,12 @@ public class User {
     @Column(nullable = false)
     private UserRole role;
 
-    @Column(nullable = false)
-    private String shippingAddress;
-
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "owner")
     @OrderBy("createdOn DESC")
     private List<CustomerOrder> customerOrders;
 
     // cart
+    @OneToOne
+    private Cart cart;
 
 }

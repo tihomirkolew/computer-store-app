@@ -25,13 +25,13 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
         httpSecurity
                 .authorizeHttpRequests(matcher -> matcher
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                        .requestMatchers("/", "/register").permitAll()
+                        .requestMatchers("/", "/register", "/contact").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
                         .loginPage("/login")
-//                        .usernameParameter("email") // ако се логваме с имейл
-                        .defaultSuccessUrl("/home")
+                        .usernameParameter("email") // ако се логваме с имейл
+                        .defaultSuccessUrl("/home", true)
                         .failureUrl("/login?error")
                         .permitAll())
                 .logout(logout -> logout
