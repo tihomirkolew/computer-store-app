@@ -26,7 +26,20 @@ input {
     border: none;
     border-radius: 5px;
     font-size: 1em;
-    font-weight: bold;
+}
+
+textarea {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.3em;
+}
+
+select {
+    padding: 5px;
+    border: none;
+    border-radius: 5px;
+    font-size: 0.9em;
 }
 
 .confirm-btn {

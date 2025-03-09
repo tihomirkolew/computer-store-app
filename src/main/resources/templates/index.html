@@ -1,17 +1,17 @@
-
-
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="/css/common.css">
   <link rel="stylesheet" type="text/css" href="/css/index.css">
+  <link rel="stylesheet" type="text/css" href="/css/button.css">
   <title>Computer Store</title>
 
 </head>
 <body>
 <div class="header">
-  <a th:href="@{/contact}" class="btn contact-btn">Contact Us</a>
+  <a th:href="@{/contact}" class="btn orange-btn">Contact Us</a>
   <div class="button-group">
     <a th:href="@{/login}" class="btn">Login</a>
     <a th:href="@{/register}" class="btn">Register</a>
@@ -22,6 +22,17 @@
     <h1>Welcome to Future Tech Computer Store</h1>
     <p>Your one-stop shop for futuristic gadgets and tech.</p>
   </header>
+  <div>
+    <div class="info">
+      <h1>About us</h1>
+      <p>Welcome to Future Tech Computer Store! We specialize in the latest tech products, offering top-notch laptops,
+        desktops, and accessories from leading brands. Our knowledgeable team is here to provide expert support and
+        ensure
+        your shopping experience is seamless and satisfying. We pride ourselves on competitive prices and exceptional
+        customer service. Explore the future of technology with us and discover why we're your go-to destination for all
+        your tech needs!</p>
+    </div>
+  </div>
 </div>
 <footer class="footer">
   <p>&copy; Computer Store Project 2025. All rights reserved.</p>

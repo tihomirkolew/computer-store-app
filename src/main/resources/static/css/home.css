@@ -1,17 +1,35 @@
+h1 {
+    font-size: 4em;
+}
+
 .column {
     flex: 1 1 400px;
-    max-width: 45%;
+    max-width: 55%;
     margin: 10px;
     background: rgba(0, 0, 0, 0.7);
     padding: 20px;
     border-radius: 10px;
 }
 
+.container {
+    padding: 20px;
+}
+
+.content-columns {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    width: 100%;
+    max-width: 1700px;
+}
+
+.column.top-three {
+    overflow-y: scroll;
+}
+
 .column h2 {
     margin-top: 0;
 }
-
-/* Best Selling Items Styles */
 .item {
     display: flex;
     align-items: center;
@@ -66,15 +84,4 @@
 .reviewer {
     font-size: 0.9em;
     color: #ccc;
-}
-
-.footer {
-    background: rgba(0, 0, 0, 0.8);
-    text-align: center;
-    padding: 10px 0;
-    width: 100%;
-}
-
-.footer p {
-    margin: 0;
 }

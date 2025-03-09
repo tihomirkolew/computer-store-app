@@ -13,7 +13,7 @@
 <body>
 <div class="header">
   <div>
-    <a th:href="@{/contact}" class="btn contact-btn">Contact Us</a>
+    <a th:href="@{/contact}" class="btn orange-btn">Contact Us</a>
   </div>
   <div class="button-group">
     <a th:href="@{/login}" class="btn">Login</a>
@@ -28,12 +28,11 @@
     <h2>Login</h2>
     <label for="email">Email</label>
     <input type="email" name="email" id="email" placeholder="Email" th:field="*{email}" required>
-    <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="alert-warning"></p>
 
 
     <label for="password">Password</label>
     <input type="password" name="password" id="password" placeholder="Password" th:field="*{password}" required>
-    <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="alert-warning"></p>
+    <p th:if="${errorMessage}" th:text="${errorMessage}" class="alert-warning"></p>
 
 
     <button type="submit" class="btn confirm-btn">Login</button>

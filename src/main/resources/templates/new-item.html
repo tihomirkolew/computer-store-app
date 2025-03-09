@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="/css/common.css">
+  <link rel="stylesheet" type="text/css" href="/css/form.css">
+  <link rel="stylesheet" type="text/css" href="/css/button.css">
+  <link rel="stylesheet" type="text/css" href="/css/new-item.css">
+
+  <title>Item Submission Form</title>
+</head>
+<body>
+<div class="header">
+  <div>
+    <a th:href="@{/home}" class="btn orange-btn">Back</a>
+  </div>
+</div>
+<div class="container">
+  <h1>Add Item</h1>
+  <form th:action="@{/items/new-item}" th:method="POST" class="form" th:object="${newItemRequest}">
+    <label for="brand">Brand:</label>
+    <input th:field="*{brand}" type="text" id="brand" name="brand">
+    <p th:if="${#fields.hasErrors('brand')}" th:errors="*{brand}" class="alert-warning"></p>
+
+    <label for="model">Model:</label>
+    <input th:field="*{model}" type="text" id="model" name="model">
+    <p th:if="${#fields.hasErrors('model')}" th:errors="*{model}" class="alert-warning"></p>
+
+    <label for="price">Price:</label>
+    <input th:field="*{price}" type="number" id="price" name="price">
+    <p th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="alert-warning"></p>
+
+    <label for="imageUrl">Image URL:</label>
+    <input th:field="*{imageUrl}" type="url" id="imageUrl" name="imageUrl">
+    <p th:if="${#fields.hasErrors('imageUrl')}" th:errors="*{imageUrl}" class="alert-warning"></p>
+
+    <label for="description">Description:</label>
+    <textarea th:field="*{description}" id="description" name="description"></textarea>
+    <p th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="alert-warning"></p>
+
+    <label for="itemType">Item Type:</label>
+    <select th:field="*{type}" id="itemType" name="itemType">
+      <option value="">Select Item Type</option>
+      <option th:each="type : ${T(computer_store_app.item.model.ItemType).values()}" th:value="${type}" th:text="${#strings.capitalize(#strings.toLowerCase(type))}">Electronics</option>
+    </select>
+
+    <label for="itemCondition">Item Condition:</label>
+    <select th:field="*{itemCondition}" id="itemCondition" name="itemCondition">
+      <option value="">Select Item Condition</option>
+      <option th:each="condition : ${T(computer_store_app.item.model.ItemCondition).values()}" th:value="${condition}" th:text="${#strings.capitalize(#strings.toLowerCase(condition))}" value="new">New</option>
+    </select>
+
+    <button type="submit" class="btn confirm-btn">Submit Item</button>
+  </form>
+</div>
+<footer class="footer">
+  <p>&copy; Computer Store Project 2025. All rights reserved.</p>
+</footer>
+</body>
+</html>

@@ -1,13 +1,14 @@
 /* styles.css */
 body {
     margin: 0;
-    font-family: 'Arial', sans-serif;
     background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
     color: #fff;
     display: flex;
     flex-direction: column;
     justify-content: center;
     height: 100vh;
+}
+body .container {
 }
 
 form {
@@ -35,9 +36,9 @@ form {
     flex: 1;
     display: flex;
     justify-content: center;
-    /*align-items: center;*/
     text-align: center;
-    padding-top: 10em;
+    margin: auto;
+    max-width: 70%;
 }
 
 h1 {
@@ -47,6 +48,10 @@ h1 {
 
 p {
     font-size: 1.8em;
+}
+
+.info {
+    margin-top: 4em;
 }
 
 .button-group {
@@ -72,12 +77,6 @@ p {
 
 .btn:hover {
     background-color: #09bdf1;
-}
-
-.contact-btn {
-    background-color: #ff5722;
-    color: black;
-    font-weight: bold;
 }
 
 .contact-btn:hover {

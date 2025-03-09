@@ -2,6 +2,7 @@ package computer_store_app.item.model;
 
 import computer_store_app.cart.model.Cart;
 import computer_store_app.order.model.CustomerOrder;
+import computer_store_app.user.model.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,6 +23,9 @@ public class Item {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @ManyToOne
+    private User owner;
+
     @Column(nullable = false)
     private String brand;
 
@@ -29,25 +33,18 @@ public class Item {
     private String model;
 
     @Column(nullable = false)
-    private String specifications;
-
-    @Column(nullable = false)
     private BigDecimal price;
-
-    @Column(nullable = false)
-    private boolean inStock;
-
-    @Column(nullable = false)
-    private int quantity;
 
     private String imageUrl;
 
     private String description;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private ItemType type;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private ItemCondition itemCondition;
 
     @ManyToOne
