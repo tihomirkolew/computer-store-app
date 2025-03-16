@@ -11,11 +11,13 @@
 </head>
 <body>
 <div class="header">
-  <div class="header-left">
+  <div class="button-group">
+    <a href="/contact" class="btn orange-btn">Contact Us</a>
     <a href="/reviews" class="btn">Reviews</a>
-    <a th:href="@{/items/new-item}" class="btn">Add Item</a>
+    <a th:href="@{/items/new-item}" class="btn">Add Item</a> <!--th:href="@{/items}"-->
   </div>
-  <div class="header-right">
+  <div class="button-group">
+    <a th:href="@{'/users/' + ${user.id} + '/profile'}" class="btn">Profile</a>
     <a href="/cart" class="btn">Cart</a>
     <a href="/logout" class="btn logout-btn">Logout</a>
   </div>
@@ -31,56 +33,90 @@
   </header>
 
   <div class="content-columns">
-    <div class="column top-three">
-      <!--   each of the products   -->
-      <h2>Top 3 Best Selling Items</h2>
-      <div class="item">
-        <div class="item-image">
-          <img src="" alt="Best Seller 1">
+    <div class="side">
+      <div class="column top-three">
+        <h2>New Items</h2>
+        <div class="content-box items">
+          <div class="image item">
+            <img src="" alt="Best Seller 1">
+          </div>
+          <div class="details item">
+            <h3>Best Seller 1</h3>
+            <p>$249.99</p>
+          </div>
         </div>
-        <div class="item-details">
-          <h3>Best Seller 1</h3>
-          <p>$249.99</p>
+        <div class="content-box items">
+          <div class="image item">
+            <img src="" alt="Best Seller 2">
+          </div>
+          <div class="details item">
+            <h3>Best Seller 2</h3>
+            <p>$349.99</p>
+          </div>
+        </div>
+        <div class="content-box items">
+          <div class="image item">
+            <img src="" alt="Best Seller 3">
+          </div>
+          <div class="details item">
+            <h3>Best Seller 3</h3>
+            <p>$449.99</p>
+          </div>
+        </div>
+        <div class="content-box items">
+          <div class="image item">
+            <img src="" alt="Best Seller 2">
+          </div>
+          <div class="details item">
+            <h3>Best Seller 2</h3>
+            <p>$349.99</p>
+          </div>
         </div>
       </div>
-      <div class="item">
-        <div class="item-image">
-          <img src="" alt="Best Seller 2">
-        </div>
-        <div class="item-details">
-          <h3>Best Seller 2</h3>
-          <p>$349.99</p>
-        </div>
-      </div>
-      <div class="item">
-        <div class="item-image">
-          <img src="" alt="Best Seller 3">
-        </div>
-        <div class="item-details">
-          <h3>Best Seller 3</h3>
-          <p>$449.99</p>
-        </div>
+      <div class="home-button">
+        <a th:href="@{/items}" class="btn">See More Items</a>
       </div>
     </div>
-    <div class="column top-three">
-      <h2>Top 3 Best Reviews</h2>
-      <div class="review-box">
-        <h3>Excellent Product!</h3>
-        <p>"This computer is blazing fast and super reliable!"</p>
-        <span class="reviewer">- Alice</span>
+
+    <div class="side">
+      <div class="column top-three">
+        <h2>Reviews</h2>
+        <div class="content-box reviews">
+          <h3>Excellent Product!</h3>
+          <div>
+            <p>"This computer is blazing fast and super reliable!"</p>
+            <span class="reviewer">- Alice</span>
+          </div>
+        </div>
+        <div class="content-box reviews">
+          <h3>UNSATISFACTORY</h3>
+          <div>
+            <p>"A great blend of performance and design. Totally worth it."</p>
+            <span class="reviewer">- Bob</span>
+          </div>
+        </div>
+        <div class="content-box reviews">
+          <h3>Outstanding Service</h3>
+          <div>
+            <p>"The customer service and product quality exceeded my expectations."</p>
+            <span class="reviewer">- Carol</span>
+          </div>
+        </div>
+        <div class="content-box reviews">
+          <h3>Outstanding Service</h3>
+          <div>
+            <p>"The customer service and product quality exceeded my expectations."</p>
+            <span class="reviewer">- Carol</span>
+          </div>
+        </div>
       </div>
-      <div class="review-box">
-        <h3>Highly Recommend</h3>
-        <p>"A great blend of performance and design. Totally worth it."</p>
-        <span class="reviewer">- Bob</span>
-      </div>
-      <div class="review-box">
-        <h3>Outstanding Service</h3>
-        <p>"The customer service and product quality exceeded my expectations."</p>
-        <span class="reviewer">- Carol</span>
+      <div class="home-button">
+        <a href="/new-review" class="btn">Leave a review</a>
       </div>
     </div>
   </div>
+
+</div>
 </div>
 
 <footer class="footer">

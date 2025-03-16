@@ -2,78 +2,43 @@ h1 {
     font-size: 4em;
 }
 
-.column {
-    flex: 1 1 400px;
-    max-width: 55%;
-    margin: 10px;
-    background: rgba(0, 0, 0, 0.7);
-    padding: 20px;
-    border-radius: 10px;
+h3 {
+    width: 160px;
 }
 
 .container {
-    padding: 20px;
+    padding: 30px;
 }
 
 .content-columns {
     display: flex;
+    flex: 1 1 400px;
     justify-content: space-between;
-    gap: 15px;
-    width: 100%;
-    max-width: 1700px;
-}
-
-.column.top-three {
-    overflow-y: scroll;
+    align-items: stretch;
+    gap: 40px;
+    width: 95%;
+    height: 55%;
 }
 
 .column h2 {
     margin-top: 0;
 }
-.item {
+
+.content-box {
+    width: 95%;
+    justify-content: space-between;
+    gap: 1em;
+    padding: 16px;
     display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-    padding: 10px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 5px;
+    flex-grow: 1; /* Makes content inside stretch */
 }
 
-.item-image {
-    flex: 0 0 auto;
-    margin-right: 15px;
+.details {
+    max-width: 350px;
 }
 
-.item-image img {
-    width: 80px;
-    height: 80px;
-    object-fit: cover;
-    border-radius: 5px;
-}
-
-.item-details {
-    flex: 1;
-    text-align: left;
-}
-
-.item-details h3 {
-    margin: 0 0 5px 0;
-}
-
-.item-details p {
+.content-box h3 {
     margin: 0;
-}
-
-.review-box {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 5px;
-    padding: 10px;
-    margin-bottom: 20px;
-    text-align: left;
-}
-
-.review-box h3 {
-    margin: 0 0 5px 0;
 }
 
 .review-box p {
@@ -84,4 +49,50 @@ h1 {
 .reviewer {
     font-size: 0.9em;
     color: #ccc;
+    text-align: end;
+}
+
+.content-box div {
+    flex: 1;
+}
+
+.content-box.reviews p {
+    height: 40px;
+    margin: 6px 0 8px 0;
+}
+
+.column.top-three {
+    align-items: center;
+    width: 95%;
+    min-height: 50%;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.image {
+    max-width: 120px;
+}
+
+.side {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 45%; /* Reduce width to bring them closer */
+    flex-grow: 1;
+}
+
+.home-button {
+    margin-top: auto; /* Pushes button to the bottom */
+    text-align: center;
+    padding-top: 1em;
+}
+
+.home-button a {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #008cba;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
 }

@@ -6,6 +6,7 @@ import computer_store_app.security.AuthenticationMetadata;
 import computer_store_app.user.model.User;
 import computer_store_app.user.model.UserRole;
 import computer_store_app.user.repository.UserRepository;
+import computer_store_app.web.dto.EditUserRequest;
 import computer_store_app.web.dto.RegisterRequest;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -65,7 +66,7 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
-        User user = userRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("user with this username does not exist"));
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("user with this email does not exist"));
 
         return new AuthenticationMetadata(user.getId(), user.getUsername(), user.getEmail(), user.getPassword(), user.getRole());
     }
@@ -74,5 +75,17 @@ public class UserService implements UserDetailsService {
 
         return userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User does not exist."));
+    }
+
+    public void editUserInfo(UUID userId, EditUserRequest editUserRequest) {
+
+        User user = getById(userId);
+
+        user.setUsername(editUserRequest.getUsername());
+        user.setFirstName(editUserRequest.getFirstName());
+        user.setLastName(editUserRequest.getLastName());
+        user.setEmail(editUserRequest.getEmail());
+
+        userRepository.save(user);
     }
 }

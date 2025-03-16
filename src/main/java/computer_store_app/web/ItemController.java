@@ -26,6 +26,14 @@ public class ItemController {
         this.itemService = itemService;
     }
 
+    @GetMapping
+    private ModelAndView getItemsPage() {
+
+        ModelAndView modelAndView = new ModelAndView("items");
+
+        return modelAndView;
+    }
+
     @GetMapping("/new-item")
     private ModelAndView getNewItemPage() {
 

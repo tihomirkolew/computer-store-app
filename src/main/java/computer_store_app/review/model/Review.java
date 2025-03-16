@@ -22,7 +22,8 @@ public class Review {
     private User user;
 
     @Column(nullable = false)
-    private int rating;
+    @Enumerated(EnumType.STRING)
+    private ReviewRating rating;
 
     private String comment;
 

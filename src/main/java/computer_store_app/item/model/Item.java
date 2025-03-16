@@ -39,6 +39,9 @@ public class Item {
 
     private String description;
 
+    @Column(nullable = false)
+    private boolean sold;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private ItemType type;

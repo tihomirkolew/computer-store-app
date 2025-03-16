@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="/css/common.css">
+  <link rel="stylesheet" type="text/css" href="/css/button.css">
+  <link rel="stylesheet" type="text/css" href="/css/profile.css">
+
+  <title>User Profile</title>
+</head>
+<body>
+
+<div class="header">
+  <div class="button-group">
+    <a href="/home" class="btn">Home</a>
+  </div>
+  <div class="button-group">
+    <a href="/cart" class="btn">Cart</a>
+    <a href="/logout" class="btn logout-btn">Logout</a>
+  </div>
+</div>
+
+<div class="container">
+  <header>
+    <h1>User Profile</h1>
+  </header>
+
+  <div class="content-columns">
+    <div class="column top-three">
+      <div class="profile-info">
+        <h2>Details</h2>
+        <p><strong>Username: </strong> <span th:text="${user.username}">JohnDoe123</span></p>
+        <p><strong>First Name: </strong><span th:text="${user.firstName}"> John</span></p>
+        <p><strong>Last Name: </strong><span th:text="${user.lastName}"> Doe</span></p>
+        <p><strong>Email: </strong><span th:text="${user.email}"> johndoe@example.com</span></p>
+      </div>
+      <div class="button">
+        <a th:href="@{'/users/' + ${user.id} + '/edit'}" class="btn">Edit Profile</a>
+      </div>
+    </div>
+
+    <div class="column top-three">
+      <h2>Orders</h2>
+      <ul class="user-orders">
+        <li><p>Order #12345</p></li>
+        <li><p>Order #12346</p></li>
+        <li><p>Order #12346</p></li>
+        <li><p>Order #12347</p></li>
+        <li><p>Order #12348</p></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <p>&copy; Computer Store Project 2025. All rights reserved.</p>
+</footer>
+
+</body>
+</html>
