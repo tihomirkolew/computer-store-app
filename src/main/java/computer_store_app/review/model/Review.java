@@ -19,12 +19,13 @@ public class Review {
     private UUID id;
 
     @ManyToOne
-    private User user;
+    private User addedBy;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private ReviewRating rating;
 
+    @Column(columnDefinition = "TEXT")
     private String comment;
 
     @Column(nullable = false)

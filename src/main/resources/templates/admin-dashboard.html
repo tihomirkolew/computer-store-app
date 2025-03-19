@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="/css/common.css">
+  <link rel="stylesheet" type="text/css" href="/css/button.css">
+  <link rel="stylesheet" type="text/css" href="/css/home.css">
+  <link rel="stylesheet" type="text/css" href="/css/admin-dashboard.css">
+  <title>Admin Dashboard</title>
+</head>
+<body>
+<div class="header">
+  <div class="button-group">
+    <a href="/home" class="btn">Home</a>
+  </div>
+</div>
+
+<div class="container">
+  <header>
+    <h1>Admin Dashboard</h1>
+  </header>
+
+  <div class="content-columns">
+
+    <!-- Left Column: Users Table -->
+    <div class="side">
+      <div class="column">
+        <h2>All Users</h2>
+        <table class="users-table">
+          <thead>
+          <tr>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Switch Role</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="currentUser : ${usersSortedByAdminFirst}">
+            <td th:text="${currentUser.username}">John Doe</td>
+            <td th:text="${currentUser.email}">johndoe@example.com</td>
+            <td th:text="${currentUser.role}">johndoe@example.com</td>
+            <td>
+              <form th:action="@{'/users/' + ${currentUser.id} + '/role'}" method="POST">
+                <input type="hidden" name="_method" value="PUT">
+                <button class="btn">
+                  <span>Switch</span>
+                </button>
+              </form>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Right Column: Unapproved Items Table -->
+    <div class="side">
+      <div class="column">
+        <h2>Pending Item Approvals</h2>
+        <table class="items-table">
+          <thead>
+          <tr>
+            <th>Image</th>
+            <th>Item</th>
+            <th>Price</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="currentItem : ${itemsSortedFirstWaiting}">
+            <td><img th:src="${currentItem.imageUrl}" alt="Item Image"></td>
+            <td th:text="${currentItem.brand} + ' ' + ${currentItem.model}">Item Name</td>
+            <td th:text="'$' + ${currentItem.price}">$249.99</td>
+            <td th:if="${currentItem.authorized}">Approved</td>
+            <td th:unless="${currentItem.authorized}">Waiting</td>
+            <td>
+              <form th:action="@{'/items/' + ${currentItem.id} + '/approve'}" method="POST">
+                <input type="hidden" name="_method" value="PUT">
+                <button th:if="${currentItem.authorized == true}" class="btn">Disapprove</button>
+                <button th:unless="${currentItem.authorized == true}" class="btn">Approve</button>
+              </form>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+  <div class="content-columns reviews">
+    <div class="column reviews">
+      <h2>Reviews</h2>
+      <div th:each="review : ${newestReviews}"  class="content-box reviews">
+        <h3 th:text="${review.rating}">UNSATISFACTORY</h3>
+        <div class="text-container">
+          <p th:text="${review.comment}" class="review-text">Sed ut perspiciatis unde omnis iste natus error sit
+            voluptatem accusantium doloremque laudantium, totam rem
+            aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+            Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni
+            dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor
+            sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore
+            magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis
+            suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in
+            ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas
+            nulla pariatur?</p>
+          <hr class="vertical-separator">
+          <div class="review-info">
+            <p th:text="${#temporals.format(review.createdOn, 'dd MMM YYYY HH:mm')}" class="review-date"></p>
+            <p th:text="'- ' + ${review.addedBy.username}" class="reviewer">- Bob</p>
+          </div>
+        </div>
+        <form >
+          <button class="btn delete-btn">
+            <i class="fa fa-trash" style="color: red; font-size: 18px;"></i>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <p>&copy; Computer Store Project 2025. All rights reserved.</p>
+</footer>
+</body>
+</html>

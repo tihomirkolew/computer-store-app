@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" type="text/css" href="/css/common.css">
   <link rel="stylesheet" type="text/css" href="/css/button.css">
-  <title>All Items - Computer Store</title>
+  <link rel="stylesheet" type="text/css" href="/css/item-details.css">
+  <title>Item Details</title>
 </head>
 <body>
 <div class="header">
@@ -20,43 +21,36 @@
 
 <div class="container">
   <header>
-    <h1>All Items</h1>
+    <h1>Item Details</h1>
   </header>
 
   <div class="content-columns">
     <div class="column">
-
       <div class="content-box items">
-        <div class="image item">
-          <img src="" alt="Item 1">
-        </div>
-        <div class="details item">
-          <h3>Item 1 Name</h3>
-          <p>Item 1 Description</p>
-          <p class="price">$249.99</p>
-        </div>
-      </div>
 
-      <div class="content-box items">
         <div class="image item">
-          <img src="" alt="Item 2">
+          <!-- Display the item's image -->
+          <img th:src="${item.imageUrl}" alt="Item Image">
         </div>
-        <div class="details item">
-          <h3>Item 2 Name</h3>
-          <p>Item 2 Description</p>
-          <p class="price">$349.99</p>
-        </div>
-      </div>
 
-      <div class="content-box items">
-        <div class="image item">
-          <img src="" alt="Item 3">
-        </div>
         <div class="details item">
-          <h3>Item 3 Name</h3>
-          <p>Item 3 Description</p>
-          <p class="price">$449.99</p>
+          <!-- Display the item's name -->
+          <h2 th:text="${item.brand} + ' ' + ${item.model}">Item Name</h2>
+
+          <!-- Display the item's price -->
+          <p class="price" th:text="'PRICE $' + ${item.price}">$249.99</p>
+
+          <!-- Display the item's description -->
+          <p th:text="${item.description}">Item Description</p>
+
+          <!-- Display the item's type -->
+          <p th:text="${item.type}">Type: Electronics</p>
+
+          <!-- Display the item's condition -->
+          <p th:text="${item.itemCondition}">Condition: New</p>
         </div>
+
+        <a href="/cart/add" class="btn">Add to Cart</a>
       </div>
     </div>
   </div>

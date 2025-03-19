@@ -10,6 +10,7 @@ import computer_store_app.web.dto.EditUserRequest;
 import computer_store_app.web.dto.RegisterRequest;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -26,6 +27,7 @@ public class UserService implements UserDetailsService {
     private final PasswordEncoder passwordEncoder;
     private final CartService cartService;
 
+    @Autowired
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, CartService cartService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
@@ -85,6 +87,24 @@ public class UserService implements UserDetailsService {
         user.setFirstName(editUserRequest.getFirstName());
         user.setLastName(editUserRequest.getLastName());
         user.setEmail(editUserRequest.getEmail());
+
+        userRepository.save(user);
+    }
+
+    public List<User> getAllUsers() {
+
+        return userRepository.findAll();
+    }
+
+    public void switchRole(UUID userId) {
+
+        User user = getById(userId);
+
+        if (user.getRole() == UserRole.CLIENT) {
+            user.setRole(UserRole.ADMIN);
+        } else {
+            user.setRole(UserRole.CLIENT);
+        }
 
         userRepository.save(user);
     }

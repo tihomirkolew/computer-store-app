@@ -1,0 +1,12 @@
+h1 {
+    padding-bottom: 0.5em;
+    margin-top: -1em;
+}
+
+.form {
+    max-width: 70rem;
+}
+
+textarea {
+    height: 12em;
+}

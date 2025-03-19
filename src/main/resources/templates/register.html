@@ -24,7 +24,7 @@
     <h1>Cyber Cave</h1>
   </header>
   <form th:action="@{/register}" th:method="post" th:object="${registerRequest}" class="form">
-    <h2>Create a New Account</h2>
+    <h2>Register</h2>
     <label for="username">Username</label>
     <input type="text" name="username" id="username" placeholder="Username" th:field="*{username}" required>
     <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="alert-warning"></p>

@@ -1,0 +1,30 @@
+.content-box {
+    height: 540px;
+}
+
+.image {
+    height: auto;
+    width: auto;
+    max-width: 400px;
+    padding: 0.5em;
+}
+
+.image img {
+    max-width: 400px;
+    max-height: 400px;
+    min-height: 400px;
+    min-width: 400px;
+}
+
+.details.item {
+    padding: 0.5em;
+}
+
+.btn {
+    padding: 0.5em;
+}
+
+h2 {
+    text-align: start;
+    margin: 0;
+}

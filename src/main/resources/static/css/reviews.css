@@ -1,0 +1,70 @@
+.container {
+    overflow-y: auto;
+    scrollbar-width: none;
+    margin-bottom: 12px;
+}
+
+.content-box {
+    padding: 12px;
+}
+
+.content-box.reviews:last-of-type {
+    margin-bottom: 0;
+}
+
+h1 {
+    margin-top: 20px;
+    margin-bottom: -20px;
+    font-size: 4em;
+}
+
+h3 {
+    min-width: 240px;
+    max-width: 240px;
+    padding: 12px;
+    text-align: center;
+    font-size: 26px;
+}
+
+.text-container {
+    margin: 0 24px 0 24px;
+    width: 100%;
+}
+
+.review-text {
+    font-size: 18px;
+}
+
+.reviewer {
+    text-align: end;
+}
+
+.review-info p {
+    margin-top: 12px;
+    margin-bottom: 12px;
+    font-size: 16px;
+    height: auto;
+}
+
+.review-info p:first-child {
+    margin-right: auto;
+}
+
+.review-info p:last-child {
+    margin-left: auto;
+}
+
+.content-columns {
+    flex-grow: 1;
+    flex-direction: column;
+    margin: 0 20px;
+    width: auto;
+    border-radius: 10px;
+}
+
+.column {
+    /*overflow-y: auto;*/
+    /*scrollbar-width: none;*/
+    margin: 0;
+    padding: 2em;
+}

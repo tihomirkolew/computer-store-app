@@ -3,8 +3,10 @@ h1 {
 }
 
 h3 {
-    width: 160px;
+    min-width: 160px;
 }
+
+
 
 .container {
     padding: 30px;
@@ -26,11 +28,13 @@ h3 {
 
 .content-box {
     width: 95%;
-    justify-content: space-between;
     gap: 1em;
     padding: 16px;
     display: flex;
-    flex-grow: 1; /* Makes content inside stretch */
+    flex-grow: 1;
+    height: 104px;
+    max-height: 104px;
+    min-height: 104px;
 }
 
 .details {
@@ -47,18 +51,47 @@ h3 {
 }
 
 .reviewer {
-    font-size: 0.9em;
     color: #ccc;
     text-align: end;
 }
 
-.content-box div {
+.content-box.text-container {
     flex: 1;
+    width: 100%;
 }
 
-.content-box.reviews p {
-    height: 40px;
-    margin: 6px 0 8px 0;
+.review-text{
+    height: auto;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.text-container {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+}
+
+.review-info {
+    height: 20px;
+    margin-bottom: -12px;
+}
+
+.review-text {
+    margin: 8px 8px 8px 8px;
+}
+
+.review-info p {
+    margin: 8px;
+}
+
+.vertical-separator {
+    margin: 0;
 }
 
 .column.top-three {
@@ -68,10 +101,8 @@ h3 {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-}
-
-.image {
-    max-width: 120px;
+    overflow-y: scroll;
+    scrollbar-width: none;
 }
 
 .side {
@@ -95,4 +126,31 @@ h3 {
     color: white;
     text-decoration: none;
     border-radius: 5px;
+}
+
+.btn.admins {
+    background-color: #FFD700; /* Gold background */
+    color: #3d3d3d; /* White text for contrast */
+    padding: 10px 20px; /* Add some padding for better spacing */
+    cursor: pointer; /* Indicates it's clickable */
+    transition: all 0.3s ease; /* Smooth transition for hover effect */
+    font-weight: bold; /* Emphasize the button text */
+}
+
+.btn.admins:hover {
+    background-color: #DAA520; /* Darker gold on hover */
+    color: #000000; /* Black text for contrast */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow effect */
+    transform: scale(1.05); /* Slightly enlarge on hover */
+}
+
+.btn.admins:active {
+    background-color: #B8860B; /* Even darker gold for active state */
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3); /* Inset shadow for click effect */
+    transform: scale(0.98); /* Slightly shrink on click for feedback */
+}
+
+.delete-btn {
+    background-color: transparent;
+    padding: 5px 10px;
 }

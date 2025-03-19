@@ -4,6 +4,7 @@ import computer_store_app.cart.model.Cart;
 import computer_store_app.cart.repository.CartRepository;
 import computer_store_app.user.model.User;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -14,6 +15,7 @@ public class CartService {
 
     private final CartRepository cartRepository;
 
+    @Autowired
     public CartService(CartRepository cartRepository) {
         this.cartRepository = cartRepository;
     }

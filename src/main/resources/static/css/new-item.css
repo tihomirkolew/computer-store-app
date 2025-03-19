@@ -32,3 +32,7 @@ input {
     margin-top: 2em;
     margin-bottom: 3em;
 }
+
+.alert-warning {
+    text-align: start;
+}

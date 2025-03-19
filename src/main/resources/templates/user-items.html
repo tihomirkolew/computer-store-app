@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="/css/common.css">
+  <link rel="stylesheet" type="text/css" href="/css/button.css">
+  <link rel="stylesheet" type="text/css" href="/css/item-list.css">
+  <title>My Items</title>
+</head>
+<body>
+<div class="header">
+  <div class="button-group">
+    <a href="/home" class="btn">Home</a>
+  </div>
+  <div class="button-group">
+    <a href="/logout" class="btn logout-btn">Logout</a>
+  </div>
+</div>
+
+<div class="container">
+  <header>
+    <h1>All Items</h1>
+  </header>
+
+  <div class="content-columns">
+    <div class="column">
+
+      <div th:each="item : ${itemsByUserId}" class="content-box items">
+        <div class="image item">
+          <img th:src="${item.imageUrl}" alt="Item 1">
+        </div>
+        <div class="details item">
+          <h3 th:text="${item.brand} + ' ' + ${item.model}">Item 1 Name</h3>
+          <p th:text="${item.description}">Item 1 Description</p>
+          <p th:text="'$ ' + ${item.price}" class="price">$249.99</p>
+        </div>
+        <a th:href="@{/items/{id}(id=${item.id})}" class="btn">See More</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <p>&copy; Computer Store Project 2025. All rights reserved.</p>
+</footer>
+</body>
+</html>

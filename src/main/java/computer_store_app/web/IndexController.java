@@ -1,30 +1,40 @@
 package computer_store_app.web;
 
+import computer_store_app.item.model.Item;
+import computer_store_app.item.service.ItemService;
+import computer_store_app.review.model.Review;
+import computer_store_app.review.service.ReviewService;
 import computer_store_app.security.AuthenticationMetadata;
 import computer_store_app.user.model.User;
 import computer_store_app.user.service.UserService;
 import computer_store_app.web.dto.LoginRequest;
 import computer_store_app.web.dto.RegisterRequest;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Comparator;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping
 public class IndexController {
 
     private final UserService userService;
+    private final ItemService itemService;
+    private final ReviewService reviewService;
 
-    public IndexController(UserService userService) {
+    @Autowired
+    public IndexController(UserService userService, ItemService itemService, ReviewService reviewService) {
         this.userService = userService;
+        this.itemService = itemService;
+        this.reviewService = reviewService;
     }
 
     @GetMapping("/")
@@ -81,9 +91,22 @@ public class IndexController {
         UUID userId = metadata.getUserId();
         User user = userService.getById(userId);
 
+        List<Item> authorizedAndNotSoldItems = itemService.getAuthorizedAndNotSoldItemsOrderedByUpdatedOn()
+                .stream()
+                .limit(3)
+                .collect(Collectors.toList());
+
+        List<Review> newestReviews = reviewService.getAllReviews()
+                .stream()
+                .sorted(Comparator.comparing(Review::getCreatedOn))
+                .limit(3)
+                .toList();
+
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("home");
         modelAndView.addObject("user", user);
+        modelAndView.addObject("authorizedAndNotSoldItems", authorizedAndNotSoldItems);
+        modelAndView.addObject("newestReviews", newestReviews);
 
         return modelAndView;
     }

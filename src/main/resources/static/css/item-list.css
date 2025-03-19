@@ -1,0 +1,28 @@
+.column {
+    overflow-y: scroll;
+    scrollbar-width: none;
+    height: 640px;
+}
+
+header {
+    margin-top: -80px;
+    margin-bottom: 0;
+}
+
+.details {
+    margin-left: 30px;
+    margin-right: 30px;
+}
+
+.image {
+    margin-left: 12px;
+}
+
+h3 {
+    font-size: 1.5em;
+    margin: 20px 0 20px 0;
+}
+
+.details p {
+    font-size: 20px;
+}

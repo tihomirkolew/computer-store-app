@@ -13,15 +13,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableMethodSecurity
 public class WebMvcConfiguration implements WebMvcConfigurer {
 
-    // SecurityFilterChain - начин, по който спринг секюрити разбира как да се прилага за нашето приложение
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 
-        // requestMatcher - достъп до endpoint
-        // authorizeHttpRequest - конфиг за група от endpoint-и
-        // .permitAll() - всеки може да достъпи този endpoint
-        // .anyRequest() - всички заявки, които не съм изброил
-        // .authenticated() - за да имаш достъп, трябва да си аутентикиран(влязъл в акаунта)
         httpSecurity
                 .authorizeHttpRequests(matcher -> matcher
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
@@ -30,7 +24,7 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
                 )
                 .formLogin(form -> form
                         .loginPage("/login")
-                        .usernameParameter("email") // ако се логваме с имейл
+                        .usernameParameter("email")
                         .defaultSuccessUrl("/home", true)
                         .failureUrl("/login?error")
                         .permitAll())

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="/css/common.css">
+  <link rel="stylesheet" type="text/css" href="/css/form.css">
+  <link rel="stylesheet" type="text/css" href="/css/button.css">
+  <link rel="stylesheet" type="text/css" href="/css/new-item.css">
+  <link rel="stylesheet" type="text/css" href="/css/new-review.css">
+
+  <title>Leave a Review</title>
+</head>
+<body>
+<div class="header">
+  <div>
+    <a th:href="@{/home}" class="btn orange-btn">Back</a>
+  </div>
+</div>
+<div class="container">
+  <h1>Leave a Review</h1>
+  <form th:action="@{/reviews/new-review}" th:method="POST" class="form" th:object="${newReviewRequest}">
+    <label for="reviewCategory">Category:</label>
+    <select th:field="*{rating}" id="reviewCategory" name="category">
+      <option value="">Select Category</option>
+      <option th:each="rating : ${T(computer_store_app.review.model.ReviewRating).values()}"
+              th:value="${rating}"
+              th:text="${#strings.replace(#strings.capitalize(#strings.toLowerCase(rating)), '_', ' ')}">
+      </option>
+    </select>
+    <p th:if="${#fields.hasErrors('rating')}" th:errors="*{rating}" class="alert-warning"></p>
+
+    <label for="comment">Your Review:</label>
+    <textarea th:field="*{comment}" id="comment" name="comment" placeholder="Write your review here..."></textarea>
+    <p th:if="${#fields.hasErrors('comment')}" th:errors="*{comment}" class="alert-warning"></p>
+
+    <button type="submit" class="btn confirm-btn">Submit Review</button>
+  </form>
+</div>
+<footer class="footer">
+  <p>&copy; Computer Store Project 2025. All rights reserved.</p>
+</footer>
+</body>
+</html>

@@ -42,7 +42,9 @@
     <label for="itemType">Item Type:</label>
     <select th:field="*{type}" id="itemType" name="itemType">
       <option value="">Select Item Type</option>
-      <option th:each="type : ${T(computer_store_app.item.model.ItemType).values()}" th:value="${type}" th:text="${#strings.capitalize(#strings.toLowerCase(type))}">Electronics</option>
+      <option th:each="type : ${T(computer_store_app.item.model.ItemType).values()}"
+              th:value="${type}"
+              th:text="${#strings.capitalize(#strings.toLowerCase(type))}">Electronics</option>
     </select>
 
     <label for="itemCondition">Item Condition:</label>
