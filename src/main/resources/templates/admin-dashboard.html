@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+  <link rel="icon" href="/images/pc-store-icon.png" type="image/x-icon">
   <link rel="stylesheet" type="text/css" href="/css/common.css">
   <link rel="stylesheet" type="text/css" href="/css/button.css">
   <link rel="stylesheet" type="text/css" href="/css/home.css">
@@ -13,7 +14,7 @@
 <body>
 <div class="header">
   <div class="button-group">
-    <a href="/home" class="btn">Home</a>
+    <a th:href="@{/home}" class="btn">Home</a>
   </div>
 </div>
 
@@ -23,8 +24,6 @@
   </header>
 
   <div class="content-columns">
-
-    <!-- Left Column: Users Table -->
     <div class="side">
       <div class="column">
         <h2>All Users</h2>
@@ -33,7 +32,6 @@
           <tr>
             <th>Username</th>
             <th>Email</th>
-            <th>Role</th>
             <th>Switch Role</th>
           </tr>
           </thead>
@@ -41,12 +39,12 @@
           <tr th:each="currentUser : ${usersSortedByAdminFirst}">
             <td th:text="${currentUser.username}">John Doe</td>
             <td th:text="${currentUser.email}">johndoe@example.com</td>
-            <td th:text="${currentUser.role}">johndoe@example.com</td>
             <td>
-              <form th:action="@{'/users/' + ${currentUser.id} + '/role'}" method="POST">
+              <form th:action="@{'/users/' + ${currentUser.id} + '/role'}" th:method="POST">
                 <input type="hidden" name="_method" value="PUT">
                 <button class="btn">
-                  <span>Switch</span>
+                  <span th:if="${currentUser.role.name() == 'ADMIN'}">ADMIN</span>
+                  <span th:if="${currentUser.role.name() == 'CLIENT'}">CLIENT</span>
                 </button>
               </form>
             </td>
@@ -113,7 +111,7 @@
             <p th:text="'- ' + ${review.addedBy.username}" class="reviewer">- Bob</p>
           </div>
         </div>
-        <form >
+        <form th:action="'/reviews/' + ${review.id} + '/delete'" th:method="DELETE">
           <button class="btn delete-btn">
             <i class="fa fa-trash" style="color: red; font-size: 18px;"></i>
           </button>

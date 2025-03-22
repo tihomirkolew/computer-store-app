@@ -3,18 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="/images/pc-store-icon.png" type="image/x-icon">
   <link rel="stylesheet" type="text/css" href="/css/common.css">
   <link rel="stylesheet" type="text/css" href="/css/button.css">
-  <link rel="stylesheet" type="text/css" href="/css/item-list.css">
+  <link rel="stylesheet" type="text/css" href="/css/items-list.css">
   <title>Available Items</title>
 </head>
 <body>
 <div class="header">
   <div class="button-group">
-    <a href="/home" class="btn">Home</a>
+    <a th:href="@{/home}" class="btn">Home</a>
   </div>
   <div class="button-group">
-    <a href="/cart" class="btn">Cart</a>
+    <a th:href="@{/cart}" class="btn">Cart</a>
     <a href="/logout" class="btn logout-btn">Logout</a>
   </div>
 </div>
@@ -37,6 +38,10 @@
           <p th:text="'$ ' + ${item.price}" class="price">$249.99</p>
         </div>
         <a th:href="@{/items/{id}(id=${item.id})}" class="btn">See More</a>
+        <form th:action="@{'/cart/add/' + ${item.id}}" method="post" class="add form">
+          <input type="hidden" name="_method" value="POST">
+          <button type="submit" class="btn add-to-cart-btn">Add to Cart</button>
+        </form>
       </div>
     </div>
   </div>

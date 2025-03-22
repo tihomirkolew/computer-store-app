@@ -6,8 +6,6 @@ h3 {
     min-width: 160px;
 }
 
-
-
 .container {
     padding: 30px;
 }
@@ -28,17 +26,25 @@ h3 {
 
 .content-box {
     width: 95%;
-    gap: 1em;
+    gap: 20px;
     padding: 16px;
     display: flex;
+    justify-content: space-between;
     flex-grow: 1;
-    height: 104px;
-    max-height: 104px;
-    min-height: 104px;
+    max-height: 111px;
+    min-height: 111px;
+}
+
+.image {
+    align-items: center;
+}
+
+img {
+    border-radius: 5px;
 }
 
 .details {
-    max-width: 350px;
+    max-width: 500px;
 }
 
 .content-box h3 {
@@ -63,7 +69,7 @@ h3 {
 .review-text{
     height: auto;
     display: -webkit-box;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;

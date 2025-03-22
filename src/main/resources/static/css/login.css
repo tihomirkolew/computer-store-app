@@ -11,10 +11,6 @@
     transition: background-color 0.3s ease;
 }
 
-.button-group .btn {
-    margin-left: 20px;
-}
-
 .btn:hover {
     background-color: #09bdf1;
 }

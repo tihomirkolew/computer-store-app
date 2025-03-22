@@ -111,6 +111,6 @@ public class UserController {
 
         userService.switchRole(id);
 
-        return "redirect:/admin-dashboard";
+        return "redirect:/users/admin-dashboard";
     }
 }

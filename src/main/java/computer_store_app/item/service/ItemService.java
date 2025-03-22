@@ -18,22 +18,29 @@ public class ItemService {
 
 
     private final ItemRepository itemRepository;
-    private final UserService userService;
+
+    private final String DEFAULT_IMG_SRC = "https://odoo-community.org/web/image/product.product/19823/image_1024/Default%20Product%20Images?unique=d7e15ed";
 
     @Autowired
-    public ItemService(ItemRepository itemRepository, UserService userService) {
+    public ItemService(ItemRepository itemRepository) {
         this.itemRepository = itemRepository;
-        this.userService = userService;
     }
 
     public Item addNewItem(@Valid NewItemRequest newItemRequest, User user) {
+
+        String imageUrl;
+        if (newItemRequest.getImageUrl().isEmpty() || newItemRequest.getImageUrl().isBlank()) {
+            imageUrl = DEFAULT_IMG_SRC;
+        } else {
+            imageUrl = newItemRequest.getImageUrl();
+        }
 
         Item newItem = Item.builder()
                 .owner(user)
                 .brand(newItemRequest.getBrand())
                 .model(newItemRequest.getModel())
                 .price(newItemRequest.getPrice())
-                .imageUrl(newItemRequest.getImageUrl())
+                .imageUrl(imageUrl)
                 .description(newItemRequest.getDescription())
                 .sold(false)
                 .authorized(false)

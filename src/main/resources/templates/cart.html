@@ -1,10 +1,62 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Title</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="/images/pc-store-icon.png" type="image/x-icon">
+  <link rel="stylesheet" type="text/css" href="/css/common.css">
+  <link rel="stylesheet" type="text/css" href="/css/button.css">
+  <link rel="stylesheet" type="text/css" href="/css/cart.css">
+  <title>Shopping Cart</title>
 </head>
 <body>
+<div class="header">
+  <div class="button-group">
+    <a th:href="@{/home}" class="btn">Home</a>
+  </div>
+  <div class="button-group">
+    <a href="/logout" class="btn logout-btn">Logout</a>
+  </div>
+</div>
 
+<div class="container">
+  <header>
+    <h1>Shopping Cart</h1>
+  </header>
+
+  <div class="content-columns">
+    <div class="cart side">
+      <div th:each="cartItem : ${cartItems}" class="content-box items">
+        <div class="image item">
+          <img th:src="${cartItem.imageUrl}" alt="Cart Item">
+        </div>
+        <div class="details item">
+          <div>
+            <h3 th:text="${cartItem.brand} + ' ' + ${cartItem.model}">Cart Item Name</h3>
+            <p th:text="${cartItem.description}">Item Description</p>
+            <p th:text="'$' + ${cartItem.price}" class="price">$99.99</p>
+          </div>
+          <form th:action="@{'/cart/remove/' + ${cartItem.id}}" th:method="DELETE" class="actions">
+            <button class="btn">Remove</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="summary">
+      <p th:text="'Subtotal: $' + ${cartSubtotal}" class="subtotal">Subtotal: $0.00</p>
+      <p th:text="'Shipping: $' + ${standardShippingFee}" class="shipping">Shipping: $0.00</p>
+      <p th:text="'Total: $' + ${cartTotalPrice}" class="total">Total: $0.00</p>
+      <form action="">
+        <button href="/checkout" class="btn">Proceed to Checkout</button>
+      </form>
+    </div>
+  </div>
+
+
+</div>
+
+<footer class="footer">
+  <p>&copy; Computer Store Project 2025. All rights reserved.</p>
+</footer>
 </body>
 </html>

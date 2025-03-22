@@ -11,13 +11,14 @@
 
 .image img {
     max-width: 400px;
-    max-height: 400px;
-    min-height: 400px;
     min-width: 400px;
+    height: auto;
+    max-height: none;
 }
 
 .details.item {
     padding: 0.5em;
+    max-width: 65%;
 }
 
 .btn {
@@ -28,3 +29,49 @@ h2 {
     text-align: start;
     margin: 0;
 }
+
+/* Carousel-specific styles for cloudinary implementation*/
+.carousel {
+    align-items: center;
+    position: relative;
+    max-width: 400px;
+    min-width: 400px;
+    margin: auto;
+    overflow: hidden;
+    padding: 0.5em;
+    display: flex;
+    justify-content: center;
+}
+
+.carousel-images {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.carousel-images img {
+    width: 100%;
+    display: none;
+}
+
+.carousel-images img.active {
+    display: block;
+}
+
+button {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+}
+
+button.prev {
+    left: 10px;
+}
+
+button.next {
+    right: 10px;
+}
+
+

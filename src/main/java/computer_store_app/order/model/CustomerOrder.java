@@ -31,9 +31,10 @@ public class CustomerOrder {
     private String shippingAddress;
 
     @Column(nullable = false)
-    private LocalDateTime createdOn;
+    private String billingAddress;
 
-    private LocalDateTime completedOn;
+    @Column(nullable = false)
+    private LocalDateTime createdOn;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "customerOrder")
     private List<Item> items;

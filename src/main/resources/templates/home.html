@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+  <link rel="icon" href="/images/pc-store-icon.png" type="image/x-icon">
   <link rel="stylesheet" type="text/css" href="/css/common.css">
   <link rel="stylesheet" type="text/css" href="/css/button.css">
   <link rel="stylesheet" type="text/css" href="/css/home.css">
@@ -20,7 +21,7 @@
   </div>
   <div class="button-group">
     <a th:href="@{'/users/' + ${user.id} + '/profile'}" class="btn">Profile</a>
-    <a href="/cart" class="btn">Cart</a>
+    <a th:href="@{/cart}" class="btn">Cart</a>
     <a href="/logout" class="btn logout-btn">Logout</a>
   </div>
 </div>
@@ -61,18 +62,7 @@
         <div th:each="review : ${newestReviews}" class="content-box reviews">
           <h3 th:text="${review.rating}">UNSATISFACTORY</h3>
           <div class="text-container">
-            <p th:text="${review.comment}" class="review-text">Sed ut perspiciatis unde omnis iste natus error sit
-              voluptatem accusantium doloremque laudantium, totam rem
-              aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt
-              explicabo.
-              Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni
-              dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor
-              sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore
-              magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis
-              suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui
-              in
-              ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas
-              nulla pariatur?</p>
+            <p th:text="${review.comment}" class="review-text"></p>
             <div>
               <hr class="vertical-separator">
               <div class="review-info">
@@ -81,11 +71,6 @@
               </div>
             </div>
           </div>
-          <form>
-            <button th:if="${user.role.name() == 'ADMIN'}" class="btn delete-btn">
-              <i class="fa fa-trash" style="color: red; font-size: 24px;"></i>
-            </button>
-          </form>
         </div>
       </div>
       <div class="home-button">

@@ -3,10 +3,7 @@ package computer_store_app.web.dto;
 import computer_store_app.item.model.ItemCondition;
 import computer_store_app.item.model.ItemType;
 import jakarta.persistence.Lob;
-import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,8 +23,8 @@ public class NewItemRequest {
     @NotBlank(message = "Model cannot be blank.")
     private String model;
 
-    @NotNull(message = "Price cannot be null.")
-    @DecimalMin(value = "0.0", inclusive = false, message = "Price must be greater than 0.")
+    @NotNull
+    @Positive
     private BigDecimal price;
 
     private String imageUrl;

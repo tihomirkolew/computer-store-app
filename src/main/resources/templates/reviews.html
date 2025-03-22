@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+  <link rel="icon" href="/images/pc-store-icon.png" type="image/x-icon">
   <link rel="stylesheet" type="text/css" href="/css/common.css">
   <link rel="stylesheet" type="text/css" href="/css/button.css">
   <link rel="stylesheet" type="text/css" href="/css/reviews.css">
@@ -12,7 +13,7 @@
 <body>
 <div class="header">
   <div class="button-group">
-    <a href="/home" class="btn">Home</a>
+    <a th:href="@{/home}" class="btn">Home</a>
     <a th:href="@{'/reviews/new-review'}" class="btn">Leave a review</a>
   </div>
   <div class="button-group">
@@ -46,8 +47,8 @@
             <p th:text="'- ' + ${review.addedBy.username}" class="reviewer">- Bob</p>
           </div>
         </div>
-        <form>
-          <button th:if="${user.role.name() == 'ADMIN'}" class="btn delete-btn">
+        <form >
+          <button class="btn delete-btn">
             <i class="fa fa-trash" style="color: red; font-size: 18px;"></i>
           </button>
         </form>

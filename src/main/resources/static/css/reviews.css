@@ -63,8 +63,6 @@ h3 {
 }
 
 .column {
-    /*overflow-y: auto;*/
-    /*scrollbar-width: none;*/
     margin: 0;
     padding: 2em;
 }

@@ -8,13 +8,11 @@ import computer_store_app.user.service.UserService;
 import computer_store_app.web.dto.NewReviewRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -46,7 +44,6 @@ public class ReviewController {
         return modelAndView;
     }
 
-    // TODO
     // add-review page
     @GetMapping("/new-review")
     public ModelAndView getAddReviewPage() {
@@ -69,6 +66,16 @@ public class ReviewController {
         reviewService.addNewReview(newReviewRequest, user);
 
         return "redirect:/home";
+    }
+
+    // todo - delete review by admin
+    @DeleteMapping("/{id}/delete")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String deleteReview(@PathVariable UUID id) {
+
+        reviewService.deleteReviewById(id);
+
+        return "redirect:/users/admin-dashboard";
     }
 
 

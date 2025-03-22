@@ -91,6 +91,8 @@ public class ItemController {
 
         itemService.approveItem(id);
 
-        return "redirect:/admin-dashboard";
+        return "redirect:/users/admin-dashboard";
     }
+
+
 }

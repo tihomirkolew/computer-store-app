@@ -3,6 +3,7 @@ package computer_store_app.review.service;
 import computer_store_app.review.model.Review;
 import computer_store_app.review.repository.ReviewRepository;
 import computer_store_app.user.model.User;
+import computer_store_app.user.repository.UserRepository;
 import computer_store_app.web.ReviewController;
 import computer_store_app.web.dto.NewReviewRequest;
 import jakarta.validation.Valid;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class ReviewService {
@@ -41,7 +43,8 @@ public class ReviewService {
         return reviewRepository.findAll();
     }
 
-    public Collection<Object> getNewestReviews() {
-        return null;
+    public void deleteReviewById(UUID reviewId) {
+
+        reviewRepository.deleteById(reviewId);
     }
 }
