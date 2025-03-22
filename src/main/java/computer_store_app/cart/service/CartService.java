@@ -35,7 +35,7 @@ public class CartService {
 
         Cart initializeCart = Cart.builder()
                 .owner(user)
-                .totalAmount(BigDecimal.ZERO)
+                .cartAmount(BigDecimal.ZERO)
                 .build();
 
         Cart cart = cartRepository.save(initializeCart);
@@ -56,6 +56,10 @@ public class CartService {
         item.setCart(cart);
         cart.getItems().add(item);
 
+        cart.setCartAmount(cart.getItems().stream()
+                .map(Item::getPrice)
+                .reduce(BigDecimal.ZERO, BigDecimal::add));
+
         cartRepository.save(cart);
         itemRepository.save(item);
     }
@@ -63,21 +67,6 @@ public class CartService {
     public Cart getById(UUID cartId) {
 
         return cartRepository.findById(cartId).orElseThrow(() -> new IllegalArgumentException("There is problem with the cart"));
-    }
-
-    public BigDecimal getCartTotalPrice(UUID cartId) {
-
-        Cart cart = getById(cartId);
-
-        List<Item> cartItems = cart.getItems();
-
-        BigDecimal total = BigDecimal.ZERO;
-
-        for (Item cartItem : cartItems) {
-            total = total.add(cartItem.getPrice());
-        }
-
-        return total;
     }
 
     public void removeItemFromUserCart(UUID itemId, UUID userId) {

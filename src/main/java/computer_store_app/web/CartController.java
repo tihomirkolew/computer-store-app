@@ -10,16 +10,12 @@ import computer_store_app.security.AuthenticationMetadata;
 import computer_store_app.user.model.User;
 import computer_store_app.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.math.BigDecimal;
-import java.security.Principal;
 import java.util.List;
 import java.util.UUID;
 
@@ -52,7 +48,7 @@ public class CartController {
         Cart currentUserCart = cartService.getById(cartId);
         List<Item> cartItems = currentUserCart.getItems();
 
-        BigDecimal cartSubtotal = cartService.getCartTotalPrice(cartId);
+        BigDecimal cartSubtotal = currentUserCart.getCartAmount();
         BigDecimal standardShippingFee = BigDecimal.valueOf(5);
         BigDecimal cartTotalPrice = cartSubtotal.add(standardShippingFee);
 

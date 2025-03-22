@@ -3,10 +3,7 @@ package computer_store_app.cart.model;
 import computer_store_app.item.model.Item;
 import computer_store_app.user.model.User;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -15,6 +12,7 @@ import java.util.UUID;
 @Entity
 @Builder
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Cart {
@@ -30,5 +28,5 @@ public class Cart {
     private List<Item> items;
 
     @Column(nullable = false)
-    private BigDecimal totalAmount;
+    private BigDecimal cartAmount;
 }
