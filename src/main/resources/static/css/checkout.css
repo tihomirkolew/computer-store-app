@@ -1,0 +1,63 @@
+.container {
+    margin-right: 8em;
+    margin-left: 8em;
+}
+
+form {
+    display: flex;
+    justify-content: space-around;
+    gap: 2em;
+}
+
+h2 {
+    font-size: 2em;
+}
+
+.content-box {
+    flex-direction: column;
+    justify-content: space-between;
+    margin-bottom: 0;
+}
+.items {
+    display: flex;
+}
+
+.image.item {
+    flex-grow: 1;
+}
+.details {
+    height: 100px;
+    flex-grow: 3;
+    min-width: 300px;
+    max-width: 300px;
+}
+
+.details h3 {
+    margin-top: 2px;
+}
+
+.checkout {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-size: 24px;
+    margin-top: 15px;
+}
+
+input {
+    padding: 10px;
+    font-size: 1.2em;
+}
+
+.btn.order {
+    max-width: 170px;
+    font-size: 1.2em;
+    align-self: center;
+    margin-top: 15px;
+}
+
+.btn.orange-btn {
+    margin-top: 0;
+}

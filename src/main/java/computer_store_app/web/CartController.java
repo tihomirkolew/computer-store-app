@@ -1,14 +1,12 @@
 package computer_store_app.web;
 
 import computer_store_app.cart.model.Cart;
-import computer_store_app.cart.repository.CartRepository;
 import computer_store_app.cart.service.CartService;
 import computer_store_app.item.model.Item;
-import computer_store_app.item.repository.ItemRepository;
-import computer_store_app.item.service.ItemService;
 import computer_store_app.security.AuthenticationMetadata;
 import computer_store_app.user.model.User;
 import computer_store_app.user.service.UserService;
+import computer_store_app.web.dto.OrderRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -25,38 +23,38 @@ public class CartController {
 
     private final UserService userService;
     private final CartService cartService;
-    private final ItemService itemService;
-    private final CartRepository cartRepository;
-    private final ItemRepository itemRepository;
+
+    private final BigDecimal STANDARD_SHIPPING_FEE = BigDecimal.valueOf(5);
 
     @Autowired
-    public CartController(UserService userService, CartService cartService, ItemService itemService, CartRepository cartRepository, ItemRepository itemRepository) {
+    public CartController(UserService userService, CartService cartService) {
         this.userService = userService;
         this.cartService = cartService;
-        this.itemService = itemService;
-        this.cartRepository = cartRepository;
-        this.itemRepository = itemRepository;
     }
 
     // todo
     // get view to show
-    @GetMapping()
+    @GetMapping
     public ModelAndView getCart(@AuthenticationPrincipal AuthenticationMetadata authenticationMetadata) {
 
         User user = userService.getById(authenticationMetadata.getUserId());
         UUID cartId = user.getCart().getId();
         Cart currentUserCart = cartService.getById(cartId);
-        List<Item> cartItems = currentUserCart.getItems();
+        List<Item> cartItems = currentUserCart.getCartItems();
 
         BigDecimal cartSubtotal = currentUserCart.getCartAmount();
-        BigDecimal standardShippingFee = BigDecimal.valueOf(5);
-        BigDecimal cartTotalPrice = cartSubtotal.add(standardShippingFee);
+        BigDecimal cartTotalPrice = cartSubtotal.add(STANDARD_SHIPPING_FEE);
+
+        OrderRequest orderRequest = new OrderRequest();
+        orderRequest.setFirstName(user.getFirstName());
+        orderRequest.setLastName(user.getLastName());
 
         ModelAndView modelAndView = new ModelAndView("cart");
         modelAndView.addObject("cartItems", cartItems);
         modelAndView.addObject("cartSubtotal", cartSubtotal);
-        modelAndView.addObject("standardShippingFee", standardShippingFee);
+        modelAndView.addObject("standardShippingFee", STANDARD_SHIPPING_FEE);
         modelAndView.addObject("cartTotalPrice", cartTotalPrice);
+        modelAndView.addObject("orderRequest", orderRequest);
 
         return modelAndView;
     }
@@ -84,5 +82,29 @@ public class CartController {
         return "redirect:/cart";
     }
 
-    // something to make order think about it
+
+
+//    @GetMapping("/checkout")
+//    public ModelAndView getCheckoutPage(@AuthenticationPrincipal AuthenticationMetadata metadata) {
+//
+//        // retrieve cartItem
+//        Cart cartByUserId = cartService.getByUserId(metadata.getUserId());
+//
+//        List<Item> cartItems = cartByUserId.getCartItems();
+//
+//        User user = userService.getById(metadata.getUserId());
+//        OrderRequest orderRequest = new OrderRequest();
+//        orderRequest.setFirstName(user.getFirstName());
+//        orderRequest.setLastName(user.getLastName());
+//
+//        ModelAndView modelAndView = new ModelAndView("checkout");
+//        modelAndView.addObject("cart", cartByUserId);
+//        modelAndView.addObject("cartItems", cartItems);
+//        modelAndView.addObject("standardShippingFee", STANDARD_SHIPPING_FEE);
+//        modelAndView.addObject("orderRequest", orderRequest);
+//
+//        return modelAndView;
+//    }
 }
+
+

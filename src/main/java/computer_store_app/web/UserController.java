@@ -61,6 +61,23 @@ public class UserController {
         return modelAndView;
     }
 
+    @PutMapping("/{id}/edit")
+    public ModelAndView editUserDetails(@PathVariable UUID id, @Valid EditUserRequest editUserRequest, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            User user = userService.getById(id);
+
+            ModelAndView modelAndView = new ModelAndView();
+            modelAndView.setViewName("edit-profile");
+            modelAndView.addObject("user", user);
+            modelAndView.addObject("editUserRequest", editUserRequest);
+            return modelAndView;
+        }
+
+        userService.editUserInfo(id, editUserRequest);
+
+        return new ModelAndView("redirect:/users/" + id + "/profile");
+    }
 
     @GetMapping("/admin-dashboard")
     @PreAuthorize("hasRole('ADMIN')")
@@ -86,24 +103,6 @@ public class UserController {
         modelAndView.addObject("newestReviews", newestReviews);
 
         return modelAndView;
-    }
-
-    @PutMapping("/{id}/edit")
-    public ModelAndView editUserDetails(@PathVariable UUID id, @Valid EditUserRequest editUserRequest, BindingResult bindingResult) {
-
-        if (bindingResult.hasErrors()) {
-            User user = userService.getById(id);
-
-            ModelAndView modelAndView = new ModelAndView();
-            modelAndView.setViewName("edit-profile");
-            modelAndView.addObject("user", user);
-            modelAndView.addObject("editUserRequest", editUserRequest);
-            return modelAndView;
-        }
-
-        userService.editUserInfo(id, editUserRequest);
-
-        return new ModelAndView("redirect:/users/" + id + "/profile");
     }
 
     @PutMapping("/{id}/role")

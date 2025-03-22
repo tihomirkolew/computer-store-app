@@ -19,7 +19,8 @@ public class ItemService {
 
     private final ItemRepository itemRepository;
 
-    private final String DEFAULT_IMG_SRC = "https://odoo-community.org/web/image/product.product/19823/image_1024/Default%20Product%20Images?unique=d7e15ed";
+    private final String DEFAULT_IMG_SRC =
+            "https://odoo-community.org/web/image/product.product/19823/image_1024/Default%20Product%20Images?unique=d7e15ed";
 
     @Autowired
     public ItemService(ItemRepository itemRepository) {
@@ -83,5 +84,10 @@ public class ItemService {
     public List<Item> getItemsByUserId(UUID id) {
 
         return itemRepository.getItemsByOwnerId(id);
+    }
+
+    public void deleteItemById(UUID itemId){
+
+        itemRepository.deleteById(itemId);
     }
 }

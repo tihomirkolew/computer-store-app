@@ -25,7 +25,7 @@ public class Cart {
     private User owner;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "cart")
-    private List<Item> items;
+    private List<Item> cartItems;
 
     @Column(nullable = false)
     private BigDecimal cartAmount;

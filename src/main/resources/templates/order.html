@@ -2,9 +2,52 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Title</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="/css/common.css">
+  <link rel="stylesheet" type="text/css" href="/css/order.css">
+  <title>Order Details</title>
 </head>
 <body>
+<div class="header">
+  <h1>Order Details</h1>
+</div>
+<div class="container">
+  <h2>Order Information</h2>
+  <p><strong>Order ID:</strong> <span th:text="${order.id}"></span></p>
+  <p><strong>Date:</strong> <span th:text="${#dates.format(order.createdOn, 'dd/MM/yyyy HH:mm')}"></span></p>
 
+  <h2>Customer Details</h2>
+  <p><strong>Name:</strong> <span th:text="${order.owner.firstName} + ' ' + ${order.owner.lastName}"></span></p>
+  <p><strong>Email:</strong> <span th:text="${order.owner.email}"></span></p>
+  <p><strong>Phone:</strong> <span th:text="${order.phoneNumber}"></span></p>
+
+  <h2>Shipping Address</h2>
+  <p th:text="${order.shippingAddress}"></p>
+
+  <h2>Billing Address</h2>
+  <p th:text="${order.billingAddress}"></p>
+
+  <h2>Items</h2>
+  <table>
+    <thead>
+    <tr>
+      <th>Item</th>
+      <th>Price</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="item : ${order.items}">
+      <td th:text="${item.brand} + ' ' + ${item.model}"></td>
+      <td th:text="${item.price}"></td>
+    </tr>
+    </tbody>
+  </table>
+
+  <h2>Total Amount</h2>
+  <p><strong>Total:</strong> <span th:text="${order.totalAmount}"></span></p>
+</div>
+<footer class="footer">
+  <p>&copy; Computer Store Project 2025. All rights reserved.</p>
+</footer>
 </body>
 </html>

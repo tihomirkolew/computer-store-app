@@ -13,11 +13,13 @@ public class UserInit implements CommandLineRunner {
 
 
     private final UserService userService;
+    private final UserRepository userRepository;
 
     @Autowired
-    public UserInit(UserService userService) {
+    public UserInit(UserService userService, UserRepository userRepository) {
         super();
         this.userService = userService;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -35,6 +37,8 @@ public class UserInit implements CommandLineRunner {
         User initialUser = userService.registerUser(registerRequest);
 
         initialUser.setRole(UserRole.ADMIN);
+
+        userRepository.save(initialUser);
     }
 
 

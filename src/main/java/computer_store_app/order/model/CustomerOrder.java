@@ -34,15 +34,14 @@ public class CustomerOrder {
     private String billingAddress;
 
     @Column(nullable = false)
+    private String customerPhoneNumber;
+
+    @Column(nullable = false)
     private LocalDateTime createdOn;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "customerOrder")
-    private List<Item> items;
+    @OneToMany(mappedBy = "customerOrder", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Item> orderedItems;
 
     @Column(nullable = false)
-    private BigDecimal totalAmount;
-
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private OrderStatus status;
+    private BigDecimal orderAmount;
 }

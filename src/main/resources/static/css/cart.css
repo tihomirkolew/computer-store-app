@@ -5,7 +5,7 @@
 .cart.side {
     display: flex;
     flex-direction: column;
-    flex-grow: 10;
+    flex-grow: 8;
     flex-shrink: 1;
     align-items: center;
     background: rgba(255, 255, 255, 0.1);
@@ -16,7 +16,7 @@
     height: auto;
     overflow-y: scroll;
     scrollbar-width: none;
-    width: 60%;
+    width: 30%;
 }
 
 .content-box.items {
@@ -106,7 +106,9 @@
 }
 
 .summary {
-
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
     padding: 20px 0 20px 20px;
     background: rgba(0, 0, 0, 0.7);
     border-radius: 10px;

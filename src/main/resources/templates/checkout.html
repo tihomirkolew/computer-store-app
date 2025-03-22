@@ -1,0 +1,68 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--  <meta charset="UTF-8">-->
+<!--  <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--  <link rel="icon" href="/images/pc-store-icon.png" type="image/x-icon">-->
+<!--  <link rel="stylesheet" type="text/css" href="/css/common.css">-->
+<!--  <link rel="stylesheet" type="text/css" href="/css/form.css">-->
+<!--  <link rel="stylesheet" type="text/css" href="/css/button.css">-->
+<!--  <link rel="stylesheet" type="text/css" href="/css/checkout.css">-->
+
+<!--  <title>Checkout</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div class="header">-->
+<!--  <div>-->
+<!--    <a th:href="@{/cart}" class="btn orange-btn">Back to Cart</a>-->
+<!--  </div>-->
+<!--</div>-->
+<!--<div class="container">-->
+<!--  <h1>Checkout</h1>-->
+<!--  <form th:action="@{/orders/create}" th:method="POST" th:object="${orderRequest}">-->
+<!--    <div th:each="cartItem : ${cartItems}" class="content-box">-->
+<!--      <div class="items">-->
+<!--        <div class="image item">-->
+<!--          <img th:src="${cartItem.imageUrl}" alt="Cart Item">-->
+<!--        </div>-->
+<!--        <div class="details item">-->
+<!--          <div>-->
+<!--            <h3 th:text="${cartItem.brand} + ' ' + ${cartItem.model}"></h3>-->
+<!--            <p th:text="${cartItem.description}"></p>-->
+<!--            <p th:text="'$' + ${cartItem.price}" class="price"></p>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <div class="prices">-->
+<!--      <h2>Total Amount: <span th:text="'$' + ${cart.cartAmount.toString()}"></span></h2>-->
+<!--      <h2>Shipping: <span th:text="'$' + ${standardShippingFee.toString()}"></span></h2>-->
+<!--      </div>-->
+<!--    </div>-->
+
+<!--    <div class="checkout">-->
+<!--      <label for="firstName">First name:</label>-->
+<!--      <input th:field="*{firstName}" id="firstName" name="firstName" required>-->
+
+<!--      <label for="lastName">Last name:</label>-->
+<!--      <input th:field="*{lastName}" id="lastName" name="lastName" required>-->
+
+<!--      <label for="phoneNumber">Phone number:</label>-->
+<!--      <input th:field="*{phoneNumber}" id="phoneNumber" name="phoneNumber" required>-->
+
+<!--      <label for="billingAddress">Billing Address:</label>-->
+<!--      <input th:field="*{billingAddress}" id="billingAddress" name="billingAddress" required>-->
+
+<!--      <label for="shippingAddress">Shipping Address:</label>-->
+<!--      <input th:field="*{shippingAddress}" id="shippingAddress" name="shippingAddress" required>-->
+
+
+<!--      <button type="submit" class="btn confirm-btn">Place Order</button>-->
+<!--    </div>-->
+<!--  </form>-->
+
+<!--</div>-->
+<!--<footer class="footer">-->
+<!--  <p>&copy; Computer Store Project 2025. All rights reserved.</p>-->
+<!--</footer>-->
+<!--</body>-->
+<!--</html>-->

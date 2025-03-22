@@ -6,6 +6,7 @@
   <link rel="icon" href="/images/pc-store-icon.png" type="image/x-icon">
   <link rel="stylesheet" type="text/css" href="/css/common.css">
   <link rel="stylesheet" type="text/css" href="/css/button.css">
+  <link rel="stylesheet" type="text/css" href="/css/checkout.css">
   <link rel="stylesheet" type="text/css" href="/css/cart.css">
   <title>Shopping Cart</title>
 </head>
@@ -32,9 +33,9 @@
         </div>
         <div class="details item">
           <div>
-            <h3 th:text="${cartItem.brand} + ' ' + ${cartItem.model}">Cart Item Name</h3>
-            <p th:text="${cartItem.description}">Item Description</p>
-            <p th:text="'$' + ${cartItem.price}" class="price">$99.99</p>
+            <h3 th:text="${cartItem.brand} + ' ' + ${cartItem.model}"></h3>
+            <p th:text="${cartItem.description}"></p>
+            <p th:text="'$' + ${cartItem.price}" class="price"></p>
           </div>
           <form th:action="@{'/cart/remove/' + ${cartItem.id}}" th:method="DELETE" class="actions">
             <button class="btn">Remove</button>
@@ -43,13 +44,32 @@
       </div>
     </div>
     <div class="summary">
-      <p th:text="'Subtotal: $' + ${cartSubtotal}" class="subtotal">Subtotal: $0.00</p>
-      <p th:text="'Shipping: $' + ${standardShippingFee}" class="shipping">Shipping: $0.00</p>
-      <p th:text="'Total: $' + ${cartTotalPrice}" class="total">Total: $0.00</p>
-      <form action="">
-        <button href="/checkout" class="btn">Proceed to Checkout</button>
-      </form>
+      <p th:text="'Subtotal: $' + ${cartSubtotal}" class="subtotal"></p>
+      <p th:text="'Shipping: $' + ${standardShippingFee}" class="shipping"></p>
+      <p th:text="'Total: $' + ${cartTotalPrice}" class="total"></p>
     </div>
+    <form class="make-order" th:action="@{/orders/create}" th:method="POST" th:object="${orderRequest}">
+
+      <div class="checkout">
+        <label for="firstName">First name:</label>
+        <input th:field="*{firstName}" id="firstName" name="firstName" required>
+
+        <label for="lastName">Last name:</label>
+        <input th:field="*{lastName}" id="lastName" name="lastName" required>
+
+        <label for="phoneNumber">Phone number:</label>
+        <input th:field="*{phoneNumber}" id="phoneNumber" name="phoneNumber" required>
+
+        <label for="billingAddress">Billing Address:</label>
+        <input th:field="*{billingAddress}" id="billingAddress" name="billingAddress" required>
+
+        <label for="shippingAddress">Shipping Address:</label>
+        <input th:field="*{shippingAddress}" id="shippingAddress" name="shippingAddress" required>
+
+
+        <button type="submit" class="btn order">Place Order</button>
+      </div>
+    </form>
   </div>
 
 
