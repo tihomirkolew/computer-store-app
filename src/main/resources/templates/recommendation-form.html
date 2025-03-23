@@ -29,7 +29,7 @@
   <form th:action="@{/recommendations}" method="post" class="form">
 
     <label for="userEmail">Your Email:</label>
-    <input type="email" id="userEmail" name="userEmail" th:value="${userEmail}" readonly>
+    <input type="email" id="userEmail" name="userEmail" th:value="${userEmail}">
 
     <label for="content">Recommendation:</label>
     <textarea id="content" name="content" maxlength="500" required></textarea>

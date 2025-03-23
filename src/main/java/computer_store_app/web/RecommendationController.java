@@ -27,10 +27,8 @@ public class RecommendationController {
     @GetMapping
     public ModelAndView showRecommendationForm(@AuthenticationPrincipal AuthenticationMetadata authenticationMetadata) {
 
-        String userEmail = authenticationMetadata.getEmail();
-
         ModelAndView modelAndView = new ModelAndView("recommendation-form"); // View name
-        modelAndView.addObject("userEmail", userEmail);
+        modelAndView.addObject("userEmail", authenticationMetadata.getEmail());
 
         return modelAndView;
     }
@@ -47,7 +45,6 @@ public class RecommendationController {
         // Redirect back to the form with a success message
         ModelAndView modelAndView = new ModelAndView("recommendation-form");
         modelAndView.addObject("userEmail", userEmail);
-        modelAndView.addObject("successMessage", "Thank you for your recommendation!");
 
         return new ModelAndView("recommendation-successful");
     }
