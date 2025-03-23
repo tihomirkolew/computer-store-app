@@ -5,46 +5,55 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" type="text/css" href="/css/common.css">
   <link rel="stylesheet" type="text/css" href="/css/order.css">
+  <link rel="stylesheet" type="text/css" href="/css/button.css">
   <title>Order Details</title>
 </head>
 <body>
 <div class="header">
-  <h1>Order Details</h1>
+  <div class="button-group">
+    <a th:href="@{/home}" class="btn">Home</a>
+  </div>
+  <div class="button-group">
+    <a href="/logout" class="btn logout-btn">Logout</a>
+  </div>
 </div>
 <div class="container">
-  <h2>Order Information</h2>
-  <p><strong>Order ID:</strong> <span th:text="${order.id}"></span></p>
-  <p><strong>Date:</strong> <span th:text="${#dates.format(order.createdOn, 'dd/MM/yyyy HH:mm')}"></span></p>
+  <div class="content-box info">
+    <h3>Order Details</h3>
+    <p><strong>Order ID:</strong> <span th:text="${clientOrder.id}"></span></p>
+    <p><strong>Date:</strong> <span th:text="${#temporals.format(clientOrder.createdOn, 'dd/MM/yyyy HH:mm')}"></span>
+    </p>
 
-  <h2>Customer Details</h2>
-  <p><strong>Name:</strong> <span th:text="${order.owner.firstName} + ' ' + ${order.owner.lastName}"></span></p>
-  <p><strong>Email:</strong> <span th:text="${order.owner.email}"></span></p>
-  <p><strong>Phone:</strong> <span th:text="${order.phoneNumber}"></span></p>
+    <h3>Customer Details</h3>
+    <p><strong>Name:</strong> <span
+            th:text="${clientOrder.owner.firstName} + ' ' + ${clientOrder.owner.lastName}"></span></p>
+    <p><strong>Email:</strong> <span th:text="${clientOrder.owner.email}"></span></p>
+    <p><strong>Phone:</strong> <span th:text="${clientOrder.owner.phoneNumber}"></span></p>
 
-  <h2>Shipping Address</h2>
-  <p th:text="${order.shippingAddress}"></p>
+    <h3>Shipping Address</h3>
+    <p th:text="${clientOrder.shippingAddress}"></p>
 
-  <h2>Billing Address</h2>
-  <p th:text="${order.billingAddress}"></p>
+    <h3>Billing Address</h3>
+    <p th:text="${clientOrder.billingAddress}"></p>
 
-  <h2>Items</h2>
-  <table>
-    <thead>
-    <tr>
-      <th>Item</th>
-      <th>Price</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="item : ${order.items}">
-      <td th:text="${item.brand} + ' ' + ${item.model}"></td>
-      <td th:text="${item.price}"></td>
-    </tr>
-    </tbody>
-  </table>
-
-  <h2>Total Amount</h2>
-  <p><strong>Total:</strong> <span th:text="${order.totalAmount}"></span></p>
+    <h3>Total Amount</h3>
+    <p><strong>Total:</strong> <span th:text="${clientOrder.orderAmount}"></span></p>
+  </div>
+  <div class="content-box items">
+    <h3>Ordered Items</h3>
+    <div th:each="item : ${clientOrder.orderedItems}" class="item">
+      <div class="image item">
+        <img th:src="${item.imageUrl}" alt="Cart Item">
+      </div>
+      <div class="details item">
+        <div>
+          <h3 th:text="${item.brand} + ' ' + ${item.model}"></h3>
+          <p th:text="${item.description}"></p>
+          <p th:text="'$' + ${item.price}" class="price"></p>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 <footer class="footer">
   <p>&copy; Computer Store Project 2025. All rights reserved.</p>

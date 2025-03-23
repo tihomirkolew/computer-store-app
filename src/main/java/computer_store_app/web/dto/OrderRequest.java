@@ -22,7 +22,7 @@ public class OrderRequest {
 
     @Pattern(regexp = "^\\+?[0-9]*$", message = "Phone number must be numeric and can include a '+' prefix")
     @Size(min = 10, max = 15, message = "Phone number must be between 10 and 15 characters")
-    private String phoneNumber;
+    private String customerPhoneNumber;
 
     @NotNull
     private String billingAddress;

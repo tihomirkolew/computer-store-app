@@ -3,7 +3,7 @@ package computer_store_app.user.model;
 import computer_store_app.cart.model.Cart;
 import computer_store_app.item.model.Item;
 import jakarta.persistence.*;
-import computer_store_app.order.model.CustomerOrder;
+import computer_store_app.order.model.ClientOrder;
 import lombok.*;
 
 import java.util.List;
@@ -28,6 +28,8 @@ public class User {
 
     private String lastName;
 
+    private String phoneNumber;
+
     @Column(nullable = false ,unique = true)
     private String email;
 
@@ -40,7 +42,7 @@ public class User {
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "owner")
     @OrderBy("createdOn DESC")
-    private List<CustomerOrder> customerOrders;
+    private List<ClientOrder> clientOrders;
 
     // cart
     @OneToOne

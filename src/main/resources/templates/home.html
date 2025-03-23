@@ -45,7 +45,7 @@
           </div>
           <div class="details item">
             <h3 th:text="${item.brand} + ' ' + ${item.model}">Best Seller 1</h3>
-            <p th:text="'$ ' + ${item.price}">$249.99</p>
+            <p th:text="'$' + ${item.price}">$249.99</p>
           </div>
           <a th:href="@{/items/{id}(id=${item.id})}" class="btn purchase">See More</a>
         </div>

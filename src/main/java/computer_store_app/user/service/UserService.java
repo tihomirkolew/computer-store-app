@@ -76,7 +76,7 @@ public class UserService implements UserDetailsService {
     public User getById(UUID userId) {
 
         return userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("User does not exist."));
+                .orElseThrow(() -> new IllegalArgumentException("User with id [%S] does not exist.".formatted(userId)));
     }
 
     public void editUserInfo(UUID userId, EditUserRequest editUserRequest) {

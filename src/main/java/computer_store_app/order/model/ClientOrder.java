@@ -1,6 +1,6 @@
 package computer_store_app.order.model;
 
-import computer_store_app.item.model.Item;
+import computer_store_app.OrderItem.model.OrderItem;
 import jakarta.persistence.*;
 import computer_store_app.user.model.User;
 import lombok.AllArgsConstructor;
@@ -18,7 +18,7 @@ import java.util.UUID;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CustomerOrder {
+public class ClientOrder {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -39,8 +39,8 @@ public class CustomerOrder {
     @Column(nullable = false)
     private LocalDateTime createdOn;
 
-    @OneToMany(mappedBy = "customerOrder", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private List<Item> orderedItems;
+    @OneToMany(mappedBy = "clientOrder", fetch = FetchType.EAGER)
+    private List<OrderItem> orderedItems;
 
     @Column(nullable = false)
     private BigDecimal orderAmount;

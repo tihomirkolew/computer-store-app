@@ -3,6 +3,7 @@ package computer_store_app.item.service;
 import computer_store_app.item.model.Item;
 import computer_store_app.item.repository.ItemRepository;
 import computer_store_app.user.model.User;
+import computer_store_app.user.model.UserRole;
 import computer_store_app.user.service.UserService;
 import computer_store_app.web.dto.NewItemRequest;
 import jakarta.validation.Valid;
@@ -51,7 +52,12 @@ public class ItemService {
                 .itemCondition(newItemRequest.getItemCondition())
                 .build();
 
+        if (user.getRole().equals(UserRole.ADMIN)) {
+            newItem.setAuthorized(true);
+        }
+
         itemRepository.save(newItem);
+
 
         return newItem;
     }

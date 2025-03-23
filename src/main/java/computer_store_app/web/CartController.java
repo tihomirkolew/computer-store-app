@@ -5,6 +5,7 @@ import computer_store_app.cart.service.CartService;
 import computer_store_app.item.model.Item;
 import computer_store_app.security.AuthenticationMetadata;
 import computer_store_app.user.model.User;
+import computer_store_app.user.repository.UserRepository;
 import computer_store_app.user.service.UserService;
 import computer_store_app.web.dto.OrderRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,9 +39,7 @@ public class CartController {
     public ModelAndView getCart(@AuthenticationPrincipal AuthenticationMetadata authenticationMetadata) {
 
         User user = userService.getById(authenticationMetadata.getUserId());
-        UUID cartId = user.getCart().getId();
-        Cart currentUserCart = cartService.getById(cartId);
-        List<Item> cartItems = currentUserCart.getCartItems();
+        Cart currentUserCart = user.getCart();
 
         BigDecimal cartSubtotal = currentUserCart.getCartAmount();
         BigDecimal cartTotalPrice = cartSubtotal.add(STANDARD_SHIPPING_FEE);
@@ -48,9 +47,11 @@ public class CartController {
         OrderRequest orderRequest = new OrderRequest();
         orderRequest.setFirstName(user.getFirstName());
         orderRequest.setLastName(user.getLastName());
+        orderRequest.setCustomerPhoneNumber(user.getPhoneNumber());
+
 
         ModelAndView modelAndView = new ModelAndView("cart");
-        modelAndView.addObject("cartItems", cartItems);
+        modelAndView.addObject("cartItems", currentUserCart.getCartItems());
         modelAndView.addObject("cartSubtotal", cartSubtotal);
         modelAndView.addObject("standardShippingFee", STANDARD_SHIPPING_FEE);
         modelAndView.addObject("cartTotalPrice", cartTotalPrice);
@@ -81,30 +82,6 @@ public class CartController {
 
         return "redirect:/cart";
     }
-
-
-
-//    @GetMapping("/checkout")
-//    public ModelAndView getCheckoutPage(@AuthenticationPrincipal AuthenticationMetadata metadata) {
-//
-//        // retrieve cartItem
-//        Cart cartByUserId = cartService.getByUserId(metadata.getUserId());
-//
-//        List<Item> cartItems = cartByUserId.getCartItems();
-//
-//        User user = userService.getById(metadata.getUserId());
-//        OrderRequest orderRequest = new OrderRequest();
-//        orderRequest.setFirstName(user.getFirstName());
-//        orderRequest.setLastName(user.getLastName());
-//
-//        ModelAndView modelAndView = new ModelAndView("checkout");
-//        modelAndView.addObject("cart", cartByUserId);
-//        modelAndView.addObject("cartItems", cartItems);
-//        modelAndView.addObject("standardShippingFee", STANDARD_SHIPPING_FEE);
-//        modelAndView.addObject("orderRequest", orderRequest);
-//
-//        return modelAndView;
-//    }
 }
 
 

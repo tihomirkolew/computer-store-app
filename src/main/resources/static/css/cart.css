@@ -56,6 +56,7 @@
     justify-content: space-between;
     height: 100%;
     padding-right: 15px;
+    min-width: 375px;
 }
 
 .details.item h3 {
@@ -81,6 +82,7 @@
     flex-direction: column;
     gap: 10px;
     text-align: center;
+    margin-left: -2em;
 }
 
 .actions .btn {

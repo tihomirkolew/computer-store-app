@@ -5,16 +5,12 @@ import computer_store_app.cart.repository.CartRepository;
 import computer_store_app.item.model.Item;
 import computer_store_app.item.repository.ItemRepository;
 import computer_store_app.item.service.ItemService;
-import computer_store_app.order.model.CustomerOrder;
-import computer_store_app.order.repository.OrderRepository;
 import computer_store_app.user.model.User;
-import computer_store_app.web.dto.OrderRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -25,14 +21,12 @@ public class CartService {
     private final CartRepository cartRepository;
     private final ItemService itemService;
     private final ItemRepository itemRepository;
-    private final OrderRepository orderRepository;
 
     @Autowired
-    public CartService(CartRepository cartRepository, ItemService itemService, ItemRepository itemRepository, OrderRepository orderRepository) {
+    public CartService(CartRepository cartRepository, ItemService itemService, ItemRepository itemRepository) {
         this.cartRepository = cartRepository;
         this.itemService = itemService;
         this.itemRepository = itemRepository;
-        this.orderRepository = orderRepository;
     }
 
     public Cart createEmptyCart(User user) {
@@ -53,7 +47,7 @@ public class CartService {
     public void addItemToCart(Cart cart, UUID itemId) {
         Item item = itemService.getItemById(itemId);
 
-        if (item.isSold() || item.getCustomerOrder() != null) {
+        if (item.isSold()) {
             throw new IllegalArgumentException("Item does not exist or is already sold.");
         }
 
@@ -87,7 +81,6 @@ public class CartService {
             throw new IllegalArgumentException("Item is not present in the user's cart.");
         }
 
-        // Remove the item and update the total
         cart.getCartItems().remove(itemToRemove);
         cart.setCartAmount(cart.getCartItems().stream()
                 .map(Item::getPrice)
@@ -105,29 +98,5 @@ public class CartService {
     public Cart getByUserId(UUID userId) {
 
         return cartRepository.getCartByOwnerId(userId).orElseThrow(() -> new IllegalArgumentException("Cart does not exist"));
-    }
-
-    public CustomerOrder finalizeOrder(OrderRequest orderRequest, User user) {
-        Cart cartByUserId = getByUserId(user.getId());
-
-        CustomerOrder order = CustomerOrder.builder()
-                .owner(user)
-                .shippingAddress(orderRequest.getShippingAddress())
-                .billingAddress(orderRequest.getBillingAddress())
-                .createdOn(LocalDateTime.now())
-                .orderedItems(cartByUserId.getCartItems())
-                .orderAmount(cartByUserId.getCartAmount())
-                .build();
-
-        log.info("Creating order: {}", order);
-
-        CustomerOrder savedOrder = orderRepository.save(order);
-        log.info("Order saved with ID: {}", savedOrder.getId());
-
-        cartByUserId.getCartItems().clear();
-        cartByUserId.setCartAmount(BigDecimal.ZERO);
-        cartRepository.save(cartByUserId);
-
-        return savedOrder;
     }
 }

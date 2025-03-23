@@ -1,12 +1,12 @@
-package computer_store_app.item.model;
+package computer_store_app.OrderItem.model;
 
-import computer_store_app.cart.model.Cart;
+import computer_store_app.item.model.ItemType;
+import computer_store_app.order.model.ClientOrder;
 import computer_store_app.user.model.User;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -15,7 +15,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Item {
+public class OrderItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -38,27 +38,10 @@ public class Item {
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    @Column(nullable = false)
-    private boolean sold;
-
-    @Column(nullable = false)
-    private boolean authorized;
-
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private ItemType type;
 
-    @Column(nullable = false)
-    private LocalDateTime addedOn;
-
-    @Column(nullable = false)
-    private LocalDateTime updatedOn;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private ItemCondition itemCondition;
-
     @ManyToOne
-    private Cart cart;
+    private ClientOrder clientOrder;
 }
-

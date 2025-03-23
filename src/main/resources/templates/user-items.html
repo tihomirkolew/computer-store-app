@@ -36,7 +36,11 @@
           <p th:text="${item.description}">Item 1 Description</p>
           <p th:text="'$ ' + ${item.price}" class="price">$249.99</p>
         </div>
+        <h3 th:if="${item.sold}">SOLD</h3>
+        <h3 th:unless="${item.sold}">AVAILABLE</h3>
         <a th:href="@{/items/{id}(id=${item.id})}" class="btn">See More</a>
+<!--        todo  -->
+        <a th:href="@{/items/{id}(id=${item.id})}" class="btn">Mark as sold</a>
       </div>
     </div>
   </div>
