@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+  <link rel="icon" href="/images/pc-store-icon.png" type="image/x-icon">
+  <link rel="stylesheet" type="text/css" href="/css/common.css">
+  <link rel="stylesheet" type="text/css" href="/css/form.css">
+  <link rel="stylesheet" type="text/css" href="/css/button.css">
+  <link rel="stylesheet" type="text/css" href="/css/new-item.css">
+  <link rel="stylesheet" type="text/css" href="/css/new-review.css">
+  <title>Leave a Recommendation - Computer Store</title>
+</head>
+<body>
+<div class="header">
+  <div class="button-group">
+    <a href="/logout" class="btn logout-btn">Logout</a>
+  </div>
+</div>
+
+<div class="container">
+
+  <h1>Thank you for submitting!</h1>
+
+  <h2>Your recommendation has been sent to us!</h2>
+
+  <a th:href="@{/home}" class="btn" style="padding: 10px 50px">Home</a>
+
+</div>
+
+<footer class="footer">
+  <p>&copy; Computer Store Project 2025. All rights reserved.</p>
+</footer>
+</body>
+</html>

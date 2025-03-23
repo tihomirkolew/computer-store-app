@@ -2,11 +2,9 @@ package computer_store_app.web;
 
 import computer_store_app.cart.model.Cart;
 import computer_store_app.cart.service.CartService;
-import computer_store_app.item.model.Item;
 import computer_store_app.security.AuthenticationMetadata;
-import computer_store_app.user.model.User;
-import computer_store_app.user.repository.UserRepository;
-import computer_store_app.user.service.UserService;
+import computer_store_app.client.model.Client;
+import computer_store_app.client.service.ClientService;
 import computer_store_app.web.dto.OrderRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -15,21 +13,20 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.UUID;
 
 @Controller
 @RequestMapping("cart")
 public class CartController {
 
-    private final UserService userService;
+    private final ClientService clientService;
     private final CartService cartService;
 
     private final BigDecimal STANDARD_SHIPPING_FEE = BigDecimal.valueOf(5);
 
     @Autowired
-    public CartController(UserService userService, CartService cartService) {
-        this.userService = userService;
+    public CartController(ClientService clientService, CartService cartService) {
+        this.clientService = clientService;
         this.cartService = cartService;
     }
 
@@ -38,16 +35,16 @@ public class CartController {
     @GetMapping
     public ModelAndView getCart(@AuthenticationPrincipal AuthenticationMetadata authenticationMetadata) {
 
-        User user = userService.getById(authenticationMetadata.getUserId());
-        Cart currentUserCart = user.getCart();
+        Client client = clientService.getById(authenticationMetadata.getUserId());
+        Cart currentUserCart = client.getCart();
 
         BigDecimal cartSubtotal = currentUserCart.getCartAmount();
         BigDecimal cartTotalPrice = cartSubtotal.add(STANDARD_SHIPPING_FEE);
 
         OrderRequest orderRequest = new OrderRequest();
-        orderRequest.setFirstName(user.getFirstName());
-        orderRequest.setLastName(user.getLastName());
-        orderRequest.setCustomerPhoneNumber(user.getPhoneNumber());
+        orderRequest.setFirstName(client.getFirstName());
+        orderRequest.setLastName(client.getLastName());
+        orderRequest.setCustomerPhoneNumber(client.getPhoneNumber());
 
 
         ModelAndView modelAndView = new ModelAndView("cart");
@@ -66,8 +63,8 @@ public class CartController {
             @AuthenticationPrincipal AuthenticationMetadata authenticationMetadata) {
 
 
-        User user = userService.getById(authenticationMetadata.getUserId());
-        Cart cart = user.getCart();
+        Client client = clientService.getById(authenticationMetadata.getUserId());
+        Cart cart = client.getCart();
 
         cartService.addItemToCart(cart, itemId);
 

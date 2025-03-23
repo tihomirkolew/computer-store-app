@@ -1,6 +1,6 @@
 package computer_store_app.review.model;
 
-import computer_store_app.user.model.User;
+import computer_store_app.client.model.Client;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,7 +19,7 @@ public class Review {
     private UUID id;
 
     @ManyToOne
-    private User addedBy;
+    private Client addedBy;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)

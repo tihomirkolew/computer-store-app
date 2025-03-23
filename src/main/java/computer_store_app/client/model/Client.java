@@ -1,9 +1,9 @@
-package computer_store_app.user.model;
+package computer_store_app.client.model;
 
 import computer_store_app.cart.model.Cart;
+import computer_store_app.customerOrder.model.CustomerOrder;
 import computer_store_app.item.model.Item;
 import jakarta.persistence.*;
-import computer_store_app.order.model.ClientOrder;
 import lombok.*;
 
 import java.util.List;
@@ -15,7 +15,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class Client {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -38,11 +38,11 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private UserRole role;
+    private ClientRole role;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "owner")
     @OrderBy("createdOn DESC")
-    private List<ClientOrder> clientOrders;
+    private List<CustomerOrder> customerOrders;
 
     // cart
     @OneToOne

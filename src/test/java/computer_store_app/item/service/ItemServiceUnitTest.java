@@ -4,7 +4,7 @@ import computer_store_app.item.model.Item;
 import computer_store_app.item.model.ItemCondition;
 import computer_store_app.item.model.ItemType;
 import computer_store_app.item.repository.ItemRepository;
-import computer_store_app.user.model.User;
+import computer_store_app.client.model.Client;
 import computer_store_app.web.dto.NewItemRequest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -32,7 +32,7 @@ class ItemServiceTest {
     @Test
     void testAddNewItem() {
         // Given
-        User mockUser = User.builder().id(UUID.randomUUID()).build();
+        Client mockClient = Client.builder().id(UUID.randomUUID()).build();
         NewItemRequest newItemRequest = NewItemRequest.builder()
                 .brand("Brand")
                 .model("Model")
@@ -53,7 +53,7 @@ class ItemServiceTest {
         when(itemRepository.save(any(Item.class))).thenReturn(mockItem);
 
         // When
-        Item result = itemService.addNewItem(newItemRequest, mockUser);
+        Item result = itemService.addNewItem(newItemRequest, mockClient);
 
         // Then
         assertNotNull(result);

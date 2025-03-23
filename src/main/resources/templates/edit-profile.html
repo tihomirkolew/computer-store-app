@@ -14,14 +14,14 @@
   <div>
   </div>
   <div class="button-group">
-    <a th:href="@{'/users/' + ${user.id} + '/profile'}" class="btn">Back</a>
+    <a th:href="@{'/users/' + ${client.id} + '/profile'}" class="btn">Back</a>
   </div>
 </div>
 <div class="container">
   <header>
     <h1>Cyber Cave</h1>
   </header>
-  <form th:action="@{'/users/' + ${user.id} + '/edit'}" th:method="PUT" th:object="${editUserRequest}" class="form">
+  <form th:action="@{'/users/' + ${client.id} + '/edit'}" th:method="PUT" th:object="${editUserRequest}" class="form">
     <h2>Edit Profile</h2>
     <input type="hidden" name="id">
 

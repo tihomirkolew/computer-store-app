@@ -20,28 +20,28 @@
 <div class="container">
   <div class="content-box info">
     <h3>Order Details</h3>
-    <p><strong>Order ID:</strong> <span th:text="${clientOrder.id}"></span></p>
-    <p><strong>Date:</strong> <span th:text="${#temporals.format(clientOrder.createdOn, 'dd/MM/yyyy HH:mm')}"></span>
+    <p><strong>Order ID:</strong> <span th:text="${customerOrder.id}"></span></p>
+    <p><strong>Date:</strong> <span th:text="${#temporals.format(customerOrder.createdOn, 'dd/MM/yyyy HH:mm')}"></span>
     </p>
 
     <h3>Customer Details</h3>
     <p><strong>Name:</strong> <span
-            th:text="${clientOrder.owner.firstName} + ' ' + ${clientOrder.owner.lastName}"></span></p>
-    <p><strong>Email:</strong> <span th:text="${clientOrder.owner.email}"></span></p>
-    <p><strong>Phone:</strong> <span th:text="${clientOrder.owner.phoneNumber}"></span></p>
+            th:text="${customerOrder.owner.firstName} + ' ' + ${customerOrder.owner.lastName}"></span></p>
+    <p><strong>Email:</strong> <span th:text="${customerOrder.owner.email}"></span></p>
+    <p><strong>Phone:</strong> <span th:text="${customerOrder.owner.phoneNumber}"></span></p>
 
     <h3>Shipping Address</h3>
-    <p th:text="${clientOrder.shippingAddress}"></p>
+    <p th:text="${customerOrder.shippingAddress}"></p>
 
     <h3>Billing Address</h3>
-    <p th:text="${clientOrder.billingAddress}"></p>
+    <p th:text="${customerOrder.billingAddress}"></p>
 
     <h3>Total Amount</h3>
-    <p><strong>Total:</strong> <span th:text="${clientOrder.orderAmount}"></span></p>
+    <p><strong>Total:</strong> <span th:text="${customerOrder.orderAmount}"></span></p>
   </div>
   <div class="content-box items">
     <h3>Ordered Items</h3>
-    <div th:each="item : ${clientOrder.orderedItems}" class="item">
+    <div th:each="item : ${customerOrder.orderedItems}" class="item">
       <div class="image item">
         <img th:src="${item.imageUrl}" alt="Cart Item">
       </div>

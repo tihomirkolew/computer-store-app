@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+  <link rel="icon" href="/images/pc-store-icon.png" type="image/x-icon">
+  <link rel="stylesheet" type="text/css" href="/css/common.css">
+  <link rel="stylesheet" type="text/css" href="/css/button.css">
+  <link rel="stylesheet" type="text/css" href="/css/reviews.css">
+  <link rel="stylesheet" type="text/css" href="/css/recommendations-list.css">
+  <title>All Recommendations - Computer Store</title>
+</head>
+<body>
+<div class="header">
+  <div class="button-group">
+    <a th:href="@{/home}" class="btn">Home</a>
+    <a th:href="@{'/recommendations/form'}" class="btn">Leave a Recommendation</a>
+  </div>
+  <div class="button-group">
+    <a href="/logout" class="btn logout-btn">Logout</a>
+  </div>
+</div>
+
+<div class="container">
+  <header>
+    <h1>All Recommendations</h1>
+  </header>
+
+  <div class="content-columns">
+    <div class="column">
+      <!-- Loop through all recommendations -->
+      <div th:each="recommendation : ${recommendationsList}" class="content-box recommendations">
+        <h3 th:text="'From: ' + ${recommendation.userEmail}">From: user@example.com</h3>
+        <div class="text-container">
+          <p th:text="${recommendation.content}" class="recommendation-text"></p>
+          <hr class="vertical-separator">
+          <div class="recommendation-info">
+            <p th:text="${#temporals.format(recommendation.createdOn, 'dd MMM YYYY HH:mm')}" class="recommendation-date"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <p>&copy; Computer Store Project 2025. All rights reserved.</p>
+</footer>
+</body>
+</html>

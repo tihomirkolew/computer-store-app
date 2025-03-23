@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+  <link rel="icon" href="/images/pc-store-icon.png" type="image/x-icon">
+  <link rel="stylesheet" type="text/css" href="/css/common.css">
+  <link rel="stylesheet" type="text/css" href="/css/form.css">
+  <link rel="stylesheet" type="text/css" href="/css/button.css">
+  <link rel="stylesheet" type="text/css" href="/css/new-item.css">
+  <link rel="stylesheet" type="text/css" href="/css/new-review.css">
+  <title>Leave a Recommendation - Computer Store</title>
+</head>
+<body>
+<div class="header">
+  <div class="button-group">
+    <a th:href="@{/home}" class="btn">Home</a>
+  </div>
+  <div class="button-group">
+    <a href="/logout" class="btn logout-btn">Logout</a>
+  </div>
+</div>
+
+<div class="container">
+  <h1>Leave a Recommendation</h1>
+
+
+  <form th:action="@{/recommendations}" method="post" class="form">
+
+    <label for="userEmail">Your Email:</label>
+    <input type="email" id="userEmail" name="userEmail" th:value="${userEmail}" readonly>
+
+    <label for="content">Recommendation:</label>
+    <textarea id="content" name="content" maxlength="500" required></textarea>
+
+
+    <button type="submit" class="btn confirm-btn">Submit</button>
+
+  </form>
+
+</div>
+
+<footer class="footer">
+  <p>&copy; Computer Store Project 2025. All rights reserved.</p>
+</footer>
+</body>
+</html>

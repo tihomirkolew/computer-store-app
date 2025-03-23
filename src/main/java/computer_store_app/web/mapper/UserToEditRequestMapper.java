@@ -1,19 +1,19 @@
 package computer_store_app.web.mapper;
 
-import computer_store_app.user.model.User;
+import computer_store_app.client.model.Client;
 import computer_store_app.web.dto.EditUserRequest;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class UserToEditRequestMapper {
 
-    public static EditUserRequest mapUserInfoToEditRequest (User user) {
+    public static EditUserRequest mapUserInfoToEditRequest (Client client) {
 
         return EditUserRequest.builder()
-                .username(user.getUsername())
-                .firstName(user.getFirstName())
-                .lastName(user.getLastName())
-                .email(user.getEmail())
+                .username(client.getUsername())
+                .firstName(client.getFirstName())
+                .lastName(client.getLastName())
+                .email(client.getEmail())
                 .build();
     }
 }

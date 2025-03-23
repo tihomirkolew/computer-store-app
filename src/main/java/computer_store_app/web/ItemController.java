@@ -1,10 +1,10 @@
 package computer_store_app.web;
 
+import computer_store_app.client.model.Client;
 import computer_store_app.item.model.Item;
 import computer_store_app.item.service.ItemService;
 import computer_store_app.security.AuthenticationMetadata;
-import computer_store_app.user.model.User;
-import computer_store_app.user.service.UserService;
+import computer_store_app.client.service.ClientService;
 import computer_store_app.web.dto.NewItemRequest;
 import jakarta.validation.Valid;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -20,11 +20,11 @@ import java.util.UUID;
 @RequestMapping("items")
 public class ItemController {
 
-    private final UserService userService;
+    private final ClientService clientService;
     private final ItemService itemService;
 
-    public ItemController(UserService userService, ItemService itemService) {
-        this.userService = userService;
+    public ItemController(ClientService clientService, ItemService itemService) {
+        this.clientService = clientService;
         this.itemService = itemService;
     }
 
@@ -42,7 +42,7 @@ public class ItemController {
     @GetMapping("/{id}/added-items")
     public ModelAndView getCurrentUserItemsPage(@PathVariable UUID id) {
 
-        User user = userService.getById(id);
+        Client client = clientService.getById(id);
 
         List<Item> itemsByUserId = itemService.getItemsByUserId(id);
 
@@ -68,9 +68,9 @@ public class ItemController {
             return "new-item";
         }
 
-        User user = userService.getById(metadata.getUserId());
+        Client client = clientService.getById(metadata.getUserId());
 
-        itemService.addNewItem(newItemRequest, user);
+        itemService.addNewItem(newItemRequest, client);
 
         return "redirect:/home";
     }

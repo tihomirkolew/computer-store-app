@@ -1,8 +1,8 @@
-package computer_store_app.order.model;
+package computer_store_app.customerOrder.model;
 
 import computer_store_app.OrderItem.model.OrderItem;
+import computer_store_app.client.model.Client;
 import jakarta.persistence.*;
-import computer_store_app.user.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,14 +18,14 @@ import java.util.UUID;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ClientOrder {
+public class CustomerOrder {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @ManyToOne
-    private User owner;
+    private Client owner;
 
     @Column(nullable = false)
     private String shippingAddress;
@@ -39,7 +39,7 @@ public class ClientOrder {
     @Column(nullable = false)
     private LocalDateTime createdOn;
 
-    @OneToMany(mappedBy = "clientOrder", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "customerOrder", fetch = FetchType.EAGER)
     private List<OrderItem> orderedItems;
 
     @Column(nullable = false)

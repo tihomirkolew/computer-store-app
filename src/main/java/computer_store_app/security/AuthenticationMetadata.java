@@ -1,7 +1,7 @@
 package computer_store_app.security;
 
 
-import computer_store_app.user.model.UserRole;
+import computer_store_app.client.model.ClientRole;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
@@ -21,7 +21,7 @@ public class AuthenticationMetadata implements UserDetails {
     private String username;
     private String email;
     private String password;
-    private UserRole role; // CLIENT, ADMIN
+    private ClientRole role; // CLIENT, ADMIN
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

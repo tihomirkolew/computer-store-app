@@ -5,7 +5,7 @@ import computer_store_app.cart.repository.CartRepository;
 import computer_store_app.item.model.Item;
 import computer_store_app.item.repository.ItemRepository;
 import computer_store_app.item.service.ItemService;
-import computer_store_app.user.model.User;
+import computer_store_app.client.model.Client;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,17 +29,17 @@ public class CartService {
         this.itemRepository = itemRepository;
     }
 
-    public Cart createEmptyCart(User user) {
+    public Cart createEmptyCart(Client client) {
 
         Cart initializeCart = Cart.builder()
-                .owner(user)
+                .owner(client)
                 .cartAmount(BigDecimal.ZERO)
                 .build();
 
         Cart cart = cartRepository.save(initializeCart);
 
         log.info("Successfully created cart with id [%s] for user with id [%s]."
-                .formatted(cart.getId(), user.getId()));
+                .formatted(cart.getId(), client.getId()));
 
         return cart;
     }

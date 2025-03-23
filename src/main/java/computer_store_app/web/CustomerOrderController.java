@@ -1,13 +1,13 @@
 package computer_store_app.web;
 
 import computer_store_app.cart.model.Cart;
+import computer_store_app.client.model.Client;
+import computer_store_app.customerOrder.model.CustomerOrder;
 import computer_store_app.item.model.Item;
-import computer_store_app.order.model.ClientOrder;
-import computer_store_app.order.service.ClientOrderService;
+import computer_store_app.customerOrder.service.CustomerOrderService;
 import computer_store_app.security.AuthenticationMetadata;
-import computer_store_app.user.model.User;
-import computer_store_app.user.repository.UserRepository;
-import computer_store_app.user.service.UserService;
+import computer_store_app.client.repository.ClientRepository;
+import computer_store_app.client.service.ClientService;
 import computer_store_app.web.dto.OrderRequest;
 import jakarta.validation.Valid;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -25,19 +25,19 @@ import java.util.UUID;
 
 @Controller
 @RequestMapping("/orders")
-public class ClientOrderController {
+public class CustomerOrderController {
 
-    private final UserService userService;
-    private final UserRepository userRepository;
-    private final ClientOrderService clientOrderService;
+    private final ClientService clientService;
+    private final ClientRepository clientRepository;
+    private final CustomerOrderService customerOrderService;
 
     private final BigDecimal STANDARD_SHIPPING_FEE = BigDecimal.valueOf(5);
 
 
-    public ClientOrderController(UserService userService, UserRepository userRepository, ClientOrderService clientOrderService) {
-        this.userService = userService;
-        this.userRepository = userRepository;
-        this.clientOrderService = clientOrderService;
+    public CustomerOrderController(ClientService clientService, ClientRepository clientRepository, CustomerOrderService customerOrderService) {
+        this.clientService = clientService;
+        this.clientRepository = clientRepository;
+        this.customerOrderService = customerOrderService;
     }
 
     @PostMapping("/create")
@@ -45,21 +45,21 @@ public class ClientOrderController {
                                     @AuthenticationPrincipal AuthenticationMetadata metadata) {
 
         UUID userId = metadata.getUserId();
-        User user = userService.getById(userId);
-        Cart cart = user.getCart();
+        Client client = clientService.getById(userId);
+        Cart cart = client.getCart();
         List<Item> cartItems = cart.getCartItems();
 
-        if (user.getFirstName() == null && orderRequest.getFirstName() != null) {
-            user.setFirstName(orderRequest.getFirstName());
+        if (client.getFirstName() == null && orderRequest.getFirstName() != null) {
+            client.setFirstName(orderRequest.getFirstName());
         }
-        if (user.getLastName() == null && orderRequest.getLastName() != null) {
-            user.setLastName(orderRequest.getLastName());
+        if (client.getLastName() == null && orderRequest.getLastName() != null) {
+            client.setLastName(orderRequest.getLastName());
         }
-        if (user.getPhoneNumber() == null && orderRequest.getCustomerPhoneNumber() != null) {
-            user.setPhoneNumber(orderRequest.getCustomerPhoneNumber());
+        if (client.getPhoneNumber() == null && orderRequest.getCustomerPhoneNumber() != null) {
+            client.setPhoneNumber(orderRequest.getCustomerPhoneNumber());
         }
 
-        userRepository.save(user);
+        clientRepository.save(client);
 
         BigDecimal cartSubtotal = cart.getCartAmount();
         BigDecimal cartTotalPrice = cartSubtotal.add(STANDARD_SHIPPING_FEE);
@@ -74,18 +74,18 @@ public class ClientOrderController {
             return modelAndView;
         }
 
-        ClientOrder clientOrder = clientOrderService.createOrderFromCart(orderRequest, userId);
+        CustomerOrder customerOrder = customerOrderService.createOrderFromCart(orderRequest, userId);
 
-        return new ModelAndView("redirect:/orders/" + clientOrder.getId());
+        return new ModelAndView("redirect:/orders/" + customerOrder.getId());
     }
 
     @GetMapping("/{id}")
     public ModelAndView getOrderById(@PathVariable UUID id) {
 
-        ClientOrder clientOrder = clientOrderService.getOrderById(id);
+        CustomerOrder customerOrder = customerOrderService.getOrderById(id);
 
         ModelAndView modelAndView = new ModelAndView("order");
-        modelAndView.addObject("clientOrder", clientOrder);
+        modelAndView.addObject("customerOrder", customerOrder);
 
         return modelAndView;
     }

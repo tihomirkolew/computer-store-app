@@ -3,8 +3,8 @@ package computer_store_app.web;
 import computer_store_app.review.model.Review;
 import computer_store_app.review.service.ReviewService;
 import computer_store_app.security.AuthenticationMetadata;
-import computer_store_app.user.model.User;
-import computer_store_app.user.service.UserService;
+import computer_store_app.client.model.Client;
+import computer_store_app.client.service.ClientService;
 import computer_store_app.web.dto.NewReviewRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,23 +22,23 @@ import java.util.UUID;
 @RequestMapping("/reviews")
 public class ReviewController {
 
-    private final UserService userService;
+    private final ClientService clientService;
     private final ReviewService reviewService;
 
     @Autowired
-    public ReviewController(UserService userService, ReviewService reviewService) {
-        this.userService = userService;
+    public ReviewController(ClientService clientService, ReviewService reviewService) {
+        this.clientService = clientService;
         this.reviewService = reviewService;
     }
 
     @GetMapping
     public ModelAndView getReviewsPage(@AuthenticationPrincipal AuthenticationMetadata authenticationMetadata) {
 
-        User user = userService.getById(authenticationMetadata.getUserId());
+        Client client = clientService.getById(authenticationMetadata.getUserId());
         List<Review> allCustomerReviews = reviewService.getAllReviews();
 
         ModelAndView modelAndView = new ModelAndView("reviews");
-        modelAndView.addObject("user", user);
+        modelAndView.addObject("client", client);
         modelAndView.addObject("allCustomerReviews", allCustomerReviews);
 
         return modelAndView;
@@ -61,9 +61,9 @@ public class ReviewController {
             return "new-review";
         }
 
-        User user = userService.getById(authenticationMetadata.getUserId());
+        Client client = clientService.getById(authenticationMetadata.getUserId());
 
-        reviewService.addNewReview(newReviewRequest, user);
+        reviewService.addNewReview(newReviewRequest, client);
 
         return "redirect:/home";
     }

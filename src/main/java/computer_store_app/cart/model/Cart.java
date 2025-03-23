@@ -1,7 +1,7 @@
 package computer_store_app.cart.model;
 
 import computer_store_app.item.model.Item;
-import computer_store_app.user.model.User;
+import computer_store_app.client.model.Client;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,7 +22,7 @@ public class Cart {
     private UUID id;
 
     @OneToOne
-    private User owner;
+    private Client owner;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "cart")
     private List<Item> cartItems;

@@ -1,12 +1,12 @@
-package computer_store_app.order.service;
+package computer_store_app.customerOrder.service;
 
 import computer_store_app.OrderItem.model.OrderItem;
 import computer_store_app.OrderItem.repository.OrderItemRepository;
 import computer_store_app.cart.model.Cart;
+import computer_store_app.customerOrder.model.CustomerOrder;
 import computer_store_app.item.model.Item;
-import computer_store_app.order.model.ClientOrder;
-import computer_store_app.order.repository.ClientOrderRepository;
-import computer_store_app.user.service.UserService;
+import computer_store_app.customerOrder.repository.CustomerOrderRepository;
+import computer_store_app.client.service.ClientService;
 import computer_store_app.web.dto.OrderRequest;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,31 +18,31 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class ClientOrderService {
+public class CustomerOrderService {
 
 
-    private final ClientOrderRepository clientOrderRepository;
+    private final CustomerOrderRepository customerOrderRepository;
     private final OrderItemRepository orderItemRepository;
-    private final UserService userService;
+    private final ClientService clientService;
 
     @Autowired
-    public ClientOrderService(ClientOrderRepository clientOrderRepository, OrderItemRepository orderItemRepository, UserService userService) {
-        this.clientOrderRepository = clientOrderRepository;
+    public CustomerOrderService(CustomerOrderRepository customerOrderRepository, OrderItemRepository orderItemRepository, ClientService clientService) {
+        this.customerOrderRepository = customerOrderRepository;
         this.orderItemRepository = orderItemRepository;
-        this.userService = userService;
+        this.clientService = clientService;
     }
 
-    public ClientOrder getOrderById(UUID orderId) {
+    public CustomerOrder getOrderById(UUID orderId) {
 
-        return clientOrderRepository.findById(orderId)
+        return customerOrderRepository.findById(orderId)
                 .orElseThrow(() -> new IllegalArgumentException("Order with id [%s] does not exist".formatted(orderId)));
     }
 
     @Transactional
-    public ClientOrder createOrderFromCart(OrderRequest orderRequest, UUID userId) {
+    public CustomerOrder createOrderFromCart(OrderRequest orderRequest, UUID userId) {
 
 
-        Cart cart = userService.getById(userId).getCart();
+        Cart cart = clientService.getById(userId).getCart();
 
         if (cart.getCartItems().isEmpty()) {
             throw new RuntimeException("Cart is empty!");
@@ -70,7 +70,7 @@ public class ClientOrderService {
         cart.getCartItems().clear();
 
         // making the order
-        ClientOrder clientOrder = ClientOrder.builder()
+        CustomerOrder customerOrder = CustomerOrder.builder()
                 .owner(cart.getOwner())
                 .shippingAddress(orderRequest.getShippingAddress())
                 .billingAddress(orderRequest.getBillingAddress())
@@ -81,12 +81,12 @@ public class ClientOrderService {
                 .build();
 
         for (OrderItem orderItem : itemsToOrder) {
-            orderItem.setClientOrder(clientOrder);
+            orderItem.setCustomerOrder(customerOrder);
             orderItemRepository.save(orderItem);
         }
 
-        clientOrderRepository.save(clientOrder);
+        customerOrderRepository.save(customerOrder);
 
-        return clientOrder;
+        return customerOrder;
     }
 }

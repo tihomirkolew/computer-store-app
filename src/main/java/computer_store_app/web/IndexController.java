@@ -1,12 +1,12 @@
 package computer_store_app.web;
 
+import computer_store_app.client.model.Client;
 import computer_store_app.item.model.Item;
 import computer_store_app.item.service.ItemService;
 import computer_store_app.review.model.Review;
 import computer_store_app.review.service.ReviewService;
 import computer_store_app.security.AuthenticationMetadata;
-import computer_store_app.user.model.User;
-import computer_store_app.user.service.UserService;
+import computer_store_app.client.service.ClientService;
 import computer_store_app.web.dto.LoginRequest;
 import computer_store_app.web.dto.RegisterRequest;
 import jakarta.validation.Valid;
@@ -26,13 +26,13 @@ import java.util.stream.Collectors;
 @RequestMapping
 public class IndexController {
 
-    private final UserService userService;
+    private final ClientService clientService;
     private final ItemService itemService;
     private final ReviewService reviewService;
 
     @Autowired
-    public IndexController(UserService userService, ItemService itemService, ReviewService reviewService) {
-        this.userService = userService;
+    public IndexController(ClientService clientService, ItemService itemService, ReviewService reviewService) {
+        this.clientService = clientService;
         this.itemService = itemService;
         this.reviewService = reviewService;
     }
@@ -65,7 +65,7 @@ public class IndexController {
             return new ModelAndView("register");
         }
 
-        userService.registerUser(registerRequest);
+        clientService.registerUser(registerRequest);
 
         return new ModelAndView("redirect:/login");
     }
@@ -89,7 +89,7 @@ public class IndexController {
     public ModelAndView getHomePage(@AuthenticationPrincipal AuthenticationMetadata metadata) {
 
         UUID userId = metadata.getUserId();
-        User user = userService.getById(userId);
+        Client client = clientService.getById(userId);
 
         List<Item> authorizedAndNotSoldItems = itemService.getAuthorizedAndNotSoldItemsOrderedByUpdatedOn()
                 .stream()
@@ -104,7 +104,7 @@ public class IndexController {
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("home");
-        modelAndView.addObject("user", user);
+        modelAndView.addObject("client", client);
         modelAndView.addObject("authorizedAndNotSoldItems", authorizedAndNotSoldItems);
         modelAndView.addObject("newestReviews", newestReviews);
 
