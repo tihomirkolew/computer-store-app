@@ -29,10 +29,9 @@
 
 <div class="container">
   <header>
-    <h1>Welcome,
-      <span id="userName"
+    <h1>Welcome<span id="userName"
             th:if="${not #strings.isEmpty(client.firstName) or not #strings.isEmpty(client.lastName)}"
-            th:text="${client.firstName} + ' ' + ${client.lastName}">John Doe</span>
+            th:text="', ' + ${client.firstName} + ' ' + ${client.lastName}">John Doe</span>
     </h1>
   </header>
 
@@ -61,7 +60,7 @@
       <div class="column top-three">
         <h2>Reviews</h2>
         <div th:each="review : ${newestReviews}" class="content-box reviews">
-          <h3 th:text="${review.rating}">UNSATISFACTORY</h3>
+          <h3 th:text="${#strings.replace(#strings.capitalize(#strings.toLowerCase(review.rating)), '_', ' ')}">UNSATISFACTORY</h3>
           <div class="text-container">
             <p th:text="${review.comment}" class="review-text"></p>
             <div>

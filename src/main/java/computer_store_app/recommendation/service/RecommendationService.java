@@ -39,7 +39,7 @@ public class RecommendationService {
     }
 
     public List<Recommendation> getAllRecommendations() {
-        // Call the recommendation-svc via Feign client
+
         ResponseEntity<List<Recommendation>> response = recommendationClient.getAllRecommendations();
 
         if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {

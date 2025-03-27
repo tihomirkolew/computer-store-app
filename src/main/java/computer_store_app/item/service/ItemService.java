@@ -6,6 +6,7 @@ import computer_store_app.client.model.Client;
 import computer_store_app.client.model.ClientRole;
 import computer_store_app.web.dto.NewItemRequest;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+@Slf4j
 @Service
 public class ItemService {
 
@@ -77,13 +79,18 @@ public class ItemService {
         return itemRepository.findAll();
     }
 
-    public void approveItem(UUID id) {
+    public void approveItem(UUID id, Client client) {
+
+        if (!client.getRole().equals(ClientRole.ADMIN)) {
+            throw new IllegalArgumentException("User with id [%s] not authorized.".formatted(client.getId()));
+        }
 
         Item itemById = getItemById(id);
 
         itemById.setAuthorized(!itemById.isAuthorized());
 
         itemRepository.save(itemById);
+        log.info("Item with id [%s] approved for sale.".formatted(id));
     }
 
     public List<Item> getItemsByUserId(UUID id) {

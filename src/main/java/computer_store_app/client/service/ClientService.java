@@ -22,6 +22,7 @@ import java.util.UUID;
 
 @Service
 public class ClientService implements UserDetailsService {
+
     private final ClientRepository clientRepository;
     private final PasswordEncoder passwordEncoder;
     private final CartService cartService;

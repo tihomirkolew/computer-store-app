@@ -68,7 +68,6 @@ public class ReviewController {
         return "redirect:/home";
     }
 
-    // todo - delete review by admin
     @DeleteMapping("/{id}/delete")
     @PreAuthorize("hasRole('ADMIN')")
     public String deleteReview(@PathVariable UUID id) {

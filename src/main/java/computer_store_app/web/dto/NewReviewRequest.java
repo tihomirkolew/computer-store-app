@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 public class NewReviewRequest {
 
-    @NotNull(message = "Item type cannot be null.")
+    @NotNull(message = "Please select a category.")
     private ReviewRating rating;
 
     @Size(max = 2001, message = "Reached maximum character limit (2000).")

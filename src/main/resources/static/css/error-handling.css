@@ -1,0 +1,43 @@
+.content-box {
+    flex-direction: column;
+    width: auto;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+
+
+h2 {
+    font-size: 2.5em;
+    width: 600px;
+    margin: 40px auto;
+}
+
+h3 {
+    width: 680px;
+    font-size: 1.5em;
+}
+
+h4 {
+    font-size: 1.2em;
+    margin: 40px auto;
+}
+
+span {
+    font-size: 2.2rem;
+}
+
+.buttons {
+    width: 100%;
+}
+
+.btn {
+    width: 30%;
+}
+
+p {
+    margin-top: 0;
+}
+
+
+

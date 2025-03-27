@@ -58,11 +58,12 @@ h3 {
     flex-grow: 1;
     flex-direction: column;
     margin: 0 20px;
-    width: auto;
     border-radius: 10px;
 }
 
 .column {
     margin: 0;
     padding: 2em;
+    width: 94%;
+    align-self: center;
 }

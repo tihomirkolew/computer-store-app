@@ -3,6 +3,7 @@ package computer_store_app.web;
 import computer_store_app.recommendation.client.dto.Recommendation;
 import computer_store_app.recommendation.service.RecommendationService;
 import computer_store_app.security.AuthenticationMetadata;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -50,6 +51,7 @@ public class RecommendationController {
     }
 
     @GetMapping("/list")
+    @PreAuthorize("hasRole('ADMIN')")
     public ModelAndView getAllRecommendations() {
 
         List<Recommendation> recommendationsList = recommendationService.getAllRecommendations();

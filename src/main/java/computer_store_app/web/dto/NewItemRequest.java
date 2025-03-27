@@ -17,25 +17,25 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class NewItemRequest {
 
-    @NotBlank(message = "Brand cannot be blank.")
+    @NotBlank(message = "Brand cannot be empty.")
     private String brand;
 
-    @NotBlank(message = "Model cannot be blank.")
+    @NotBlank(message = "Model cannot be empty.")
     private String model;
 
-    @NotNull
+    @NotNull(message = "You must have a price")
     @Positive
     private BigDecimal price;
 
     private String imageUrl;
 
-    @Size(min = 0, max = 300, message = "Reached maximum character limit (300).")
+    @Size(max = 300, message = "Reached maximum character limit (300).")
     @Lob
     private String description;
 
-    @NotNull(message = "Item type cannot be null.")
+    @NotNull(message = "Please chose what type is your item")
     private ItemType type;
 
-    @NotNull(message = "Item condition cannot be null.")
+    @NotNull(message = "Please chose your items condition")
     private ItemCondition itemCondition;
 }

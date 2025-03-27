@@ -106,6 +106,7 @@ public class ClientController {
     }
 
     @PutMapping("/{id}/role")
+    @PreAuthorize("hasRole('ADMIN')")
     public String switchUserRole(@PathVariable UUID id) {
 
         clientService.switchRole(id);

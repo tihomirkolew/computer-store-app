@@ -4,12 +4,13 @@ import computer_store_app.client.model.Client;
 import computer_store_app.item.model.Item;
 import computer_store_app.item.service.ItemService;
 import computer_store_app.security.AuthenticationMetadata;
-import computer_store_app.client.service.ClientService;
 import computer_store_app.web.dto.NewItemRequest;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import computer_store_app.client.service.ClientService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -20,12 +21,14 @@ import java.util.UUID;
 @RequestMapping("items")
 public class ItemController {
 
-    private final ClientService clientService;
     private final ItemService itemService;
+    private final ClientService clientService;
 
-    public ItemController(ClientService clientService, ItemService itemService) {
-        this.clientService = clientService;
+    @Autowired
+    public ItemController(ItemService itemService, ClientService clientService) {
         this.itemService = itemService;
+        this.clientService = clientService;
+        System.out.println("ClientService initialized: " + (clientService != null));
     }
 
     @GetMapping("/items-list")
@@ -41,8 +44,6 @@ public class ItemController {
 
     @GetMapping("/{id}/added-items")
     public ModelAndView getCurrentUserItemsPage(@PathVariable UUID id) {
-
-        Client client = clientService.getById(id);
 
         List<Item> itemsByUserId = itemService.getItemsByUserId(id);
 
@@ -68,7 +69,9 @@ public class ItemController {
             return "new-item";
         }
 
-        Client client = clientService.getById(metadata.getUserId());
+        UUID userId = metadata.getUserId();
+
+        Client client = clientService.getById(userId);
 
         itemService.addNewItem(newItemRequest, client);
 
@@ -77,7 +80,7 @@ public class ItemController {
 
     @GetMapping("/{id}")
     public ModelAndView getItemDetails(@PathVariable UUID id) {
-        // Fetch the item by ID (e.g., from the service layer)
+
         Item item = itemService.getItemById(id);
 
         ModelAndView modelAndView = new ModelAndView("item-details");
@@ -87,12 +90,13 @@ public class ItemController {
     }
 
     @PutMapping("/{id}/approve")
-    public String approveItem(@PathVariable UUID id){
+    public String approveItem(@PathVariable UUID id, @AuthenticationPrincipal AuthenticationMetadata authenticationMetadata){
 
-        itemService.approveItem(id);
+        UUID clientId = authenticationMetadata.getUserId();
+        Client client = clientService.getById(clientId);
+
+        itemService.approveItem(id, client);
 
         return "redirect:/users/admin-dashboard";
     }
-
-
 }

@@ -29,7 +29,7 @@
   <div class="content-columns">
     <div class="column">
       <div th:each="review : ${allCustomerReviews}"  class="content-box reviews">
-        <h3 th:text="${review.rating}">UNSATISFACTORY</h3>
+        <h3 th:text="${#strings.replace(#strings.capitalize(#strings.toLowerCase(review.rating)), '_', ' ')}">UNSATISFACTORY</h3>
         <div class="text-container">
           <p th:text="${review.comment}" class="review-text">Sed ut perspiciatis unde omnis iste natus error sit
             voluptatem accusantium doloremque laudantium, totam rem
@@ -47,7 +47,7 @@
             <p th:text="'- ' + ${review.addedBy.username}" class="reviewer">- Bob</p>
           </div>
         </div>
-        <form >
+        <form th:action="'/reviews/' + ${review.id} + '/delete'" th:method="DELETE">
           <button class="btn delete-btn">
             <i class="fa fa-trash" style="color: red; font-size: 18px;"></i>
           </button>
