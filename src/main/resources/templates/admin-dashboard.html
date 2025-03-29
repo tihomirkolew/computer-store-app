@@ -27,8 +27,8 @@
   </header>
 
   <div class="content-columns">
-    <div class="side">
-      <div class="column">
+    <div class="side users">
+      <div class="column users">
         <h2>All Users</h2>
         <table class="users-table">
           <thead>
@@ -58,8 +58,8 @@
     </div>
 
     <!-- Right Column: Unapproved Items Table -->
-    <div class="side">
-      <div class="column">
+    <div class="side items">
+      <div class="column items">
         <h2>Pending Item Approvals</h2>
         <table class="items-table">
           <thead>
@@ -83,6 +83,13 @@
                 <input type="hidden" name="_method" value="PUT">
                 <button th:if="${currentItem.authorized == true}" class="btn">Disapprove</button>
                 <button th:unless="${currentItem.authorized == true}" class="btn">Approve</button>
+              </form>
+            </td>
+            <td>
+              <form th:action="'/items/' + ${currentItem.id} + '/delete'" th:method="DELETE">
+                <button class="btn delete-btn">
+                  <i class="fa fa-trash" style="color: red; font-size: 18px;"></i>
+                </button>
               </form>
             </td>
           </tr>

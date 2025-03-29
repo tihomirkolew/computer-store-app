@@ -36,11 +36,15 @@
           <p th:text="${item.description}">Item 1 Description</p>
           <p th:text="'$ ' + ${item.price}" class="price">$249.99</p>
         </div>
+        <a th:href="@{/items/{id}(id=${item.id})}" class="btn">See More</a>
+        <form th:unless="${item.sold}" th:action="'/items/' + ${item.id} + '/sold'" th:method="POST">
+          <button class="btn delete-btn">
+            <span th:unless="${item.sold}">Mark as sold</span>
+            <span th:if="${item.sold}">SOLD</span>
+          </button>
+        </form>
         <h3 th:if="${item.sold}">SOLD</h3>
         <h3 th:unless="${item.sold}">AVAILABLE</h3>
-        <a th:href="@{/items/{id}(id=${item.id})}" class="btn">See More</a>
-<!--        todo  -->
-        <a th:href="@{/items/{id}(id=${item.id})}" class="btn">Mark as sold</a>
       </div>
     </div>
   </div>

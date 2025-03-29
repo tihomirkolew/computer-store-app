@@ -102,4 +102,15 @@ public class ItemService {
 
         itemRepository.deleteById(itemId);
     }
+
+    public void markItemAsSold(UUID id) {
+
+        Item itemById = getItemById(id);
+
+        if (!itemById.isSold()) {
+            itemById.setSold(true);
+        }
+
+        itemRepository.save(itemById);
+    }
 }

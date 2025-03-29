@@ -99,4 +99,20 @@ public class ItemController {
 
         return "redirect:/users/admin-dashboard";
     }
+
+    @DeleteMapping("/{id}/delete")
+    public String deleteItem(@PathVariable UUID id) {
+
+        itemService.deleteItemById(id);
+
+        return "redirect:/users/admin-dashboard";
+    }
+
+    @PostMapping("/{id}/sold")
+    public String markItemAsSold(@PathVariable UUID id, @AuthenticationPrincipal AuthenticationMetadata metadata) {
+
+        itemService.markItemAsSold(id);
+
+        return "redirect:/items/" + metadata.getUserId() + "/added-items";
+    }
 }
