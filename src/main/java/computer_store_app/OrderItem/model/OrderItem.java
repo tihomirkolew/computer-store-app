@@ -1,8 +1,8 @@
 package computer_store_app.OrderItem.model;
 
+import computer_store_app.user.model.User;
 import computer_store_app.item.model.ItemType;
 import computer_store_app.customerOrder.model.CustomerOrder;
-import computer_store_app.client.model.Client;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,7 +22,7 @@ public class OrderItem {
     private UUID id;
 
     @ManyToOne
-    private Client owner;
+    private User owner;
 
     @Column(nullable = false)
     private String brand;

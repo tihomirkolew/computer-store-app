@@ -1,7 +1,7 @@
 package computer_store_app.customerOrder.model;
 
 import computer_store_app.OrderItem.model.OrderItem;
-import computer_store_app.client.model.Client;
+import computer_store_app.user.model.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,7 +25,7 @@ public class CustomerOrder {
     private UUID id;
 
     @ManyToOne
-    private Client owner;
+    private User owner;
 
     @Column(nullable = false)
     private String shippingAddress;

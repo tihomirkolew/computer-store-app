@@ -6,12 +6,13 @@ import computer_store_app.cart.model.Cart;
 import computer_store_app.customerOrder.model.CustomerOrder;
 import computer_store_app.item.model.Item;
 import computer_store_app.customerOrder.repository.CustomerOrderRepository;
-import computer_store_app.client.service.ClientService;
+import computer_store_app.user.service.UserService;
 import computer_store_app.web.dto.OrderRequest;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,16 +21,18 @@ import java.util.UUID;
 @Service
 public class CustomerOrderService {
 
+    private final BigDecimal STANDARD_SHIPPING_FEE = BigDecimal.valueOf(5);
+
 
     private final CustomerOrderRepository customerOrderRepository;
     private final OrderItemRepository orderItemRepository;
-    private final ClientService clientService;
+    private final UserService userService;
 
     @Autowired
-    public CustomerOrderService(CustomerOrderRepository customerOrderRepository, OrderItemRepository orderItemRepository, ClientService clientService) {
+    public CustomerOrderService(CustomerOrderRepository customerOrderRepository, OrderItemRepository orderItemRepository, UserService userService) {
         this.customerOrderRepository = customerOrderRepository;
         this.orderItemRepository = orderItemRepository;
-        this.clientService = clientService;
+        this.userService = userService;
     }
 
     public CustomerOrder getOrderById(UUID orderId) {
@@ -42,7 +45,7 @@ public class CustomerOrderService {
     public CustomerOrder createOrderFromCart(OrderRequest orderRequest, UUID userId) {
 
 
-        Cart cart = clientService.getById(userId).getCart();
+        Cart cart = userService.getById(userId).getCart();
 
         if (cart.getCartItems().isEmpty()) {
             throw new RuntimeException("Cart is empty!");
@@ -77,7 +80,7 @@ public class CustomerOrderService {
                 .customerPhoneNumber(orderRequest.getCustomerPhoneNumber())
                 .createdOn(LocalDateTime.now())
                 .orderedItems(itemsToOrder)
-                .orderAmount(cart.getCartAmount())
+                .orderAmount(cart.getCartAmount().add(STANDARD_SHIPPING_FEE)) // standard shipping fee
                 .build();
 
         for (OrderItem orderItem : itemsToOrder) {

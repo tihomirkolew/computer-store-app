@@ -1,6 +1,6 @@
 package computer_store_app.web;
 
-import computer_store_app.client.model.Client;
+import computer_store_app.user.model.User;
 import computer_store_app.item.model.Item;
 import computer_store_app.item.service.ItemService;
 import computer_store_app.security.AuthenticationMetadata;
@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import computer_store_app.client.service.ClientService;
+import computer_store_app.user.service.UserService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -22,19 +22,18 @@ import java.util.UUID;
 public class ItemController {
 
     private final ItemService itemService;
-    private final ClientService clientService;
+    private final UserService userService;
 
     @Autowired
-    public ItemController(ItemService itemService, ClientService clientService) {
+    public ItemController(ItemService itemService, UserService userService) {
         this.itemService = itemService;
-        this.clientService = clientService;
-        System.out.println("ClientService initialized: " + (clientService != null));
+        this.userService = userService;
     }
 
     @GetMapping("/items-list")
     public ModelAndView getAllItemsPage() {
 
-        List<Item> authorizedAndNotSoldItems = itemService.getAuthorizedAndNotSoldItemsOrderedByUpdatedOn();
+        List<Item> authorizedAndNotSoldItems = itemService.getAuthorizedNotSoldAndNotArchivedItems();
 
         ModelAndView modelAndView = new ModelAndView("items-list");
         modelAndView.addObject("authorizedAndNotSoldItems", authorizedAndNotSoldItems);
@@ -45,7 +44,7 @@ public class ItemController {
     @GetMapping("/{id}/added-items")
     public ModelAndView getCurrentUserItemsPage(@PathVariable UUID id) {
 
-        List<Item> itemsByUserId = itemService.getItemsByUserId(id);
+        List<Item> itemsByUserId = itemService.getItemsByUserIdNotArchived(id);
 
         ModelAndView modelAndView = new ModelAndView("user-items");
         modelAndView.addObject("itemsByUserId", itemsByUserId);
@@ -71,9 +70,9 @@ public class ItemController {
 
         UUID userId = metadata.getUserId();
 
-        Client client = clientService.getById(userId);
+        User user = userService.getById(userId);
 
-        itemService.addNewItem(newItemRequest, client);
+        itemService.addNewItem(newItemRequest, user);
 
         return "redirect:/home";
     }
@@ -90,20 +89,20 @@ public class ItemController {
     }
 
     @PutMapping("/{id}/approve")
-    public String approveItem(@PathVariable UUID id, @AuthenticationPrincipal AuthenticationMetadata authenticationMetadata){
+    public String approveItem(@PathVariable UUID id, @AuthenticationPrincipal AuthenticationMetadata authenticationMetadata) {
 
-        UUID clientId = authenticationMetadata.getUserId();
-        Client client = clientService.getById(clientId);
+        UUID userId = authenticationMetadata.getUserId();
+        User user = userService.getById(userId);
 
-        itemService.approveItem(id, client);
+        itemService.approveItem(id, user);
 
         return "redirect:/users/admin-dashboard";
     }
 
-    @DeleteMapping("/{id}/delete")
+    @DeleteMapping("/{id}/archive")
     public String deleteItem(@PathVariable UUID id) {
 
-        itemService.deleteItemById(id);
+        itemService.archiveItemById(id);
 
         return "redirect:/users/admin-dashboard";
     }

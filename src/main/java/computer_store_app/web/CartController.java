@@ -3,8 +3,8 @@ package computer_store_app.web;
 import computer_store_app.cart.model.Cart;
 import computer_store_app.cart.service.CartService;
 import computer_store_app.security.AuthenticationMetadata;
-import computer_store_app.client.model.Client;
-import computer_store_app.client.service.ClientService;
+import computer_store_app.user.model.User;
+import computer_store_app.user.service.UserService;
 import computer_store_app.web.dto.OrderRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -19,32 +19,31 @@ import java.util.UUID;
 @RequestMapping("cart")
 public class CartController {
 
-    private final ClientService clientService;
+    private final UserService userService;
     private final CartService cartService;
 
     private final BigDecimal STANDARD_SHIPPING_FEE = BigDecimal.valueOf(5);
 
     @Autowired
-    public CartController(ClientService clientService, CartService cartService) {
-        this.clientService = clientService;
+    public CartController(UserService userService, CartService cartService) {
+        this.userService = userService;
         this.cartService = cartService;
     }
 
-    // todo
     // get view to show
     @GetMapping
     public ModelAndView getCart(@AuthenticationPrincipal AuthenticationMetadata authenticationMetadata) {
 
-        Client client = clientService.getById(authenticationMetadata.getUserId());
-        Cart currentUserCart = client.getCart();
+        User user = userService.getById(authenticationMetadata.getUserId());
+        Cart currentUserCart = user.getCart();
 
         BigDecimal cartSubtotal = currentUserCart.getCartAmount();
         BigDecimal cartTotalPrice = cartSubtotal.add(STANDARD_SHIPPING_FEE);
 
         OrderRequest orderRequest = new OrderRequest();
-        orderRequest.setFirstName(client.getFirstName());
-        orderRequest.setLastName(client.getLastName());
-        orderRequest.setCustomerPhoneNumber(client.getPhoneNumber());
+        orderRequest.setFirstName(user.getFirstName());
+        orderRequest.setLastName(user.getLastName());
+        orderRequest.setCustomerPhoneNumber(user.getPhoneNumber());
 
 
         ModelAndView modelAndView = new ModelAndView("cart");
@@ -62,9 +61,8 @@ public class CartController {
             @PathVariable UUID itemId,
             @AuthenticationPrincipal AuthenticationMetadata authenticationMetadata) {
 
-
-        Client client = clientService.getById(authenticationMetadata.getUserId());
-        Cart cart = client.getCart();
+        User user = userService.getById(authenticationMetadata.getUserId());
+        Cart cart = user.getCart();
 
         cartService.addItemToCart(cart, itemId);
 

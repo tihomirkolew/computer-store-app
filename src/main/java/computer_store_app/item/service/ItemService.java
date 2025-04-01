@@ -2,8 +2,8 @@ package computer_store_app.item.service;
 
 import computer_store_app.item.model.Item;
 import computer_store_app.item.repository.ItemRepository;
-import computer_store_app.client.model.Client;
-import computer_store_app.client.model.ClientRole;
+import computer_store_app.user.model.User;
+import computer_store_app.user.model.UserRole;
 import computer_store_app.web.dto.NewItemRequest;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -11,13 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
 @Slf4j
 @Service
 public class ItemService {
-
 
     private final ItemRepository itemRepository;
 
@@ -29,7 +29,7 @@ public class ItemService {
         this.itemRepository = itemRepository;
     }
 
-    public Item addNewItem(@Valid NewItemRequest newItemRequest, Client client) {
+    public Item addNewItem(@Valid NewItemRequest newItemRequest, User user) {
 
         String imageUrl;
         if (newItemRequest.getImageUrl().isEmpty() || newItemRequest.getImageUrl().isBlank()) {
@@ -39,7 +39,7 @@ public class ItemService {
         }
 
         Item newItem = Item.builder()
-                .owner(client)
+                .owner(user)
                 .brand(newItemRequest.getBrand())
                 .model(newItemRequest.getModel())
                 .price(newItemRequest.getPrice())
@@ -47,13 +47,13 @@ public class ItemService {
                 .description(newItemRequest.getDescription())
                 .sold(false)
                 .authorized(false)
+                .archived(false)
                 .type(newItemRequest.getType())
                 .addedOn(LocalDateTime.now())
-                .updatedOn(LocalDateTime.now())
                 .itemCondition(newItemRequest.getItemCondition())
                 .build();
 
-        if (client.getRole().equals(ClientRole.ADMIN)) {
+        if (user.getRole().equals(UserRole.ADMIN)) {
             newItem.setAuthorized(true);
         }
 
@@ -63,9 +63,20 @@ public class ItemService {
         return newItem;
     }
 
-    public List<Item> getAuthorizedAndNotSoldItemsOrderedByUpdatedOn() {
+    public List<Item> getAllItems() {
 
-        return itemRepository.findAllBySoldFalseAndAuthorizedTrueOrderByUpdatedOnDesc();
+        return itemRepository.findAll();
+    }
+
+    public List<Item> getAuthorizedNotSoldAndNotArchivedItems() {
+
+        return itemRepository.findAllBySoldFalseAndAuthorizedTrueAndArchivedFalseOrderByAddedOnDesc();
+    }
+
+    public List<Item> getLastThreeAuthorizedNotSoldAndNotArchivedItemsOrderedByAddedOn() {
+
+        return itemRepository.findAllBySoldFalseAndAuthorizedTrueAndArchivedFalseOrderByAddedOnDesc()
+                .stream().limit(3).toList();
     }
 
     public Item getItemById(UUID itemId) {
@@ -73,16 +84,15 @@ public class ItemService {
         return itemRepository.findById(itemId).orElseThrow(() -> new IllegalArgumentException("Item not available."));
     }
 
+    public List<Item> getAllNotArchivedItemsSortedByIsAuthorized() {
 
-    public List<Item> getAllItems() {
-
-        return itemRepository.findAll();
+        return itemRepository.findAllByArchivedFalseOrderByAuthorized();
     }
 
-    public void approveItem(UUID id, Client client) {
+    public void approveItem(UUID id, User user) {
 
-        if (!client.getRole().equals(ClientRole.ADMIN)) {
-            throw new IllegalArgumentException("User with id [%s] not authorized.".formatted(client.getId()));
+        if (!user.getRole().equals(UserRole.ADMIN)) {
+            throw new IllegalArgumentException("User with id [%s] not authorized.".formatted(user.getId()));
         }
 
         Item itemById = getItemById(id);
@@ -93,14 +103,19 @@ public class ItemService {
         log.info("Item with id [%s] approved for sale.".formatted(id));
     }
 
-    public List<Item> getItemsByUserId(UUID id) {
+    public List<Item> getItemsByUserIdNotArchived(UUID id) {
 
-        return itemRepository.getItemsByOwnerId(id);
+        return itemRepository.getItemsByOwnerId(id).stream()
+                .filter(item -> !item.isArchived())
+                .sorted(Comparator.comparing(Item::isSold)).toList();
     }
 
-    public void deleteItemById(UUID itemId){
+    public void archiveItemById(UUID itemId) {
 
-        itemRepository.deleteById(itemId);
+        Item itemById = getItemById(itemId);
+
+        itemById.setArchived(!itemById.isArchived());
+        itemRepository.save(itemById);
     }
 
     public void markItemAsSold(UUID id) {
@@ -109,8 +124,7 @@ public class ItemService {
 
         if (!itemById.isSold()) {
             itemById.setSold(true);
+            itemRepository.save(itemById);
         }
-
-        itemRepository.save(itemById);
     }
 }

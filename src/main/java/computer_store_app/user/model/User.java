@@ -1,4 +1,4 @@
-package computer_store_app.client.model;
+package computer_store_app.user.model;
 
 import computer_store_app.cart.model.Cart;
 import computer_store_app.customerOrder.model.CustomerOrder;
@@ -15,7 +15,8 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Client {
+@Table(name = "\"users\"")
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -38,7 +39,7 @@ public class Client {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private ClientRole role;
+    private UserRole role;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "owner")
     @OrderBy("createdOn DESC")

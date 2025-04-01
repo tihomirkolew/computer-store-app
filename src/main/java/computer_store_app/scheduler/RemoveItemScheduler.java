@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -31,12 +32,12 @@ public class RemoveItemScheduler {
 
     @Scheduled(fixedDelay = 1800000)
 //    @Scheduled(fixedDelay = 6000) // 6 sec(testing)
-    public void removeItemAfterOneMonthNotSold() {
+    public void archiveItemAfterOneMonthNotSold() {
 
-        List<Item> items = itemService.getAllItems();
+        List<Item> items = itemService.getAllItems().stream().filter(item -> !item.isArchived()).toList();
 
         if (items.isEmpty()) {
-            log.info("There are no items in the store.");
+            log.info("There are no items in the store at [%s].".formatted(LocalDate.now()));
             return;
         }
 
@@ -51,11 +52,10 @@ public class RemoveItemScheduler {
             LocalDateTime now = LocalDateTime.now();
 
             if (now.isAfter(oneMonthPassed)) {
-                log.info("Removing item with id [%s] after one month".formatted(item.getId()));
-                itemRepository.deleteById(item.getId());
+                item.setArchived(true);
+                itemRepository.save(item);
+                log.info("Archiving item with id [%s] after one month".formatted(item.getId()));
             }
         }
-
-        System.out.println("are de");
     }
 }

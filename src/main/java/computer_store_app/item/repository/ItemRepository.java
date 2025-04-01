@@ -9,7 +9,9 @@ import java.util.UUID;
 
 @Repository
 public interface ItemRepository extends JpaRepository<Item, UUID> {
-    List<Item> findAllBySoldFalseAndAuthorizedTrueOrderByUpdatedOnDesc();
+    List<Item> findAllBySoldFalseAndAuthorizedTrueAndArchivedFalseOrderByAddedOnDesc();
 
     List<Item> getItemsByOwnerId(UUID userId);
+
+    List<Item> findAllByArchivedFalseOrderByAuthorized();
 }

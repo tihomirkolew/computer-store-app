@@ -1,12 +1,12 @@
 package computer_store_app.web;
 
-import computer_store_app.client.model.Client;
+import computer_store_app.user.model.User;
 import computer_store_app.item.model.Item;
 import computer_store_app.item.service.ItemService;
 import computer_store_app.review.model.Review;
 import computer_store_app.review.service.ReviewService;
 import computer_store_app.security.AuthenticationMetadata;
-import computer_store_app.client.service.ClientService;
+import computer_store_app.user.service.UserService;
 import computer_store_app.web.dto.LoginRequest;
 import computer_store_app.web.dto.RegisterRequest;
 import jakarta.validation.Valid;
@@ -17,22 +17,20 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping
 public class IndexController {
 
-    private final ClientService clientService;
+    private final UserService userService;
     private final ItemService itemService;
     private final ReviewService reviewService;
 
     @Autowired
-    public IndexController(ClientService clientService, ItemService itemService, ReviewService reviewService) {
-        this.clientService = clientService;
+    public IndexController(UserService userService, ItemService itemService, ReviewService reviewService) {
+        this.userService = userService;
         this.itemService = itemService;
         this.reviewService = reviewService;
     }
@@ -65,7 +63,7 @@ public class IndexController {
             return new ModelAndView("register");
         }
 
-        clientService.registerUser(registerRequest);
+        userService.registerUser(registerRequest);
 
         return new ModelAndView("redirect:/login");
     }
@@ -89,23 +87,16 @@ public class IndexController {
     public ModelAndView getHomePage(@AuthenticationPrincipal AuthenticationMetadata metadata) {
 
         UUID userId = metadata.getUserId();
-        Client client = clientService.getById(userId);
+        User user = userService.getById(userId);
 
-        List<Item> authorizedAndNotSoldItems = itemService.getAuthorizedAndNotSoldItemsOrderedByUpdatedOn()
-                .stream()
-                .limit(3)
-                .collect(Collectors.toList());
+        List<Item> authorizedAndNotSoldNotArchivedItems = itemService.getLastThreeAuthorizedNotSoldAndNotArchivedItemsOrderedByAddedOn();
 
-        List<Review> newestReviews = reviewService.getAllReviews()
-                .stream()
-                .sorted(Comparator.comparing(Review::getCreatedOn))
-                .limit(3)
-                .toList();
+        List<Review> newestReviews = reviewService.getLastThreeReviewsOrderedByCreatedOn();
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("home");
-        modelAndView.addObject("client", client);
-        modelAndView.addObject("authorizedAndNotSoldItems", authorizedAndNotSoldItems);
+        modelAndView.addObject("user", user);
+        modelAndView.addObject("authorizedAndNotSoldItems", authorizedAndNotSoldNotArchivedItems);
         modelAndView.addObject("newestReviews", newestReviews);
 
         return modelAndView;

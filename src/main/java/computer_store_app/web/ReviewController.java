@@ -1,10 +1,10 @@
 package computer_store_app.web;
 
+import computer_store_app.user.model.User;
 import computer_store_app.review.model.Review;
 import computer_store_app.review.service.ReviewService;
 import computer_store_app.security.AuthenticationMetadata;
-import computer_store_app.client.model.Client;
-import computer_store_app.client.service.ClientService;
+import computer_store_app.user.service.UserService;
 import computer_store_app.web.dto.NewReviewRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,23 +22,23 @@ import java.util.UUID;
 @RequestMapping("/reviews")
 public class ReviewController {
 
-    private final ClientService clientService;
+    private final UserService userService;
     private final ReviewService reviewService;
 
     @Autowired
-    public ReviewController(ClientService clientService, ReviewService reviewService) {
-        this.clientService = clientService;
+    public ReviewController(UserService userService, ReviewService reviewService) {
+        this.userService = userService;
         this.reviewService = reviewService;
     }
 
     @GetMapping
     public ModelAndView getReviewsPage(@AuthenticationPrincipal AuthenticationMetadata authenticationMetadata) {
 
-        Client client = clientService.getById(authenticationMetadata.getUserId());
-        List<Review> allCustomerReviews = reviewService.getAllReviews();
+        User user = userService.getById(authenticationMetadata.getUserId());
+        List<Review> allCustomerReviews = reviewService.getAllReviewsOrderedByCreatedOn();
 
         ModelAndView modelAndView = new ModelAndView("reviews");
-        modelAndView.addObject("client", client);
+        modelAndView.addObject("user", user);
         modelAndView.addObject("allCustomerReviews", allCustomerReviews);
 
         return modelAndView;
@@ -61,9 +61,9 @@ public class ReviewController {
             return "new-review";
         }
 
-        Client client = clientService.getById(authenticationMetadata.getUserId());
+        User user = userService.getById(authenticationMetadata.getUserId());
 
-        reviewService.addNewReview(newReviewRequest, client);
+        reviewService.addNewReview(newReviewRequest, user);
 
         return "redirect:/home";
     }

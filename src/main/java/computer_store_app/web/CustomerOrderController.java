@@ -1,13 +1,13 @@
 package computer_store_app.web;
 
 import computer_store_app.cart.model.Cart;
-import computer_store_app.client.model.Client;
+import computer_store_app.user.model.User;
 import computer_store_app.customerOrder.model.CustomerOrder;
 import computer_store_app.item.model.Item;
 import computer_store_app.customerOrder.service.CustomerOrderService;
 import computer_store_app.security.AuthenticationMetadata;
-import computer_store_app.client.repository.ClientRepository;
-import computer_store_app.client.service.ClientService;
+import computer_store_app.user.repository.UserRepository;
+import computer_store_app.user.service.UserService;
 import computer_store_app.web.dto.OrderRequest;
 import jakarta.validation.Valid;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -27,16 +27,16 @@ import java.util.UUID;
 @RequestMapping("/orders")
 public class CustomerOrderController {
 
-    private final ClientService clientService;
-    private final ClientRepository clientRepository;
+    private final UserService userService;
+    private final UserRepository userRepository;
     private final CustomerOrderService customerOrderService;
 
     private final BigDecimal STANDARD_SHIPPING_FEE = BigDecimal.valueOf(5);
 
 
-    public CustomerOrderController(ClientService clientService, ClientRepository clientRepository, CustomerOrderService customerOrderService) {
-        this.clientService = clientService;
-        this.clientRepository = clientRepository;
+    public CustomerOrderController(UserService userService, UserRepository userRepository, CustomerOrderService customerOrderService) {
+        this.userService = userService;
+        this.userRepository = userRepository;
         this.customerOrderService = customerOrderService;
     }
 
@@ -45,21 +45,21 @@ public class CustomerOrderController {
                                     @AuthenticationPrincipal AuthenticationMetadata metadata) {
 
         UUID userId = metadata.getUserId();
-        Client client = clientService.getById(userId);
-        Cart cart = client.getCart();
+        User user = userService.getById(userId);
+        Cart cart = user.getCart();
         List<Item> cartItems = cart.getCartItems();
 
-        if (client.getFirstName() == null && orderRequest.getFirstName() != null) {
-            client.setFirstName(orderRequest.getFirstName());
+        if (user.getFirstName() == null && orderRequest.getFirstName() != null) {
+            user.setFirstName(orderRequest.getFirstName());
         }
-        if (client.getLastName() == null && orderRequest.getLastName() != null) {
-            client.setLastName(orderRequest.getLastName());
+        if (user.getLastName() == null && orderRequest.getLastName() != null) {
+            user.setLastName(orderRequest.getLastName());
         }
-        if (client.getPhoneNumber() == null && orderRequest.getCustomerPhoneNumber() != null) {
-            client.setPhoneNumber(orderRequest.getCustomerPhoneNumber());
+        if (user.getPhoneNumber() == null && orderRequest.getCustomerPhoneNumber() != null) {
+            user.setPhoneNumber(orderRequest.getCustomerPhoneNumber());
         }
 
-        clientRepository.save(client);
+        userRepository.save(user);
 
         BigDecimal cartSubtotal = cart.getCartAmount();
         BigDecimal cartTotalPrice = cartSubtotal.add(STANDARD_SHIPPING_FEE);

@@ -27,27 +27,46 @@
   </header>
 
   <div class="content-columns">
-    <div class="column top-three">
+    <div class="column user-info">
       <div class="profile-info">
         <h2>Details</h2>
-        <p><strong>Username: </strong> <span th:text="${client.username}">JohnDoe123</span></p>
-        <p><strong>First Name: </strong><span th:text="${client.firstName}"> John</span></p>
-        <p><strong>Last Name: </strong><span th:text="${client.lastName}"> Doe</span></p>
-        <p><strong>Email: </strong><span th:text="${client.email}"> johndoe@example.com</span></p>
+        <p><strong>Username: </strong> <span th:text="${user.username}"></span></p>
+        <p><strong>First Name: </strong><span th:text="${user.firstName}"></span></p>
+        <p><strong>Last Name: </strong><span th:text="${user.lastName}"></span></p>
+        <p><strong>Email: </strong><span th:text="${user.email}"></span></p>
       </div>
       <div class="button">
-        <a th:href="@{'/users/' + ${client.id} + '/edit'}" class="btn">Edit Profile</a>
+        <a th:href="@{'/users/' + ${user.id} + '/edit'}" class="btn">Edit Profile</a>
       </div>
     </div>
 
-    <div class="column top-three">
+    <div class="column user-orders">
       <h2>Orders</h2>
-      <ul class="client-orders">
-        <li><p>Order #12345</p></li>
-        <li><p>Order #12346</p></li>
-        <li><p>Order #12346</p></li>
-        <li><p>Order #12347</p></li>
-        <li><p>Order #12348</p></li>
+      <ul th:each="order : ${user.getCustomerOrders()}" class="user-orders">
+        <li>
+          <div class="customer-info">
+            <div class="order billing-address">
+              <p><strong>Billing address:</strong></p>
+              <p th:text="${order.billingAddress}"></p>
+            </div>
+            <div class="order shipping-address">
+              <p><strong>Shipping address:</strong></p>
+              <p th:text="${order.shippingAddress}"></p>
+            </div>
+            <div class="order phone-number">
+              <p><strong>Phone number:</strong></p>
+              <p th:text="${order.customerPhoneNumber}"></p>
+            </div>
+          </div>
+          <div th:each="item : ${order.orderedItems}" class="order items">
+            <p th:text="${item.brand} + ' ' + ${item.model}"></p>
+            <p th:text="'$' + ${item.price}"></p>
+          </div>
+          <div class="order final-info">
+            <p th:text="'Date: ' + ${#temporals.format(order.createdOn, 'dd MMM YYYY')}"></p>
+            <p th:text="'Total amount: $' + ${order.orderAmount}">$249.99</p>
+          </div>
+        </li>
       </ul>
     </div>
   </div>

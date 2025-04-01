@@ -16,12 +16,12 @@
   <div class="button-group">
     <a href="/contact" class="btn orange-btn">Contact Us</a>
     <a href="/reviews" class="btn">Reviews</a>
-    <a th:href="@{'/items/' + ${client.id} + '/added-items'}" class="btn">My Items</a>
-    <a th:if="${client.role.name()} == 'ADMIN'" th:href="@{/users/admin-dashboard}" class="btn admins">Dashboard</a>
+    <a th:href="@{'/items/' + ${user.id} + '/added-items'}" class="btn">My Items</a>
+    <a th:if="${user.role.name()} == 'ADMIN'" th:href="@{/users/admin-dashboard}" class="btn admins">Dashboard</a>
   </div>
   <div class="button-group">
     <a th:href="@{'recommendations'}" class="btn">Recommend Changes</a>
-    <a th:href="@{'/users/' + ${client.id} + '/profile'}" class="btn">Profile</a>
+    <a th:href="@{'/users/' + ${user.id} + '/profile'}" class="btn">Profile</a>
     <a th:href="@{/cart}" class="btn">Cart</a>
     <a href="/logout" class="btn logout-btn">Logout</a>
   </div>
@@ -30,8 +30,8 @@
 <div class="container">
   <header>
     <h1>Welcome<span id="userName"
-            th:if="${not #strings.isEmpty(client.firstName) or not #strings.isEmpty(client.lastName)}"
-            th:text="', ' + ${client.firstName} + ' ' + ${client.lastName}">John Doe</span>
+            th:if="${not #strings.isEmpty(user.firstName) or not #strings.isEmpty(user.lastName)}"
+            th:text="', ' + ${user.firstName} + ' ' + ${user.lastName}">John Doe</span>
     </h1>
   </header>
 

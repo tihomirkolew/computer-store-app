@@ -1,7 +1,7 @@
 package computer_store_app.item.model;
 
 import computer_store_app.cart.model.Cart;
-import computer_store_app.client.model.Client;
+import computer_store_app.user.model.User;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,7 +22,7 @@ public class Item {
     private UUID id;
 
     @ManyToOne
-    private Client owner;
+    private User owner;
 
     @Column(nullable = false)
     private String brand;
@@ -44,15 +44,15 @@ public class Item {
     @Column(nullable = false)
     private boolean authorized;
 
+    @Column(nullable = false)
+    private boolean archived;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private ItemType type;
 
     @Column(nullable = false)
     private LocalDateTime addedOn;
-
-    @Column(nullable = false)
-    private LocalDateTime updatedOn;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

@@ -5,7 +5,7 @@ h1 {
 h2 {
     font-size: 3em;
     margin-top: 0;
-    margin-bottom: 0;
+    margin-bottom: 12px;
 }
 
 .container {
@@ -19,20 +19,26 @@ h2 {
     max-width: 50%;
     margin: 10px;
     background: rgba(0, 0, 0, 0.7);
-    padding: 60px;
+    padding: 30px 60px;
     border-radius: 10px;
-    gap: 1em;
     height: auto;
 }
 
-.column:nth-of-type(1) {
-    flex-direction: column;
-    justify-content: space-between; /* Distribute space */
-    align-items: flex-start; /* Align items to the start */
+.column.user-info h2 {
+    text-align: center;
+    margin: 0;
+    width: 100%;
 }
 
-.column:nth-of-type(1) p:nth-of-type(1) {
-    /*padding-top: 12px;*/
+.column.user-info {
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    max-width: 32%;
+}
+
+.column.user-orders {
+    max-width: none;
 }
 
 .button {
@@ -41,19 +47,19 @@ h2 {
 }
 
 .profile-info {
-    flex-grow: 1;
+    width: 100%;
 }
 
 .content-columns {
     display: flex;
-    justify-content: space-around;
-    gap: 15px;
+    justify-content: space-between;
     width: 100%;
 }
 
 .profile-info p {
     font-size: 30px;
     margin: 40px 0 40px 0;
+    width: 100%;
 }
 
 ul {
@@ -71,3 +77,41 @@ li p {
 li:first-of-type {
     margin-top: 0;
 }
+
+.client-orders {
+    display: flex;
+    padding: 4px 12px;
+    background: rgba(61, 61, 61, 0.7);
+    border-radius: 10px;
+    height: auto;
+    width: auto;
+}
+
+.client-orders p {
+    font-size: 16px;
+    margin: 2px 0;
+}
+
+.client-orders li {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    width: 100%;
+}
+
+.order {
+    display: flex;
+    margin: 6px 0;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.customer-info {
+    padding-bottom: 6px;
+}
+
+.order.items {
+    padding-bottom: 6px;
+}
+
+
