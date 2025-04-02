@@ -45,8 +45,13 @@
       <option value="">Select Item Type</option>
       <option th:each="type : ${T(computer_store_app.item.model.ItemType).values()}"
               th:value="${type}"
-              th:text="${#strings.capitalize(#strings.toLowerCase(type))}">Electronics</option>
+              th:text="${type == T(computer_store_app.item.model.ItemType).CPU ||
+                    type == T(computer_store_app.item.model.ItemType).GPU ||
+                    type == T(computer_store_app.item.model.ItemType).RAM ?
+                    type : #strings.capitalize(#strings.toLowerCase(type.name()))}">
+      </option>
     </select>
+
 
     <label for="itemCondition">Item Condition:</label>
     <select th:field="*{itemCondition}" id="itemCondition" name="itemCondition">
