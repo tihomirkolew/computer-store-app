@@ -51,6 +51,10 @@ public class CartService {
             throw new IllegalArgumentException("Item does not exist or is already sold.");
         }
 
+        if (cart.getCartItems().contains(item)) {
+            return;
+        }
+
         item.setCart(cart);
         cart.getCartItems().add(item);
 

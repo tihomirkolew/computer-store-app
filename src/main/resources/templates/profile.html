@@ -42,7 +42,7 @@
 
     <div class="column user-orders">
       <h2>Orders</h2>
-      <ul th:each="order : ${user.getCustomerOrders()}" class="user-orders">
+      <ul th:each="order : ${user.customerOrders}" class="user-orders">
         <li>
           <div class="customer-info">
             <div class="order billing-address">
@@ -59,8 +59,11 @@
             </div>
           </div>
           <div th:each="item : ${order.orderedItems}" class="order items">
-            <p th:text="${item.brand} + ' ' + ${item.model}"></p>
-            <p th:text="'$' + ${item.price}"></p>
+            <div>
+              <p th:text="${item.brand} + ' ' + ${item.model}"></p>
+              <p th:text="'$' + ${item.price}"></p>
+            </div>
+            <p th:text="'Seller: ' + ${item.owner.username}"></p>
           </div>
           <div class="order final-info">
             <p th:text="'Date: ' + ${#temporals.format(order.createdOn, 'dd MMM YYYY')}"></p>

@@ -6,6 +6,9 @@ import computer_store_app.cart.model.Cart;
 import computer_store_app.customerOrder.model.CustomerOrder;
 import computer_store_app.item.model.Item;
 import computer_store_app.customerOrder.repository.CustomerOrderRepository;
+import computer_store_app.sellerOrder.model.SellerOrder;
+import computer_store_app.sellerOrder.repository.SellerOrderRepository;
+import computer_store_app.user.model.User;
 import computer_store_app.user.service.UserService;
 import computer_store_app.web.dto.OrderRequest;
 import jakarta.transaction.Transactional;
@@ -27,12 +30,14 @@ public class CustomerOrderService {
     private final CustomerOrderRepository customerOrderRepository;
     private final OrderItemRepository orderItemRepository;
     private final UserService userService;
+    private final SellerOrderRepository sellerOrderRepository;
 
     @Autowired
-    public CustomerOrderService(CustomerOrderRepository customerOrderRepository, OrderItemRepository orderItemRepository, UserService userService) {
+    public CustomerOrderService(CustomerOrderRepository customerOrderRepository, OrderItemRepository orderItemRepository, UserService userService, SellerOrderRepository sellerOrderRepository) {
         this.customerOrderRepository = customerOrderRepository;
         this.orderItemRepository = orderItemRepository;
         this.userService = userService;
+        this.sellerOrderRepository = sellerOrderRepository;
     }
 
     public CustomerOrder getOrderById(UUID orderId) {
@@ -71,6 +76,7 @@ public class CustomerOrderService {
         }
 
         cart.getCartItems().clear();
+        cart.setCartAmount(BigDecimal.ZERO);
 
         // making the order
         CustomerOrder customerOrder = CustomerOrder.builder()
@@ -90,6 +96,45 @@ public class CustomerOrderService {
 
         customerOrderRepository.save(customerOrder);
 
+        transferOrderToSeller(customerOrder);
+
         return customerOrder;
     }
+
+    @Transactional
+    public void transferOrderToSeller(CustomerOrder customerOrder) {
+        for (OrderItem orderItem : customerOrder.getOrderedItems()) {
+            User seller = orderItem.getOwner();
+
+            List<OrderItem> sellerOrderedItems = new ArrayList<>();
+            for (OrderItem item : customerOrder.getOrderedItems()) {
+
+                OrderItem sellerItem = OrderItem.builder()
+                        .owner(item.getOwner())
+                        .brand(item.getBrand())
+                        .model(item.getModel())
+                        .price(item.getPrice())
+                        .imageUrl(item.getImageUrl())
+                        .description(item.getDescription())
+                        .type(item.getType())
+                        .build();
+                sellerOrderedItems.add(sellerItem);
+            }
+
+            SellerOrder sellerOrder = SellerOrder.builder()
+                    .seller(seller)
+                    .buyerId(customerOrder.getOwner().getId())
+                    .buyerName(customerOrder.getOwner().getFirstName() + " " + customerOrder.getOwner().getLastName())
+                    .shippingAddress(customerOrder.getShippingAddress())
+                    .billingAddress(customerOrder.getBillingAddress())
+                    .customerPhoneNumber(customerOrder.getCustomerPhoneNumber())
+                    .orderAmount(customerOrder.getOrderAmount().subtract(STANDARD_SHIPPING_FEE))
+                    .createdOn(customerOrder.getCreatedOn())
+                    .orderedItemsByBuyer(sellerOrderedItems)
+                    .build();
+
+            sellerOrderRepository.save(sellerOrder);
+        }
+    }
+
 }

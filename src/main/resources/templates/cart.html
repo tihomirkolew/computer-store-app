@@ -46,7 +46,7 @@
     <div class="summary">
       <p th:text="'Subtotal: $' + ${cartSubtotal}" class="subtotal"></p>
       <p th:text="'Shipping fee: $' + ${standardShippingFee}" class="shipping"></p>
-      <p th:text="'Total: $' + ${cartTotalPrice}" class="total"></p>
+      <p th:if="${cartItems.size() > 0}" th:text="'Total: $' + ${cartTotalPrice}" class="total"></p>
     </div>
     <form class="make-order" th:action="@{/orders/create}" th:method="POST" th:object="${orderRequest}">
 

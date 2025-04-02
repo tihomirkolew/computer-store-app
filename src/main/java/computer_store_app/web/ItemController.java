@@ -1,5 +1,7 @@
 package computer_store_app.web;
 
+import computer_store_app.sellerOrder.model.SellerOrder;
+import computer_store_app.sellerOrder.repository.SellerOrderRepository;
 import computer_store_app.user.model.User;
 import computer_store_app.item.model.Item;
 import computer_store_app.item.service.ItemService;
@@ -23,11 +25,13 @@ public class ItemController {
 
     private final ItemService itemService;
     private final UserService userService;
+    private final SellerOrderRepository sellerOrderRepository;
 
     @Autowired
-    public ItemController(ItemService itemService, UserService userService) {
+    public ItemController(ItemService itemService, UserService userService, SellerOrderRepository sellerOrderRepository) {
         this.itemService = itemService;
         this.userService = userService;
+        this.sellerOrderRepository = sellerOrderRepository;
     }
 
     @GetMapping("/items-list")
@@ -42,12 +46,14 @@ public class ItemController {
     }
 
     @GetMapping("/{id}/added-items")
-    public ModelAndView getCurrentUserItemsPage(@PathVariable UUID id) {
+    public ModelAndView getCurrentUserItemsPage(@PathVariable UUID id, @AuthenticationPrincipal AuthenticationMetadata metadata) {
 
         List<Item> itemsByUserId = itemService.getItemsByUserIdNotArchived(id);
+        List<SellerOrder> ordersMadeByOtherPeople = sellerOrderRepository.findBySellerId(metadata.getUserId());
 
-        ModelAndView modelAndView = new ModelAndView("user-items");
+        ModelAndView modelAndView = new ModelAndView("user-dashboard");
         modelAndView.addObject("itemsByUserId", itemsByUserId);
+        modelAndView.addObject("ordersMadeByOtherPeople", ordersMadeByOtherPeople);
 
         return modelAndView;
     }
@@ -78,12 +84,14 @@ public class ItemController {
     }
 
     @GetMapping("/{id}")
-    public ModelAndView getItemDetails(@PathVariable UUID id) {
+    public ModelAndView getItemDetails(@PathVariable UUID id, @AuthenticationPrincipal AuthenticationMetadata metadata) {
 
+        User user = userService.getById(metadata.getUserId());
         Item item = itemService.getItemById(id);
 
         ModelAndView modelAndView = new ModelAndView("item-details");
         modelAndView.addObject("item", item);
+        modelAndView.addObject("user", user);
 
         return modelAndView;
     }

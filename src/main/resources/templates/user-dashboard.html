@@ -48,6 +48,40 @@
       </div>
     </div>
   </div>
+
+  <header>
+    <h1>Selling</h1>
+  </header>
+
+  <div class="content-columns">
+    <div class="column">
+      <div th:each="order : ${ordersMadeByOtherPeople}" class="content-box user-orders">
+        <div class="details">
+          <div class="order billing-address">
+            <p><strong>Buyer name:</strong></p>
+            <p th:text="${order.buyerName}"></p>
+          </div>
+          <div class="order shipping-address">
+            <p><strong>Shipping address:</strong></p>
+            <p th:text="${order.shippingAddress}"></p>
+          </div>
+          <div class="order phone-number">
+            <p><strong>Phone number:</strong></p>
+            <p th:text="${order.customerPhoneNumber}"></p>
+          </div>
+          <div th:each="item : ${order.orderedItemsByBuyer}" class="order items">
+            <p th:text="${item.brand} + ' ' + ${item.model}"></p>
+            <p th:text="'$' + ${item.price}"></p>
+          </div>
+          <div class="order final-info">
+            <p th:text="'Date: ' + ${#temporals.format(order.createdOn, 'dd MMM YYYY')}"></p>
+            <p th:text="'Total amount: $' + ${order.orderAmount}">$249.99</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <footer class="footer">

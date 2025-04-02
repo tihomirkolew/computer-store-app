@@ -1,11 +1,18 @@
+.container {
+    margin: 0 48px;
+}
+
 .column {
     overflow-y: scroll;
     scrollbar-width: none;
     height: 640px;
 }
 
+.content-columns {
+    height: auto;
+}
+
 header {
-    margin-top: -80px;
     margin-bottom: 0;
 }
 

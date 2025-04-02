@@ -37,13 +37,13 @@ public class RecommendationController {
     @PostMapping
     public ModelAndView sendRecommendation(@AuthenticationPrincipal AuthenticationMetadata authenticationMetadata,
                                              @RequestParam("content") String content) {
-        // user's email
+
         String userEmail = authenticationMetadata.getEmail();
 
-        // Forward the recommendation to the microservice
+
         recommendationService.sendRecommendation(userEmail, content);
 
-        // Redirect back to the form with a success message
+
         ModelAndView modelAndView = new ModelAndView("recommendation-form");
         modelAndView.addObject("userEmail", userEmail);
 

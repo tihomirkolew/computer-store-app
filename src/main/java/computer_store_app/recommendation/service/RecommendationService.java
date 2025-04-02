@@ -43,7 +43,7 @@ public class RecommendationService {
         ResponseEntity<List<Recommendation>> response = recommendationClient.getAllRecommendations();
 
         if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
-            return response.getBody(); // Return the list of recommendations
+            return response.getBody();
         } else {
             throw new IllegalStateException("Failed to fetch recommendations from the recommendation service");
         }

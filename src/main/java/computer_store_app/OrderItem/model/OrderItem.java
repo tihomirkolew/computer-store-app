@@ -1,5 +1,6 @@
 package computer_store_app.OrderItem.model;
 
+import computer_store_app.sellerOrder.model.SellerOrder;
 import computer_store_app.user.model.User;
 import computer_store_app.item.model.ItemType;
 import computer_store_app.customerOrder.model.CustomerOrder;
@@ -44,4 +45,7 @@ public class OrderItem {
 
     @ManyToOne
     private CustomerOrder customerOrder;
+
+    @ManyToOne
+    private SellerOrder sellerOrder;
 }
