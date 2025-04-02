@@ -29,6 +29,5 @@ public class UserToEditRequestMapperUTest {
         assertEquals(user.getLastName(), editUserRequest.getLastName());
         assertEquals(user.getEmail(), editUserRequest.getEmail());
         assertEquals(user.getUsername(), editUserRequest.getUsername());
-        ///
     }
 }
