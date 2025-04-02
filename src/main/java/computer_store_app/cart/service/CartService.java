@@ -70,7 +70,10 @@ public class CartService {
         Cart cart = cartByOwnerId.get();
         Item itemToRemove = itemService.getItemById(itemId);
 
-        if (!cart.getCartItems().contains(itemToRemove)) {
+        boolean itemExistsInCart = cart.getCartItems().stream()
+                .anyMatch(item -> item.getId().equals(itemId));
+
+        if (!itemExistsInCart) {
             throw new IllegalArgumentException("Item is not present in the user's cart.");
         }
 

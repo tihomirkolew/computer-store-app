@@ -1,10 +1,9 @@
-package computer_store_app.customerOrder;
+package computer_store_app.customerOrder.service;
 
 import computer_store_app.OrderItem.repository.OrderItemRepository;
 import computer_store_app.user.service.UserService;
 import computer_store_app.customerOrder.model.CustomerOrder;
 import computer_store_app.customerOrder.repository.CustomerOrderRepository;
-import computer_store_app.customerOrder.service.CustomerOrderService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -21,7 +20,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class CustomerOrderUnitTest {
+public class CustomerOrderServiceUnitTest {
 
 
     @Mock

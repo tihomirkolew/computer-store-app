@@ -14,7 +14,7 @@
 <body>
 <div class="header">
   <div class="button-group">
-    <a href="/contact" class="btn orange-btn">Contact Us</a>
+    <a href="/contacts" class="btn orange-btn">Contact Us</a>
     <a href="/reviews" class="btn">Reviews</a>
     <a th:href="@{'/items/' + ${user.id} + '/added-items'}" class="btn">My Items</a>
     <a th:if="${user.role.name()} == 'ADMIN'" th:href="@{/users/admin-dashboard}" class="btn admins">Dashboard</a>

@@ -40,9 +40,9 @@ public class IndexController {
         return new ModelAndView("index");
     }
 
-    @GetMapping("/contact")
+    @GetMapping("/contacts")
     public ModelAndView getContactsPage() {
-        return new ModelAndView("contact");
+        return new ModelAndView("contacts");
     }
 
     @GetMapping("/register")
