@@ -39,6 +39,12 @@
             <p th:text="${#temporals.format(recommendation.createdOn, 'dd MMM YYYY HH:mm')}" class="recommendation-date"></p>
           </div>
         </div>
+        <h3 th:if="${recommendation.archived}">ARCHIVED</h3>
+        <form th:unless="${recommendation.archived}" th:action="'/recommendations/' + ${recommendation.id} + '/archive'" th:method="POST">
+          <button class="btn delete-btn">
+            <i class="fa fa-trash" style="color: red; font-size: 18px;"></i>
+          </button>
+        </form>
       </div>
     </div>
   </div>

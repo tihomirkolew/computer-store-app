@@ -107,7 +107,7 @@ public class ItemController {
         return "redirect:/users/admin-dashboard";
     }
 
-    @DeleteMapping("/{id}/archive")
+    @PostMapping("/{id}/archive")
     public String deleteItem(@PathVariable UUID id) {
 
         itemService.archiveItemById(id);

@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -146,5 +147,54 @@ public class RecommendationServiceUnitTest {
         assertEquals("Failed to fetch recommendations from the recommendation service", exception.getMessage());
         verify(recommendationClient, times(1)).getAllRecommendations();
     }
+
+    @Test
+    void givenValidResponse_whenArchiveRecommendation_thenFeignClientCalledSuccessfully() {
+
+        // given
+        UUID recommendationId = UUID.randomUUID();
+
+        when(recommendationClient.archiveRecommendation(recommendationId))
+                .thenReturn(ResponseEntity.ok().build());
+
+        // when
+        recommendationService.archiveRecommendation(recommendationId);
+
+        // then
+        verify(recommendationClient, times(1)).archiveRecommendation(recommendationId);
+    }
+
+    @Test
+    void givenNon2xxResponse_whenArchiveRecommendation_thenLogError() {
+
+        // given
+        UUID recommendationId = UUID.randomUUID();
+
+        when(recommendationClient.archiveRecommendation(recommendationId))
+                .thenReturn(ResponseEntity.status(400).build());
+
+        // when
+        recommendationService.archiveRecommendation(recommendationId);
+
+        // then
+        verify(recommendationClient, times(1)).archiveRecommendation(recommendationId);
+    }
+
+    @Test
+    void givenException_whenArchiveRecommendation_thenLogWarn() {
+
+        // given
+        UUID recommendationId = UUID.randomUUID();
+
+        when(recommendationClient.archiveRecommendation(recommendationId))
+                .thenThrow(new RuntimeException("FeignClient error"));
+
+        // when
+        recommendationService.archiveRecommendation(recommendationId);
+
+        // then
+        verify(recommendationClient, times(1)).archiveRecommendation(recommendationId);
+    }
+
 
 }

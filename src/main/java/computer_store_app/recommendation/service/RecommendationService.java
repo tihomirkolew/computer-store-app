@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 
 @Service
@@ -49,5 +50,15 @@ public class RecommendationService {
         }
     }
 
+    public void archiveRecommendation(UUID id) {
+        try {
+            ResponseEntity<Void> response = recommendationClient.archiveRecommendation(id);
+            if (!response.getStatusCode().is2xxSuccessful()) {
+                log.error("Failed to archive recommendation with ID: {}", id);
+            }
+        } catch (Exception e) {
+            log.warn("Error occurred while archiving recommendation with ID: {}", id, e);
+        }
 
+    }
 }

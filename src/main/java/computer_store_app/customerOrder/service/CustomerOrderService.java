@@ -26,7 +26,6 @@ public class CustomerOrderService {
 
     private final BigDecimal STANDARD_SHIPPING_FEE = BigDecimal.valueOf(5);
 
-
     private final CustomerOrderRepository customerOrderRepository;
     private final OrderItemRepository orderItemRepository;
     private final UserService userService;
@@ -49,7 +48,6 @@ public class CustomerOrderService {
     @Transactional
     public CustomerOrder createOrderFromCart(OrderRequest orderRequest, UUID userId) {
 
-
         Cart cart = userService.getById(userId).getCart();
 
         if (cart.getCartItems().isEmpty()) {
@@ -57,6 +55,7 @@ public class CustomerOrderService {
         }
 
         List<OrderItem> itemsToOrder = new ArrayList<>();
+        BigDecimal totalOrderAmount = BigDecimal.ZERO;
 
         for (Item cartItem : cart.getCartItems()) {
             OrderItem cartItemToOrderItem = OrderItem.builder()
@@ -70,6 +69,9 @@ public class CustomerOrderService {
                     .build();
 
             itemsToOrder.add(cartItemToOrderItem);
+
+            totalOrderAmount = totalOrderAmount.add(cartItem.getPrice());
+
             cartItem.setSold(true);
             cartItem.setCart(null);
             orderItemRepository.save(cartItemToOrderItem);
@@ -86,7 +88,7 @@ public class CustomerOrderService {
                 .customerPhoneNumber(orderRequest.getCustomerPhoneNumber())
                 .createdOn(LocalDateTime.now())
                 .orderedItems(itemsToOrder)
-                .orderAmount(cart.getCartAmount().add(STANDARD_SHIPPING_FEE)) // standard shipping fee
+                .orderAmount(totalOrderAmount.add(STANDARD_SHIPPING_FEE)) // standard shipping fee
                 .build();
 
         for (OrderItem orderItem : itemsToOrder) {
@@ -107,18 +109,24 @@ public class CustomerOrderService {
             User seller = orderItem.getOwner();
 
             List<OrderItem> sellerOrderedItems = new ArrayList<>();
+            BigDecimal sellerOrderAmount = BigDecimal.ZERO;
+
             for (OrderItem item : customerOrder.getOrderedItems()) {
 
-                OrderItem sellerItem = OrderItem.builder()
-                        .owner(item.getOwner())
-                        .brand(item.getBrand())
-                        .model(item.getModel())
-                        .price(item.getPrice())
-                        .imageUrl(item.getImageUrl())
-                        .description(item.getDescription())
-                        .type(item.getType())
-                        .build();
-                sellerOrderedItems.add(sellerItem);
+                if (item.getOwner().equals(seller)) {
+                    OrderItem sellerItem = OrderItem.builder()
+                            .owner(item.getOwner())
+                            .brand(item.getBrand())
+                            .model(item.getModel())
+                            .price(item.getPrice())
+                            .imageUrl(item.getImageUrl())
+                            .description(item.getDescription())
+                            .type(item.getType())
+                            .build();
+                    sellerOrderedItems.add(sellerItem);
+
+                    sellerOrderAmount = sellerOrderAmount.add(item.getPrice());
+                }
             }
 
             SellerOrder sellerOrder = SellerOrder.builder()
@@ -128,7 +136,7 @@ public class CustomerOrderService {
                     .shippingAddress(customerOrder.getShippingAddress())
                     .billingAddress(customerOrder.getBillingAddress())
                     .customerPhoneNumber(customerOrder.getCustomerPhoneNumber())
-                    .orderAmount(customerOrder.getOrderAmount().subtract(STANDARD_SHIPPING_FEE))
+                    .orderAmount(sellerOrderAmount)
                     .createdOn(customerOrder.getCreatedOn())
                     .orderedItemsByBuyer(sellerOrderedItems)
                     .build();
@@ -138,3 +146,7 @@ public class CustomerOrderService {
     }
 
 }
+
+
+// ani should have sellerOrder for amount 123
+// pensaka should have sellerOrder for amount 120

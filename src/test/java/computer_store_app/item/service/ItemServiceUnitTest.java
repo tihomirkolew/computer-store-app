@@ -36,7 +36,7 @@ class ItemServiceUnitTest {
     @Test
     void givenNewItemRequestAndAdminClient_whenAddNewItem_thenItemIsAuthorized() {
 
-        // Given
+        // given
         User user = User.builder().id(UUID.randomUUID()).role(UserRole.ADMIN).build();
         NewItemRequest newItemRequest = NewItemRequest.builder()
                 .brand("Brand")
@@ -57,10 +57,10 @@ class ItemServiceUnitTest {
                 .build();
         when(itemRepository.save(any(Item.class))).thenReturn(item1);
 
-        // When
+        // when
         Item result = itemService.addNewItem(newItemRequest, user);
 
-        // Then
+        // then
         assertNotNull(result);
         assertEquals("Brand", result.getBrand());
         assertEquals("Model", result.getModel());
@@ -74,7 +74,8 @@ class ItemServiceUnitTest {
 
     @Test
     void givenEmptyImageUrlInNewItemRequest_whenAddNewItem_thenSetDefaultImageUrl() {
-        // Given
+
+        // given
         User user = User.builder()
                 .id(UUID.randomUUID())
                 .role(UserRole.CLIENT)
@@ -94,10 +95,42 @@ class ItemServiceUnitTest {
 
         when(itemRepository.save(any(Item.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
-        // When
+        // when
         Item newItem = itemService.addNewItem(newItemRequest, user);
 
-        // Then
+        // then
+        assertNotNull(newItem);
+        assertEquals(expectedDefaultImageUrl, newItem.getImageUrl());
+        verify(itemRepository, times(1)).save(newItem);
+    }
+
+    @Test
+    void givenBlankImageUrlInNewItemRequest_whenAddNewItem_thenSetDefaultImageUrl() {
+
+        // given
+        User user = User.builder()
+                .id(UUID.randomUUID())
+                .role(UserRole.CLIENT)
+                .build();
+
+        NewItemRequest newItemRequest = NewItemRequest.builder()
+                .brand("Brand")
+                .model("Model")
+                .price(BigDecimal.valueOf(100))
+                .imageUrl("  ")
+                .description("Description")
+                .type(ItemType.GPU)
+                .itemCondition(ItemCondition.NEW)
+                .build();
+
+        String expectedDefaultImageUrl = "https://odoo-community.org/web/image/product.product/19823/image_1024/Default%20Product%20Images?unique=d7e15ed";
+
+        when(itemRepository.save(any(Item.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        // when
+        Item newItem = itemService.addNewItem(newItemRequest, user);
+
+        // then
         assertNotNull(newItem);
         assertEquals(expectedDefaultImageUrl, newItem.getImageUrl());
         verify(itemRepository, times(1)).save(newItem);
@@ -106,7 +139,8 @@ class ItemServiceUnitTest {
 
     @Test
     void givenItemsInRepository_whenGetAuthorizedNotSoldAndNotArchivedItems_thenReturnMatchingItemsOrdered() {
-        // Given
+
+        // given
         Item item1 = Item.builder()
                 .sold(false)
                 .authorized(true)
@@ -138,10 +172,10 @@ class ItemServiceUnitTest {
         when(itemRepository.findAllBySoldFalseAndAuthorizedTrueAndArchivedFalseOrderByAddedOnDesc())
                 .thenReturn(List.of(item2, item1));
 
-        // When
+        // when
         List<Item> result = itemService.getAuthorizedNotSoldAndNotArchivedItems();
 
-        // Then
+        // then
         assertNotNull(result);
         assertEquals(2, result.size());
         assertEquals(item2, result.get(0));
@@ -152,7 +186,8 @@ class ItemServiceUnitTest {
 
     @Test
     void givenItemsInRepository_whenGetAllNotArchivedItemsSortedByIsAuthorized_thenReturnMatchingItemsOrdered() {
-        // Given
+
+        // given
         Item item1 = Item.builder()
                 .archived(false)
                 .authorized(false)
@@ -174,10 +209,10 @@ class ItemServiceUnitTest {
         when(itemRepository.findAllByArchivedFalseOrderByAuthorized())
                 .thenReturn(List.of(item1, item2));
 
-        // When
+        // when
         List<Item> result = itemService.getAllNotArchivedItemsSortedByIsAuthorized();
 
-        // Then
+        // then
         assertNotNull(result);
         assertEquals(2, result.size());
         assertEquals(item1, result.get(0));
@@ -188,7 +223,7 @@ class ItemServiceUnitTest {
     @Test
     void givenNewItemRequestAndNonAdminClient_whenAddNewItem_thenItemIsNotAuthorized() {
 
-        // Given
+        // given
         User user = User.builder().id(UUID.randomUUID()).role(UserRole.CLIENT).build();
         NewItemRequest newItemRequest = NewItemRequest.builder()
                 .brand("Brand")
@@ -209,10 +244,10 @@ class ItemServiceUnitTest {
                 .build();
         when(itemRepository.save(any(Item.class))).thenReturn(item1);
 
-        // When
+        // when
         Item result = itemService.addNewItem(newItemRequest, user);
 
-        // Then
+        // then
         assertNotNull(result);
         assertFalse(result.isAuthorized());
         verify(itemRepository, times(1)).save(any(Item.class));
@@ -221,7 +256,7 @@ class ItemServiceUnitTest {
     @Test
     void givenNewItemAndClientAdmin_whenApproveItem_thenItemIsApproved() {
 
-        // Given
+        // given
         User user = User.builder().id(UUID.randomUUID()).role(UserRole.ADMIN).build();
         Item item1 = Item.builder()
                 .id(UUID.randomUUID())
@@ -233,10 +268,10 @@ class ItemServiceUnitTest {
                 .build();
         when(itemRepository.findById(item1.getId())).thenReturn(Optional.of(item1));
 
-        // When
+        // when
         itemService.approveItem(item1.getId(), user);
 
-        // Then
+        // then
         assertTrue(item1.isAuthorized());
         verify(itemRepository, times(1)).findById(item1.getId());
         verify(itemRepository, times(1)).save(item1);
@@ -245,7 +280,7 @@ class ItemServiceUnitTest {
     @Test
     void givenNewItemAndClientNotAdmin_whenApproveItem_thenItemIsNotApproved() {
 
-        // Given
+        // given
         User user = User.builder().id(UUID.randomUUID()).role(UserRole.CLIENT).build();
         Item item1 = Item.builder()
                 .id(UUID.randomUUID())
@@ -257,22 +292,21 @@ class ItemServiceUnitTest {
                 .build();
         lenient().when(itemRepository.findById(item1.getId())).thenReturn(Optional.of(item1));
 
-        // When
+        // when
         assertThrows(IllegalArgumentException.class, () -> {
             itemService.approveItem(item1.getId(), user);
         });
 
-        // Then
+        // then
         assertFalse(item1.isAuthorized());
         verify(itemRepository, never()).findById(any());
         verify(itemRepository, never()).save(any());
     }
 
-    // getAuthorizedAndNotSoldAndNotArchivedItemsOrderedByCreatedOn
     @Test
     void givenAuthorizedNotSoldAndNotArchivedItems_whenRetrieved_thenItemsAreOrderedByAddedOn () {
 
-        // Given
+        // given
         Item item1 = Item.builder()
                 .id(UUID.randomUUID())
                 .brand("Brand 1")
@@ -298,23 +332,21 @@ class ItemServiceUnitTest {
         when(itemRepository.findAllBySoldFalseAndAuthorizedTrueAndArchivedFalseOrderByAddedOnDesc())
                 .thenReturn(List.of(item1, item2).stream().sorted(Comparator.comparing(Item::getAddedOn)).toList());
 
-        // When
+        // when
         List<Item> wantedItems = itemService.getLastThreeAuthorizedNotSoldAndNotArchivedItemsOrderedByAddedOn();
 
-        // Then
+        // then
         assertEquals(2, wantedItems.size());
         assertEquals(item1, wantedItems.get(0));
         assertEquals(item2, wantedItems.get(1));
         verify(itemRepository, times(1))
                 .findAllBySoldFalseAndAuthorizedTrueAndArchivedFalseOrderByAddedOnDesc();
-
     }
 
-    // getItemsByUserIdNotArchived
     @Test
     void givenUserId_whenGetItemsByUserId_thenReturnNotArchivedItemList() {
 
-        // Given
+        // given
         UUID userId = UUID.randomUUID();
         User user = User.builder().id(userId).role(UserRole.ADMIN).build();
         Item item1 = Item.builder()
@@ -337,10 +369,10 @@ class ItemServiceUnitTest {
                 .build();
         when(itemRepository.getItemsByOwnerId(userId)).thenReturn(List.of(item1, item2));
 
-        // When
+        // when
         List<Item> itemsByUserId = itemService.getItemsByUserIdNotArchived(userId);
 
-        // Then
+        // then
         assertEquals(2, itemsByUserId.size());
         assertEquals(item1, itemsByUserId.getFirst());
         assertEquals(item2, itemsByUserId.get(1));
@@ -348,11 +380,10 @@ class ItemServiceUnitTest {
 
     }
 
-    // archiveItemById
     @Test
     void givenItem_whenArchiveItemById_thenArchiveItem() {
 
-        // Given
+        // given
         Item item1 = Item.builder()
                 .id(UUID.randomUUID())
                 .brand("Brand")
@@ -363,10 +394,10 @@ class ItemServiceUnitTest {
                 .build();
         when(itemRepository.findById(item1.getId())).thenReturn(Optional.of(item1));
 
-        // When
+        // when
         itemService.archiveItemById(item1.getId());
 
-        // Then
+        // then
         assertTrue(item1.isArchived());
         verify(itemRepository, times(1)).save(item1);
     }
@@ -375,7 +406,7 @@ class ItemServiceUnitTest {
     @Test
     void givenNotSoldItem_whenMarkItemAsSold_thenItemIsSoldTrue() {
 
-        // Given
+        // given
         Item item1 = Item.builder()
                 .id(UUID.randomUUID())
                 .brand("Brand")
@@ -386,10 +417,10 @@ class ItemServiceUnitTest {
                 .build();
         lenient().when(itemRepository.findById(item1.getId())).thenReturn(Optional.of(item1));
 
-        // When
+        // when
         itemService.markItemAsSold(item1.getId());
 
-        // Then
+        // then
         assertTrue(item1.isSold());
         verify(itemRepository, times(1)).findById(item1.getId());
         verify(itemRepository, times(1)).save(item1);
@@ -398,7 +429,7 @@ class ItemServiceUnitTest {
     @Test
     void givenSoldItem_whenMarkItemAsSold_thenItemRemainsSold() {
 
-        // Given
+        // given
         Item item1 = Item.builder()
                 .id(UUID.randomUUID())
                 .brand("Brand")
@@ -409,10 +440,10 @@ class ItemServiceUnitTest {
                 .build();
         lenient().when(itemRepository.findById(item1.getId())).thenReturn(Optional.of(item1));
 
-        // When
+        // when
         itemService.markItemAsSold(item1.getId());
 
-        // Then
+        // then
         assertTrue(item1.isSold());
         verify(itemRepository, times(1)).findById(item1.getId());
         verify(itemRepository, never()).save(item1);

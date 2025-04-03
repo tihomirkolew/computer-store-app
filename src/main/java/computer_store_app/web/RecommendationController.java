@@ -6,13 +6,11 @@ import computer_store_app.security.AuthenticationMetadata;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.UUID;
 
 
 @Controller
@@ -60,6 +58,15 @@ public class RecommendationController {
         modelAndView.addObject( "recommendationsList", recommendationsList);
 
         return modelAndView;
+    }
+
+    @PostMapping("/{id}/archive")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ModelAndView archiveRecommendation(@PathVariable UUID id) {
+        recommendationService.archiveRecommendation(id);
+
+        // Redirect to the recommendations list after archiving
+        return new ModelAndView("redirect:/recommendations/list");
     }
 
 

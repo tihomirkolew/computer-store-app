@@ -20,4 +20,7 @@ public interface RecommendationClient {
 
     @GetMapping
     ResponseEntity<List<Recommendation>> getAllRecommendations();
+
+    @PostMapping("{id}/archive")
+    ResponseEntity<Void> archiveRecommendation(@PathVariable UUID id);
 }
