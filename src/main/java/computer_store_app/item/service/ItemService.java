@@ -59,6 +59,11 @@ public class ItemService {
 
         itemRepository.save(newItem);
 
+        if (newItem.isAuthorized()) {
+            log.info("Item with id [%s] added and automatically approved for sale.".formatted(newItem.getId()));
+        } else {
+            log.info("Item with id [%S] added and waiting for approval.".formatted(newItem.getId()));
+        }
 
         return newItem;
     }
