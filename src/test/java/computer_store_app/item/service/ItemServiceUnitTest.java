@@ -185,7 +185,7 @@ class ItemServiceUnitTest {
     }
 
     @Test
-    void givenItemsInRepository_whenGetAllNotArchivedItemsSortedByIsAuthorized_thenReturnMatchingItemsOrdered() {
+    void givenItemsInRepository_whenGetAllNotSoldAndNotArchivedItemsSortedByIsAuthorized_thenReturnMatchingItemsOrdered() {
 
         // given
         Item item1 = Item.builder()

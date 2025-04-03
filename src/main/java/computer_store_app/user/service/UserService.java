@@ -9,6 +9,7 @@ import computer_store_app.user.repository.UserRepository;
 import computer_store_app.web.dto.EditUserRequest;
 import computer_store_app.web.dto.RegisterRequest;
 import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -22,6 +23,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@Slf4j
 public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
@@ -109,8 +111,10 @@ public class UserService implements UserDetailsService {
 
         if (user.getRole() == UserRole.CLIENT) {
             user.setRole(UserRole.ADMIN);
+            log.info("User with id [%s] has been promoted to ADMIN.".formatted(userId));
         } else {
             user.setRole(UserRole.CLIENT);
+            log.info("User with id [%s] has been demoted to CLIENT.".formatted(userId));
         }
 
         userRepository.save(user);

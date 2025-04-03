@@ -97,10 +97,15 @@ public class ItemService {
 
         Item itemById = getItemById(id);
 
-        itemById.setAuthorized(!itemById.isAuthorized());
+        if (!itemById.isAuthorized()) {
+            itemById.setAuthorized(true);
+            log.info("Item with id [%s] has been approved for sale.".formatted(id));
+        } else {
+            itemById.setAuthorized(false);
+            log.info("Item with id [%s] has been disapproved.".formatted(id));
+        }
 
         itemRepository.save(itemById);
-        log.info("Item with id [%s] approved for sale.".formatted(id));
     }
 
     public List<Item> getItemsByUserIdNotArchived(UUID id) {
@@ -116,6 +121,7 @@ public class ItemService {
 
         itemById.setArchived(!itemById.isArchived());
         itemRepository.save(itemById);
+        log.info("Item with id [%s] archived.".formatted(itemId));
     }
 
     public void markItemAsSold(UUID id) {
@@ -126,5 +132,6 @@ public class ItemService {
             itemById.setSold(true);
             itemRepository.save(itemById);
         }
+        log.info("Item with id [%s] marked as sold.".formatted(id));
     }
 }

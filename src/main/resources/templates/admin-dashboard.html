@@ -79,11 +79,12 @@
             <td th:if="${currentItem.authorized}">Approved</td>
             <td th:unless="${currentItem.authorized}">Waiting</td>
             <td>
-              <form th:action="@{'/items/' + ${currentItem.id} + '/approve'}" method="POST">
+              <form th:unless="${currentItem.sold}" th:action="@{'/items/' + ${currentItem.id} + '/approve'}" method="POST">
                 <input type="hidden" name="_method" value="PUT">
                 <button th:if="${currentItem.authorized == true}" class="btn">Disapprove</button>
                 <button th:unless="${currentItem.authorized == true}" class="btn">Approve</button>
               </form>
+              <h3 th:if="${currentItem.sold}">SOLD</h3>
             </td>
             <td>
               <form th:action="'/items/' + ${currentItem.id} + '/archive'" th:method="POST">
